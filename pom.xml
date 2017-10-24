@@ -4,7 +4,7 @@
 	<groupId>org.immregistries.vaccination_deduplication</groupId>
 	<artifactId>api</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0</version>
+	<version>0.1</version>
 	<name>Vaccination Deduplication API</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>

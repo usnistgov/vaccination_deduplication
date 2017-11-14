@@ -5,24 +5,59 @@ package org.immregistries.vaccination_deduplication;
  */
 public class Immunization {
 
-    //private boolean notGiven; // flag wether immunization was given
+
+
+    // business identifier ~= data base key
 
     private String vaccineCode; // Vaccine product administered
 
-    private String date; // Vaccination administration date
-    // should this be more of an expretion of when event was recorded?
-    // day of for doctor, later for other players
+    private String date; // Vaccination administration/payment/... date
 
     private String lotNumber; // Vaccine lot number
 
-    //private String expirationDate; // Vaccine expiration date
-
-    //private String Site; // Body site where vaccine was administered
-
-    private String Route;
-
-    //private int doseQuantity;
-
     private String practitioner;
 
+    // get organisation through encounter.serviceProvider
+
+    private boolean primarySource;
+
+    public String getVaccineCode() {
+        return vaccineCode;
+    }
+
+    public void setVaccineCode(String vaccineCode) {
+        this.vaccineCode = vaccineCode;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getLotNumber() {
+        return lotNumber;
+    }
+
+    public void setLotNumber(String lotNumber) {
+        this.lotNumber = lotNumber;
+    }
+
+    public String getPractitioner() {
+        return practitioner;
+    }
+
+    public void setPractitioner(String practitioner) {
+        this.practitioner = practitioner;
+    }
+
+    public boolean isPrimarySource() {
+        return primarySource;
+    }
+
+    public void setPrimarySource(boolean primarySource) {
+        this.primarySource = primarySource;
+    }
 }

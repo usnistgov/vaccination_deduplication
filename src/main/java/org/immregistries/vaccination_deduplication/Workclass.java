@@ -52,13 +52,12 @@ public class Workclass {
     }
 
     public ArrayList<Linkage> Deduplicate(Linkage patientImmunizationRecords, String method) {
-        switch (method) {
-            case METHOD_WEIGHTED:
-                return DeduplicateWeighted(patientImmunizationRecords);
-            case METHOD_DETERMINISTIC:
-                return DeduplicateDeterministic(patientImmunizationRecords);
-            case METHOD_COMBO:
-                return DeduplicateCombo(patientImmunizationRecords);
+        if (method.equals(METHOD_WEIGHTED)) {
+            return(DeduplicateWeighted(patientImmunizationRecords));
+        } else if (method.equals(METHOD_DETERMINISTIC)) {
+            return(DeduplicateDeterministic(patientImmunizationRecords));
+        } else if (method.equals(METHOD_COMBO)) {
+            return(DeduplicateCombo(patientImmunizationRecords));
         }
         return null;
     }

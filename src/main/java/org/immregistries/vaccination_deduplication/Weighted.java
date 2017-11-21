@@ -2,6 +2,10 @@ package org.immregistries.vaccination_deduplication;
 
 public class Weighted {
 
+    public static final int EQUAL = 2;
+    public static final int UNSURE = 1;
+    public static final int DIFFERENT = 0;
+
     public static final int DEFAULT_MIN_THRESHOLD = 50;
     public static final int DEFAULT_MAX_THRESHOLD = 75;
 
@@ -9,7 +13,7 @@ public class Weighted {
     }
 
     public int score(Immunization immunization1, Immunization immunization2, double minThreshold, double maxThreshold) {
-        return 0;
+        return UNSURE;
     }
 
     public int score(Immunization immunization1, Immunization immunization2) {

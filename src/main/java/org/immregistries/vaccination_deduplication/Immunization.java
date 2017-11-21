@@ -5,8 +5,6 @@ package org.immregistries.vaccination_deduplication;
  */
 public class Immunization {
 
-
-
     // business identifier ~= data base key
 
     private String vaccineCode; // Vaccine product administered

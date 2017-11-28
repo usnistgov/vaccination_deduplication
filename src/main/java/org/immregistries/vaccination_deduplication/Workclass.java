@@ -6,7 +6,7 @@ public class Workclass {
 
     public enum METHOD {WEIGHTED, DETERMINISTIC, COMBO}
 
-    public ArrayList<LinkedImmunization> DeduplicateWeighted(LinkedImmunization patientImmunizationRecords) {
+    public ArrayList<LinkedImmunization> deduplicateWeighted(LinkedImmunization patientImmunizationRecords) {
         Weighted weighted = new Weighted();
         Weighted.RESULT result;
 
@@ -19,7 +19,7 @@ public class Workclass {
         return null;
     }
 
-    public ArrayList<LinkedImmunization> DeduplicateDeterministic(LinkedImmunization patientImmunizationRecords) {
+    public ArrayList<LinkedImmunization> deduplicateDeterministic(LinkedImmunization patientImmunizationRecords) {
         Deterministic deterministic = new Deterministic();
         Deterministic.RESULT result;
 
@@ -31,7 +31,7 @@ public class Workclass {
         return null;
     }
 
-    public ArrayList<LinkedImmunization> DeduplicateCombo(LinkedImmunization patientImmunizationRecords) {
+    public ArrayList<LinkedImmunization> deduplicateCombo(LinkedImmunization patientImmunizationRecords) {
         Weighted.RESULT result1;
         Deterministic.RESULT result2;
 
@@ -46,14 +46,14 @@ public class Workclass {
         return null;
     }
 
-    public ArrayList<LinkedImmunization> Deduplicate(LinkedImmunization patientImmunizationRecords, METHOD method) {
+    public ArrayList<LinkedImmunization> deduplicate(LinkedImmunization patientImmunizationRecords, METHOD method) {
         switch (method) {
             case DETERMINISTIC:
-                return(DeduplicateDeterministic(patientImmunizationRecords));
+                return(deduplicateDeterministic(patientImmunizationRecords));
             case WEIGHTED:
-                return(DeduplicateWeighted(patientImmunizationRecords));
+                return(deduplicateWeighted(patientImmunizationRecords));
             case COMBO:
-                return(DeduplicateCombo(patientImmunizationRecords));
+                return(deduplicateCombo(patientImmunizationRecords));
         }
         return null;
     }

@@ -21,6 +21,39 @@ public class Weighted {
     }
 
     public RESULT score(Immunization immunization1, Immunization immunization2, double minThreshold, double maxThreshold) {
+int score=0;
+    	
+    	// Lot Number
+        if (!(immunization1.getLotNumber().isEmpty() || immunization2.getLotNumber().isEmpty())){
+        	if (immunization1.getLotNumber().equals(immunization2.getLotNumber())) {score+=lotNumberWeight[0];} // Present and same  	
+        	else {score+=lotNumberWeight[1];} // Present and different
+        }
+        else{score+=lotNumberWeight[2];} // Absent one or both
+        
+        // START : TO MODIFICATE *****************************
+        
+        // Vaccine Type
+        if (!(immunization1.getVaccineCode().isEmpty() || immunization2.getVaccineCode().isEmpty())){
+        	if (immunization1.getVaccineCode().equals(immunization2.getVaccineCode())) {score+=50;}
+        	else {score+=5;}
+        }
+        else{score+=15;}
+        
+        // ******** TRADE NAME TO DO *************
+        
+        // Provider Organization
+        if (!(immunization1.getPractitioner().isEmpty() || immunization2.getPractitioner().isEmpty())){
+        	if (immunization1.getPractitioner().equals(immunization2.getPractitioner())) {score+=25;}
+        	else {score+=10;}
+        }
+        else{score+=15;}
+        
+        // Date Administrated 
+        
+        // Admin/Historical
+        
+        // END : TO MODIFICATE ***************************
+        
         return RESULT.UNSURE;
     }
 

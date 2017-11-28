@@ -11,18 +11,18 @@ public class DeterministicTest extends TestCase {
         immunization1.setLotNumber("test lot number");
         immunization1.setPractitioner("test practitioner");
         immunization1.setVaccineCode("VCX");
-        immunization1.setPrimarySource(true);
+        immunization1.setSource(Immunization.SOURCE.SOURCE);
 
         immunization2.setDate("20171225");
         immunization2.setLotNumber("test lot number");
         immunization2.setPractitioner("test practitioner");
         immunization2.setVaccineCode("VCX");
-        immunization2.setPrimarySource(false);
+        immunization2.setSource(Immunization.SOURCE.ALTERNATE);
 
         Deterministic deterministic = new Deterministic();
 
-        int score = deterministic.score(immunization1, immunization2);
-        assertEquals(Deterministic.EQUAL, score);
+        Deterministic.RESULT score = deterministic.score(immunization1, immunization2);
+        assertEquals(Deterministic.RESULT.EQUAL, score);
     }
 
     public void testScoreDifferent() throws Exception {
@@ -33,18 +33,18 @@ public class DeterministicTest extends TestCase {
         immunization1.setLotNumber("test lot number 1");
         immunization1.setPractitioner("test practitioner 1");
         immunization1.setVaccineCode("VCX 1");
-        immunization1.setPrimarySource(true);
+        immunization1.setSource(Immunization.SOURCE.SOURCE);
 
         immunization2.setDate("20101102");
         immunization2.setLotNumber("test lot number 2");
         immunization2.setPractitioner("test practitioner 2");
         immunization2.setVaccineCode("VCX 2");
-        immunization2.setPrimarySource(false);
+        immunization2.setSource(Immunization.SOURCE.ALTERNATE);
 
         Deterministic deterministic = new Deterministic();
 
-        int score = deterministic.score(immunization1, immunization2);
-        assertEquals(Deterministic.DIFFERENT, score);
+        Deterministic.RESULT score = deterministic.score(immunization1, immunization2);
+        assertEquals(Deterministic.RESULT.DIFFERENT, score);
     }
 
     public void testScoreUnsure() throws Exception {
@@ -57,17 +57,17 @@ public class DeterministicTest extends TestCase {
         immunization1.setLotNumber("test lot number");
         immunization1.setPractitioner("test practitioner");
         immunization1.setVaccineCode("VCX");
-        immunization1.setPrimarySource(true);
+        immunization1.setSource(Immunization.SOURCE.SOURCE);
 
         immunization2.setDate("20171225");
         immunization2.setLotNumber("test lot number");
         immunization2.setPractitioner("test practitioner");
         immunization2.setVaccineCode("VCX");
-        immunization2.setPrimarySource(true);
+        immunization2.setSource(Immunization.SOURCE.ALTERNATE);
 
         Deterministic deterministic = new Deterministic();
 
-        int score = deterministic.score(immunization1, immunization2);
-        assertEquals(Deterministic.UNSURE, score);
+        Deterministic.RESULT score = deterministic.score(immunization1, immunization2);
+        assertEquals(Deterministic.RESULT.UNSURE, score);
     }
 }

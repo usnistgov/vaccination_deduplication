@@ -1,14 +1,16 @@
 package org.immregistries.vaccination_deduplication;
 
-/**
- * Created by Ansel on 06/11/2017.
- */
+// https://www.hl7.org/fhir/immunization.html
+
 public class Immunization {
+
+    public enum SOURCE {SOURCE, ALTERNATE, HISTORICAL}
 
     // business identifier ~= data base key
 
     private String vaccineCode; // Vaccine product administered
 
+    // TODO change to date object
     private String date; // Vaccination administration/payment/... date
 
     private String lotNumber; // Vaccine lot number
@@ -17,7 +19,7 @@ public class Immunization {
 
     // get organisation through encounter.serviceProvider
 
-    private boolean primarySource;
+    private SOURCE source;
 
     public String getVaccineCode() {
         return vaccineCode;
@@ -51,11 +53,11 @@ public class Immunization {
         this.practitioner = practitioner;
     }
 
-    public boolean isPrimarySource() {
-        return primarySource;
+    public SOURCE getSource() {
+        return source;
     }
 
-    public void setPrimarySource(boolean primarySource) {
-        this.primarySource = primarySource;
+    public void setSource(SOURCE source) {
+        this.source = source;
     }
 }

@@ -6,8 +6,6 @@ public class Immunization {
 
     public enum SOURCE {SOURCE, ALTERNATE, HISTORICAL}
 
-    // business identifier ~= data base key
-
     private String vaccineCode; // Vaccine product administered
 
     // TODO change to date object
@@ -17,7 +15,7 @@ public class Immunization {
 
     private String practitioner;
 
-    // get organisation through encounter.serviceProvider
+    private String organisation; // get organisation through encounter.serviceProvider
 
     private SOURCE source;
 
@@ -53,4 +51,19 @@ public class Immunization {
         this.practitioner = practitioner;
     }
 
+    public String getOrganisation() {
+        return organisation;
+    }
+
+    public void setOrganisation(String organisation) {
+        this.organisation = organisation;
+    }
+
+    public SOURCE getSource() {
+        return source;
+    }
+
+    public void setSource(SOURCE source) {
+        this.source = source;
+    }
 }

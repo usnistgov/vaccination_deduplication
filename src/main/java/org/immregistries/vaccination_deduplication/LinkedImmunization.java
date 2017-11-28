@@ -5,20 +5,18 @@ import java.util.ArrayList;
 // https://www.hl7.org/fhir/linkage.html
 
 public class LinkedImmunization {
-    // TODO declare constants
-    // TODO enum types
 
-    private int type;
-    // indicates if we are sure or not
-    // may also indicate if singleton
+    public enum TYPE {SURE, UNSURE, SINGLETON}
+
+    private TYPE type;
 
     private ArrayList<Immunization> immunizations;
 
-    public int getType() {
+    public TYPE getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(TYPE type) {
         this.type = type;
     }
 

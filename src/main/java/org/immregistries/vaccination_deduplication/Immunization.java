@@ -1,5 +1,7 @@
 package org.immregistries.vaccination_deduplication;
 
+import java.util.Date;
+
 // https://www.hl7.org/fhir/immunization.html
 
 public class Immunization {
@@ -11,7 +13,7 @@ public class Immunization {
     private String vaccineCode; // Vaccine product administered
 
     // TODO change to date object
-    private String date; // Vaccination administration/payment/... date
+    private Date date; // Vaccination administration/payment/... date
 
     private String lotNumber; // Vaccine lot number
 
@@ -29,11 +31,11 @@ public class Immunization {
         this.vaccineCode = vaccineCode;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

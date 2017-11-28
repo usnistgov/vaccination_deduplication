@@ -55,11 +55,4 @@ public class Immunization {
         this.practitioner = practitioner;
     }
 
-    public SOURCE getSource() {
-        return source;
-    }
-
-    public void setSource(SOURCE source) {
-        this.source = source;
-    }
 }

@@ -7,7 +7,7 @@ public class StepOne {
     private int dateWindow = 23;
 
     public boolean stepOneEvaluation(Immunization immunization1, Immunization immunization2) {
-        return false;
+        return false; 
     }
 
     public ArrayList<LinkedImmunization> stepOne(ArrayList<Immunization> immunizations) {

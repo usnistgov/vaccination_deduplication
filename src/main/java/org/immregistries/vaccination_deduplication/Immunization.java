@@ -9,7 +9,7 @@ public class Immunization {
     public enum SOURCE {SOURCE, ALTERNATE, HISTORICAL}
 
     // business identifier ~= data base key
-
+    private String vaccineType ; // Vaccine Type(CVX) 
     private String vaccineCode; // Vaccine product administered
 
     // TODO change to date object

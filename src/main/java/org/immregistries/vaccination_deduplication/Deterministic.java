@@ -3,7 +3,6 @@ package org.immregistries.vaccination_deduplication;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
 public class Deterministic {
 

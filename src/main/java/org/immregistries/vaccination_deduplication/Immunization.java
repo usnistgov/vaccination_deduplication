@@ -15,6 +15,25 @@ public class Immunization {
 
     private String vaccineCode; // Vaccine product administered
 
+    // business identifier ~= data base key
+    private String vaccineType ; // Vaccine Type(CVX)
+    private String tradeName ; // Trade Name(NDC)
+    public String getTradeName() {
+		return tradeName;
+	}
+
+	public void setTradeName(String tradeName) {
+		this.tradeName = tradeName;
+	}
+
+	public String getVaccineType() {
+		return vaccineType;
+	}
+
+	public void setVaccineType(String vaccineType) {
+		this.vaccineType = vaccineType;
+	}
+
     private Date date; // Vaccination administration/payment/... date
 
     private String lotNumber; // Vaccine lot number

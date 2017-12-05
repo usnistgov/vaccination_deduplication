@@ -3,22 +3,16 @@ package org.immregistries.vaccination_deduplication;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-
 /**
  * Execute Step 2 : Evaluation phase using the Deterministic scoring approach
  *
  */
 public class Deterministic {
 
-	// Possible outcomes
-	public enum RESULT {EQUAL, UNSURE, DIFFERENT}
 
-	
-	// Constructor
 	public Deterministic() {
 
 	}
-
 	
 	/**
 	 * Allows to know if two records have to be deduplicated according to the deterministic approach
@@ -26,63 +20,119 @@ public class Deterministic {
 	 * @param immunization1 and immunization2 are the two record to compare to each other
 	 * @return the deterministic scoring outcome which can be "equal", "unsure", or different
 	 */
-	public RESULT score(Immunization immunization1, Immunization immunization2) {
-		String lotresult ; 
+	public Result score(Immunization immunization1, Immunization immunization2) {
+		Result lotresult ; 
 		long duration ; 
-		String vaccineresult; 
+		Result vaccineresult; 
+		Result vaccinetyperesult;
+		Result tradenameresult;
 		if (immunization1.getLotNumber().equals(immunization2.getLotNumber()))
 		{
-			lotresult="Same";
+			lotresult = Result.EQUAL;
 		}
 		else if (immunization1.getLotNumber()==null && immunization2.getLotNumber()==null)
 		{
-			lotresult="in neither";
+			lotresult=Result.DIFFERENT;
 		}
 		else if (immunization1.getLotNumber()==null && immunization2.getLotNumber()!=null)
 		{
-			lotresult="only in one";
+			lotresult=Result.UNSURE;
 		}
 		else if (immunization1.getLotNumber()!=null && immunization2.getLotNumber()==null)
 		{
-			lotresult="only in one";
+			lotresult=Result.UNSURE;
 		}
 		LocalDate date1 = immunization1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate date2 = immunization2.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		duration= ChronoUnit.DAYS.between(date1,date2);
 		if (immunization1.getVaccineCode().equals(immunization2.getVaccineCode()))
 		{
-			vaccineresult="Same";
+			vaccineresult=Result.EQUAL;
 		}
 		else if (immunization1.getVaccineCode()==null && immunization2.getVaccineCode()==null)
 		{
-			vaccineresult="in neither";
+			vaccineresult=Result.DIFFERENT;
 		}
 		else if (immunization1.getVaccineCode()==null && immunization2.getVaccineCode()!=null)
 		{
-			vaccineresult="only in one";
+			vaccineresult=Result.UNSURE;
 		}
 		else if (immunization1.getVaccineCode()!=null && immunization2.getVaccineCode()==null)
 		{
-			vaccineresult="only in one";
+			vaccineresult=Result.UNSURE;
 		}
 		
-		if (immunization1.getVaccineCode().equals(immunization2.getVaccineCode()))
+		
+		// 
+		if (immunization1.getVaccineType().equals(immunization2.getVaccineType()))
 		{
-			vaccineresult="Same";
+			vaccinetyperesult=Result.EQUAL;
 		}
-		else if (immunization1.getVaccineCode()==null && immunization2.getVaccineCode()==null)
+		else if (immunization1.getVaccineType()==null && immunization2.getVaccineType()==null)
 		{
-			vaccineresult="in neither";
+			vaccinetyperesult=Result.DIFFERENT;
 		}
-		else if (immunization1.getVaccineCode()==null && immunization2.getVaccineCode()!=null)
+		else if (immunization1.getVaccineType()==null && immunization2.getVaccineType()!=null)
 		{
-			vaccineresult="only in one";
+			vaccinetyperesult=Result.UNSURE;
 		}
-		else if (immunization1.getVaccineCode()!=null && immunization2.getVaccineCode()==null)
+		else if (immunization1.getVaccineType()!=null && immunization2.getVaccineType()==null)
 		{
-			vaccineresult="only in one";
+			vaccinetyperesult=Result.UNSURE;
 		}
 		
-		return RESULT.UNSURE;
+		if (immunization1.getVaccineType().equals(immunization2.getVaccineType()))
+		{
+			vaccinetyperesult=Result.EQUAL;
+		}
+		else if (immunization1.getVaccineType()==null && immunization2.getVaccineType()==null)
+		{
+			vaccinetyperesult=Result.DIFFERENT;
+		}
+		else if (immunization1.getVaccineType()==null && immunization2.getVaccineType()!=null)
+		{
+			vaccinetyperesult=Result.UNSURE;
+		}
+		else if (immunization1.getVaccineType()!=null && immunization2.getVaccineType()==null)
+		{
+			vaccinetyperesult=Result.UNSURE;
+		}
+		
+		if (immunization1.getVaccineType().equals(immunization2.getVaccineType()))
+		{
+			vaccinetyperesult=Result.EQUAL;
+		}
+		else if (immunization1.getVaccineType()==null && immunization2.getVaccineType()==null)
+		{
+			vaccinetyperesult=Result.DIFFERENT;
+		}
+		else if (immunization1.getVaccineType()==null && immunization2.getVaccineType()!=null)
+		{
+			vaccinetyperesult=Result.UNSURE;
+		}
+		else if (immunization1.getVaccineType()!=null && immunization2.getVaccineType()==null)
+		{
+			vaccinetyperesult=Result.UNSURE;
+		}
+		
+		
+		if (immunization1.getTradeName().equals(immunization2.getTradeName()))
+		{
+			vaccinetyperesult=Result.EQUAL;
+		}
+		else if (immunization1.getTradeName()==null && immunization2.getTradeName()==null)
+		{
+			vaccinetyperesult=Result.DIFFERENT;
+		}
+		else if (immunization1.getTradeName()==null && immunization2.getTradeName()!=null)
+		{
+			vaccinetyperesult=Result.UNSURE;
+		}
+		else if (immunization1.getTradeName()!=null && immunization2.getTradeName()==null)
+		{
+			vaccinetyperesult=Result.UNSURE;
+		}
+		
+		return Result.UNSURE;
 	}
 }

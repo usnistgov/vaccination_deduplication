@@ -21,7 +21,7 @@ public class Workclass {
      */
     public ArrayList<LinkedImmunization> deduplicateWeighted(LinkedImmunization patientImmunizationRecords) {
         Weighted weighted = new Weighted();
-        Weighted.RESULT result;
+        Result result;
 
         // TODO compare 2 by 2
         int i = 1;
@@ -39,7 +39,7 @@ public class Workclass {
      */
     public ArrayList<LinkedImmunization> deduplicateDeterministic(LinkedImmunization patientImmunizationRecords) {
         Deterministic deterministic = new Deterministic();
-        Deterministic.RESULT result;
+        Result result;
 
         // TODO compare 2 by 2
         int i = 1;
@@ -55,8 +55,8 @@ public class Workclass {
      * @return
      */
     public ArrayList<LinkedImmunization> deduplicateCombo(LinkedImmunization patientImmunizationRecords) {
-        Weighted.RESULT result1;
-        Deterministic.RESULT result2;
+        Result result1;
+        Result result2;
 
         Weighted weighted = new Weighted();
         Deterministic deterministic = new Deterministic();

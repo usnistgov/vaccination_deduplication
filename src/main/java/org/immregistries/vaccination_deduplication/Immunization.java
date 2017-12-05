@@ -26,7 +26,7 @@ public class Immunization {
 
     // get organisation through encounter.serviceProvider
 
-    private SOURCE source;
+    public SOURCE source;
 
     public String getVaccineCode() {
         return vaccineCode;

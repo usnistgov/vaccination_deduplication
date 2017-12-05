@@ -1,5 +1,8 @@
 package org.immregistries.vaccination_deduplication;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 /**
@@ -8,17 +11,43 @@ import java.util.ArrayList;
  */
 public class StepOne {
 
-    private int dateWindow = 23;
+    private long dateWindow = 23;
 
+    /**
+     * Determines selection phase outcome. Records must be evaluated if they verify 3 different factors : 
+     * date window met,  same vaccine family and Not identical vaccination event.
+     * 
+     * @param immunization1 and immunization2 are the records to compare to each other
+     * @return true if the records must be evaluated or false if the records must not be evaluated
+     */
     public boolean stepOneEvaluation(Immunization immunization1, Immunization immunization2) {
-        return false; 
+    	// Date window met ?
+    	boolean dateWindowMet = false;
+        long duration;
+    	LocalDate date1 = immunization1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate date2 = immunization2.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		duration = ChronoUnit.DAYS.between(date1,date2);
+		if (duration < getDateWindow())
+			dateWindowMet = true;
+		
+		// Same vaccine family ?
+		boolean sameVaccineFamily = false;
+		if (immunization1.getVaccineCode().equals(immunization2.getVaccineCode()))
+			sameVaccineFamily = true;
+		
+		// Not identical vaccination event ?
+		boolean notIdenticalVaccinationEvent = false;
+		if (immunization1.source.equals(immunization2.source))
+			notIdenticalVaccinationEvent = true;		
+		
+		return (dateWindowMet && sameVaccineFamily && notIdenticalVaccinationEvent);
     }
 
     public ArrayList<LinkedImmunization> stepOne(ArrayList<Immunization> immunizations) {
         return null;
     }
 
-    public int getDateWindow() {
+    public long getDateWindow() {
         return dateWindow;
     }
 

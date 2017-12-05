@@ -13,11 +13,13 @@ public class Immunization {
 
     private String lotNumber; // Vaccine lot number
 
-    private String practitioner;
-
-    private String organisation; // get organisation through encounter.serviceProvider
+    private String organisationID; // get organisation through encounter.serviceProvider
 
     private SOURCE source;
+
+    public Immunization() {
+
+    }
 
     public String getVaccineCode() {
         return vaccineCode;
@@ -43,20 +45,12 @@ public class Immunization {
         this.lotNumber = lotNumber;
     }
 
-    public String getPractitioner() {
-        return practitioner;
+    public String getOrganisationID() {
+        return organisationID;
     }
 
-    public void setPractitioner(String practitioner) {
-        this.practitioner = practitioner;
-    }
-
-    public String getOrganisation() {
-        return organisation;
-    }
-
-    public void setOrganisation(String organisation) {
-        this.organisation = organisation;
+    public void setOrganisationID(String organisationID) {
+        this.organisationID = organisationID;
     }
 
     public SOURCE getSource() {

@@ -2,8 +2,6 @@ package org.immregistries.vaccination_deduplication;
 
 public class Weighted {
 
-    public enum RESULT {EQUAL, UNSURE, DIFFERENT}
-
     private double minThreshold = 0.4;
     private double maxThreshold = 0.6;
 
@@ -20,11 +18,11 @@ public class Weighted {
         updateSminAndSmax();
     }
 
-    public RESULT score(Immunization immunization1, Immunization immunization2, double minThreshold, double maxThreshold) {
-        return RESULT.UNSURE;
+    public Result score(Immunization immunization1, Immunization immunization2, double minThreshold, double maxThreshold) {
+        return Result.UNSURE;
     }
 
-    public RESULT score(Immunization immunization1, Immunization immunization2) {
+    public Result score(Immunization immunization1, Immunization immunization2) {
         return score(immunization1, immunization2, this.minThreshold, this.maxThreshold);
     }
 

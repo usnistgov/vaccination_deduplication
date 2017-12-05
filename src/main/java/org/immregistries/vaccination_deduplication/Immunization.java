@@ -1,5 +1,7 @@
 package org.immregistries.vaccination_deduplication;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -60,6 +62,12 @@ public class Immunization {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+    
+    public void setDate(String dateString) throws ParseException
+    {
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyymmdd");  
+      this.date = sdf.parse(dateString);
     }
 
     public String getLotNumber() {

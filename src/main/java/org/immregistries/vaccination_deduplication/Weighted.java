@@ -1,7 +1,13 @@
 package org.immregistries.vaccination_deduplication;
 
+
+/**
+ * Execute Step 2 : Evaluation phase using the weighted scoring approach
+ *
+ */
 public class Weighted {
 
+    // Thresholds allow to take a decision. They are compared to the weighted score
     private double minThreshold = 0.4;
     private double maxThreshold = 0.6;
 
@@ -14,14 +20,61 @@ public class Weighted {
     private int Smax;
     private int Smin;
 
+    // Constructor
     public Weighted() {
         updateSminAndSmax();
     }
 
+	/**
+	 * Allows to know if two records have to be deduplicated according to the weighted approach
+	 * 
+	 * @param immunization1 and immunization2 are the two record to compare to each other
+	 * @param minThreshold and maxThreshold correspond to the weight scores used to determine the outcome
+	 * @return the weighted scoring outcome which can be "equal" (case : maxThreshold < score), "unsure" (case : minThreshold < score < maxThreshold), or different (case : score < minThreshold)
+	 */
     public Result score(Immunization immunization1, Immunization immunization2, double minThreshold, double maxThreshold) {
+int score=0;
+    	
+    	// Lot Number
+        if (!(immunization1.getLotNumber().isEmpty() || immunization2.getLotNumber().isEmpty())){
+        	if (immunization1.getLotNumber().equals(immunization2.getLotNumber())) {score+=lotNumberWeight[0];} // Present and same  	
+        	else {score+=lotNumberWeight[1];} // Present and different
+        }
+        else{score+=lotNumberWeight[2];} // Absent one or both
+        
+        // START : TO MODIFICATE *****************************
+        
+        // Vaccine Type
+        if (!(immunization1.getVaccineCode().isEmpty() || immunization2.getVaccineCode().isEmpty())){
+        	if (immunization1.getVaccineCode().equals(immunization2.getVaccineCode())) {score+=50;}
+        	else {score+=5;}
+        }
+        else{score+=15;}
+        
+        // ******** TRADE NAME TO DO *************
+        
+        // Provider Organization
+        if (!(immunization1.getOrganisationID().isEmpty() || immunization2.getOrganisationID().isEmpty())){
+        	if (immunization1.getOrganisationID().equals(immunization2.getOrganisationID())) {score+=25;}
+        	else {score+=10;}
+        }
+        else{score+=15;}
+        
+        // Date Administrated 
+        
+        // Admin/Historical
+        
+        // END : TO MODIFICATE ***************************
+        
         return Result.UNSURE;
     }
 
+	/**
+	 * Allows to know if two records have to be deduplicated according to the weighted approach using default thresholds if they aren't specified
+	 * 
+	 * @param immunization1 and immunization2 are the two record to compare to each other
+	 * @return call the score method with default thresholds
+	 */
     public Result score(Immunization immunization1, Immunization immunization2) {
         return score(immunization1, immunization2, this.minThreshold, this.maxThreshold);
     }
@@ -118,4 +171,3 @@ public class Weighted {
                 getMaximum(sourceWeight);
     }
 }
-

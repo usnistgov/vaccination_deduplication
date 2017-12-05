@@ -2,7 +2,13 @@ package org.immregistries.vaccination_deduplication;
 
 import java.util.ArrayList;
 
-// https://www.hl7.org/fhir/linkage.html
+/**
+ * 
+ * Identifies two or more records that are possibly referring to the same real-world "occurrence"
+ * LinkedImmunization object based on a structure similar to FHIR : https://www.hl7.org/fhir/linkage.html
+ * 
+ *
+ */
 
 public class LinkedImmunization {
 

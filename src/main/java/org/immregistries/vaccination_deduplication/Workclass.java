@@ -2,10 +2,23 @@ package org.immregistries.vaccination_deduplication;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ * Launch the deduplication process according to the evaluation method chosen
+ * which can be the weighted approach, the deterministic approach or a combination of both
+ *
+ */
 public class Workclass {
 
+	// Methods which can be used to launch the deduplication process
     public enum METHOD {WEIGHTED, DETERMINISTIC, COMBO}
 
+    /**
+     * Launch the deduplication process using the weighted approach
+     * 
+     * @param patientImmunizationRecords
+     * @return
+     */
     public ArrayList<LinkedImmunization> deduplicateWeighted(LinkedImmunization patientImmunizationRecords) {
         Weighted weighted = new Weighted();
         Weighted.RESULT result;
@@ -19,6 +32,11 @@ public class Workclass {
         return null;
     }
 
+    /**
+     * // Launch the deduplication process using the deterministic approach
+     * @param patientImmunizationRecords
+     * @return
+     */
     public ArrayList<LinkedImmunization> deduplicateDeterministic(LinkedImmunization patientImmunizationRecords) {
         Deterministic deterministic = new Deterministic();
         Deterministic.RESULT result;
@@ -31,6 +49,11 @@ public class Workclass {
         return null;
     }
 
+    /**
+     * // Launch the deduplication process using a combination of the weighted approach and the deterministic approach
+     * @param patientImmunizationRecords
+     * @return
+     */
     public ArrayList<LinkedImmunization> deduplicateCombo(LinkedImmunization patientImmunizationRecords) {
         Weighted.RESULT result1;
         Deterministic.RESULT result2;
@@ -46,6 +69,12 @@ public class Workclass {
         return null;
     }
 
+    /**
+     * // Call the deduplication process corresponding to the specified approach
+     * @param patientImmunizationRecords
+     * @param method
+     * @return
+     */
     public ArrayList<LinkedImmunization> deduplicate(LinkedImmunization patientImmunizationRecords, METHOD method) {
         switch (method) {
             case DETERMINISTIC:

@@ -37,7 +37,7 @@ public class StepOne {
 		
 		// Not identical vaccination event ?
 		boolean notIdenticalVaccinationEvent = false;
-		if (immunization1.source.equals(immunization2.source))
+		if (immunization1.getSource().equals(immunization2.getSource()))
 			notIdenticalVaccinationEvent = true;		
 		
 		return (dateWindowMet && sameVaccineFamily && notIdenticalVaccinationEvent);

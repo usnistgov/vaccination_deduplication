@@ -2,7 +2,12 @@ package org.immregistries.vaccination_deduplication;
 
 import java.util.Date;
 
-// https://www.hl7.org/fhir/immunization.html
+/**
+ * 
+ * Describes all the elements we can find in a record of a vaccination which are useful for the duplication process
+ * Immunization object based on a structure similar to FHIR : https://www.hl7.org/fhir/immunization.html
+ *
+ */
 
 public class Immunization {
 

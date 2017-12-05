@@ -1,9 +1,16 @@
 package org.immregistries.vaccination_deduplication;
 
+
+/**
+ * Execute Step 2 : Evaluation phase using the weighted scoring approach
+ *
+ */
 public class Weighted {
 
+	// Possible outcomes
     public enum RESULT {EQUAL, UNSURE, DIFFERENT}
 
+    // Thresholds allow to take a decision. They are compared to the weighted score
     private double minThreshold = 0.4;
     private double maxThreshold = 0.6;
 
@@ -16,10 +23,18 @@ public class Weighted {
     private int Smax;
     private int Smin;
 
+    // Constructor
     public Weighted() {
         updateSminAndSmax();
     }
 
+	/**
+	 * Allows to know if two records have to be deduplicated according to the weighted approach
+	 * 
+	 * @param immunization1 and immunization2 are the two record to compare to each other
+	 * @param minThreshold and maxThreshold correspond to the weight scores used to determine the outcome
+	 * @return the weighted scoring outcome which can be "equal" (case : maxThreshold < score), "unsure" (case : minThreshold < score < maxThreshold), or different (case : score < minThreshold)
+	 */
     public RESULT score(Immunization immunization1, Immunization immunization2, double minThreshold, double maxThreshold) {
 int score=0;
     	
@@ -57,6 +72,12 @@ int score=0;
         return RESULT.UNSURE;
     }
 
+	/**
+	 * Allows to know if two records have to be deduplicated according to the weighted approach using default thresholds if they aren't specified
+	 * 
+	 * @param immunization1 and immunization2 are the two record to compare to each other
+	 * @return call the score method with default thresholds
+	 */
     public RESULT score(Immunization immunization1, Immunization immunization2) {
         return score(immunization1, immunization2, this.minThreshold, this.maxThreshold);
     }

@@ -4,14 +4,28 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * Execute Step 2 : Evaluation phase using the Deterministic scoring approach
+ *
+ */
 public class Deterministic {
 
+	// Possible outcomes
 	public enum RESULT {EQUAL, UNSURE, DIFFERENT}
 
+	
+	// Constructor
 	public Deterministic() {
 
 	}
 
+	
+	/**
+	 * Allows to know if two records have to be deduplicated according to the deterministic approach
+	 * 
+	 * @param immunization1 and immunization2 are the two record to compare to each other
+	 * @return the deterministic scoring outcome which can be "equal", "unsure", or different
+	 */
 	public RESULT score(Immunization immunization1, Immunization immunization2) {
 		String lotresult ; 
 		long duration ; 

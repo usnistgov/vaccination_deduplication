@@ -1,5 +1,8 @@
-package org.immregistries.vaccination_deduplication;
+package org.immregistries.vaccination_deduplication.computation_classes;
 
+
+import org.immregistries.vaccination_deduplication.Immunization;
+import org.immregistries.vaccination_deduplication.Result;
 
 /**
  * Execute Step 2 : Evaluation phase using the weighted scoring approach
@@ -32,6 +35,7 @@ public class Weighted {
 	 * @param minThreshold and maxThreshold correspond to the weight scores used to determine the outcome
 	 * @return the weighted scoring outcome which can be "equal" (case : maxThreshold < score), "unsure" (case : minThreshold < score < maxThreshold), or different (case : score < minThreshold)
 	 */
+	// TODO change name
     public Result score(Immunization immunization1, Immunization immunization2, double minThreshold, double maxThreshold) {
 int score=0;
     	

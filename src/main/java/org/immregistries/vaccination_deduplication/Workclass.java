@@ -1,5 +1,8 @@
 package org.immregistries.vaccination_deduplication;
 
+import org.immregistries.vaccination_deduplication.computation_classes.Deterministic;
+import org.immregistries.vaccination_deduplication.computation_classes.Weighted;
+
 import java.util.ArrayList;
 
 /**
@@ -8,6 +11,7 @@ import java.util.ArrayList;
  * which can be the weighted approach, the deterministic approach or a combination of both
  *
  */
+// TODO change name
 public class Workclass {
 
 	// Methods which can be used to launch the deduplication process

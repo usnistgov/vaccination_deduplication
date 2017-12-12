@@ -1,4 +1,7 @@
-package org.immregistries.vaccination_deduplication;
+package org.immregistries.vaccination_deduplication.computation_classes;
+
+import org.immregistries.vaccination_deduplication.Immunization;
+import org.immregistries.vaccination_deduplication.Result;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -20,6 +23,7 @@ public class Deterministic {
 	 * @param immunization1 and immunization2 are the two record to compare to each other
 	 * @return the deterministic scoring outcome which can be "equal", "unsure", or different
 	 */
+	// TODO change name
 	public Result score(Immunization immunization1, Immunization immunization2) {
 		Result lotresult ; 
 		long duration ; 

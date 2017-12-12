@@ -1,6 +1,7 @@
 package org.immregistries.vaccination_deduplication;
 
 import junit.framework.TestCase;
+import org.immregistries.vaccination_deduplication.computation_classes.Weighted;
 
 public class WeightedTest extends TestCase {
     public void testScoreEquals() throws Exception {

@@ -4,14 +4,38 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
 public class PropertyLoader {
 
+    public static final String DATE_WINDOW = "dateWindow";
+    public static final String WEIGHT_MAX_THRESHOLD = "weightMaxThreshold";
+    public static final String WEIGHT_MIN_THRESHOLD = "weightMinThreshold";
+    public static final String WEIGHT_SAME_SOURCE_HISTORICAL = "weightSameSourceHistorical";
+    public static final String WEIGHT_SAME_SOURCE_ADMIN = "weightSameSourceAdmin";
+    public static final String WEIGHT_ABSENT_SOURCE = "weightAbsentSource";
+    public static final String WEIGHT_DIFFERENT_SOURCE = "weightDifferentSource";
+    public static final String WEIGHT_SAME_LOT_NUMBER = "weightSameLotNumber";
+    public static final String WEIGHT_DIFFERENT_LOT_NUMBER = "weightDifferentLotNumber";
+    public static final String WEIGHT_ABSENT_LOT_NUMBER = "weightAbsentLotNumber";
+    public static final String WEIGHT_SAME_TRADING_NAME = "weightSameTradingName";
+    public static final String WEIGHT_DIFFERENT_TRADING_NAME = "weightDifferentTradingName";
+    public static final String WEIGHT_ABSENT_TRADING_NAME = "weightAbsentTradingName";
+    public static final String WEIGHT_SAME_VACCINE_FAMILY = "weightSameVaccineFamily";
+    public static final String WEIGHT_DIFFERENT_VACCINE_FAMILY = "weightDifferentVaccineFamily";
+    public static final String WEIGHT_ABSENT_VACCINE_FAMILY = "weightAbsentVaccineFamily";
+    public static final String WEIGHT_SAME_ORGANISATION_ID = "weightSameOrganisationID";
+    public static final String WEIGHT_DIFFERENT_ORGANISATION_ID = "weightDifferentOrganisationID";
+    public static final String WEIGHT_ABSENT_ORGANISATION_ID = "weightAbsentOrganisationID";
+    public static final String WEIGHT_DATE_DIFFERENCES = "weightDateDifferences";
+
     private HashMap<String, Double> weightedParameters;
+    private ArrayList<Double> weightDateDifferences;
 
     private static PropertyLoader instance = null;
+
     protected PropertyLoader() {
         Properties prop = new Properties();
         InputStream input = null;
@@ -24,39 +48,38 @@ public class PropertyLoader {
             prop.load(input);
 
             // get the property values
-            weightedParameters.put("dateWindow", stringToDouble(prop.getProperty("dateWindow")));
 
-            weightedParameters.put("weightMaxThreshold", stringToDouble(prop.getProperty("weightMaxThreshold")));
-            weightedParameters.put("weightMinThreshold", stringToDouble(prop.getProperty("weightMinThreshold")));
+            // for the weighted method
+            weightedParameters.put(DATE_WINDOW, stringToDouble(prop.getProperty(DATE_WINDOW)));
 
-            weightedParameters.put("weightSameSourceHistorical", stringToDouble(prop.getProperty("weightSameSourceHistorical")));
-            weightedParameters.put("weightSameSourceAdmin", stringToDouble(prop.getProperty("weightSameSourceAdmin")));
-            weightedParameters.put("weightAbsentSource", stringToDouble(prop.getProperty("weightAbsentSource")));
-            weightedParameters.put("weightDifferentSource", stringToDouble(prop.getProperty("weightDifferentSource")));
+            weightedParameters.put(WEIGHT_MAX_THRESHOLD, stringToDouble(prop.getProperty(WEIGHT_MAX_THRESHOLD)));
+            weightedParameters.put(WEIGHT_MIN_THRESHOLD, stringToDouble(prop.getProperty(WEIGHT_MIN_THRESHOLD)));
 
-            weightedParameters.put("weightSameLotNumber", stringToDouble(prop.getProperty("weightSameLotNumber")));
-            weightedParameters.put("weightDifferentLotNumber", stringToDouble(prop.getProperty("weightDifferentLotNumber")));
-            weightedParameters.put("weightAbsentLotNumber", stringToDouble(prop.getProperty("weightAbsentLotNumber")));
+            weightedParameters.put(WEIGHT_SAME_SOURCE_HISTORICAL, stringToDouble(prop.getProperty(WEIGHT_SAME_SOURCE_HISTORICAL)));
+            weightedParameters.put(WEIGHT_SAME_SOURCE_ADMIN, stringToDouble(prop.getProperty(WEIGHT_SAME_SOURCE_ADMIN)));
+            weightedParameters.put(WEIGHT_ABSENT_SOURCE, stringToDouble(prop.getProperty(WEIGHT_ABSENT_SOURCE)));
+            weightedParameters.put(WEIGHT_DIFFERENT_SOURCE, stringToDouble(prop.getProperty(WEIGHT_DIFFERENT_SOURCE)));
 
-            weightedParameters.put("weightSameTradingName", stringToDouble(prop.getProperty("weightSameTradingName")));
-            weightedParameters.put("weightDifferentTradingName", stringToDouble(prop.getProperty("weightDifferentTradingName")));
-            weightedParameters.put("weightAbsentTradingName", stringToDouble(prop.getProperty("weightAbsentTradingName")));
+            weightedParameters.put(WEIGHT_SAME_LOT_NUMBER, stringToDouble(prop.getProperty(WEIGHT_SAME_LOT_NUMBER)));
+            weightedParameters.put(WEIGHT_DIFFERENT_LOT_NUMBER, stringToDouble(prop.getProperty(WEIGHT_DIFFERENT_LOT_NUMBER)));
+            weightedParameters.put(WEIGHT_ABSENT_LOT_NUMBER, stringToDouble(prop.getProperty(WEIGHT_ABSENT_LOT_NUMBER)));
 
-            weightedParameters.put("weightSameVaccineFamily", stringToDouble(prop.getProperty("weightSameVaccineFamily")));
-            weightedParameters.put("weightDifferentVaccineFamily", stringToDouble(prop.getProperty("weightDifferentVaccineFamily")));
-            weightedParameters.put("weightAbsentVaccineFamily", stringToDouble(prop.getProperty("weightAbsentVaccineFamily")));
+            weightedParameters.put(WEIGHT_SAME_TRADING_NAME, stringToDouble(prop.getProperty(WEIGHT_SAME_TRADING_NAME)));
+            weightedParameters.put(WEIGHT_DIFFERENT_TRADING_NAME, stringToDouble(prop.getProperty(WEIGHT_DIFFERENT_TRADING_NAME)));
+            weightedParameters.put(WEIGHT_ABSENT_TRADING_NAME, stringToDouble(prop.getProperty(WEIGHT_ABSENT_TRADING_NAME)));
 
-            weightedParameters.put("weightSameOrganisationID", stringToDouble(prop.getProperty("weightSameOrganisationID")));
-            weightedParameters.put("weightDifferentOrganisationID", stringToDouble(prop.getProperty("weightDifferentOrganisationID")));
-            weightedParameters.put("weightAbsentOrganisationID", stringToDouble(prop.getProperty("weightAbsentOrganisationID")));
+            weightedParameters.put(WEIGHT_SAME_VACCINE_FAMILY, stringToDouble(prop.getProperty(WEIGHT_SAME_VACCINE_FAMILY)));
+            weightedParameters.put(WEIGHT_DIFFERENT_VACCINE_FAMILY, stringToDouble(prop.getProperty(WEIGHT_DIFFERENT_VACCINE_FAMILY)));
+            weightedParameters.put(WEIGHT_ABSENT_VACCINE_FAMILY, stringToDouble(prop.getProperty(WEIGHT_ABSENT_VACCINE_FAMILY)));
 
-            weightedParameters.put("weightDateDifference0", stringToDouble(prop.getProperty("weightDateDifference0")));
-            weightedParameters.put("weightDateDifference1", stringToDouble(prop.getProperty("weightDateDifference1")));
-            weightedParameters.put("weightDateDifference2", stringToDouble(prop.getProperty("weightDateDifference2")));
-            weightedParameters.put("weightDateDifference3", stringToDouble(prop.getProperty("weightDateDifference3")));
-            weightedParameters.put("weightDateDifference4", stringToDouble(prop.getProperty("weightDateDifference4")));
-            weightedParameters.put("weightDateDifference5", stringToDouble(prop.getProperty("weightDateDifference5")));
-            weightedParameters.put("weightDateDifference6AndMore", stringToDouble(prop.getProperty("weightDateDifference6AndMore")));
+            weightedParameters.put(WEIGHT_SAME_ORGANISATION_ID, stringToDouble(prop.getProperty(WEIGHT_SAME_ORGANISATION_ID)));
+            weightedParameters.put(WEIGHT_DIFFERENT_ORGANISATION_ID, stringToDouble(prop.getProperty(WEIGHT_DIFFERENT_ORGANISATION_ID)));
+            weightedParameters.put(WEIGHT_ABSENT_ORGANISATION_ID, stringToDouble(prop.getProperty(WEIGHT_ABSENT_ORGANISATION_ID)));
+
+            String[] weightDateDifferencesSplitString = prop.getProperty(WEIGHT_DATE_DIFFERENCES).split(",");
+            for (String s : weightDateDifferencesSplitString) {
+                weightDateDifferences.add(Double.parseDouble(s));
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -86,7 +109,11 @@ public class PropertyLoader {
         return weightedParameters;
     }
 
-    public void setWeightedParameters(HashMap<String, Double> weightedParameters) {
-        this.weightedParameters = weightedParameters;
+    public ArrayList<Double> getWeightDateDifferences() {
+        return weightDateDifferences;
+    }
+
+    public void setWeightDateDifferences(ArrayList<Double> weightDateDifferences) {
+        this.weightDateDifferences = weightDateDifferences;
     }
 }

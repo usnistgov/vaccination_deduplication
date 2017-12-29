@@ -2,7 +2,12 @@ package org.immregistries.vaccination_deduplication.computation_classes;
 
 
 import org.immregistries.vaccination_deduplication.Immunization;
+import org.immregistries.vaccination_deduplication.PropertyLoader;
 import org.immregistries.vaccination_deduplication.Result;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Execute Step 2 : Evaluation phase using the weighted scoring approach
@@ -11,20 +16,18 @@ import org.immregistries.vaccination_deduplication.Result;
 public class Weighted {
 
     // Thresholds allow to take a decision. They are compared to the weighted score
-    private double minThreshold = 0.4;
-    private double maxThreshold = 0.6;
+    private HashMap<String, Double> parameters;
+    private ArrayList<Double> dateDifferenceWeight;
 
-    private int[] lotNumberWeight = {45, -25, 25};
-    private int[] dateDifferenceWeight = {80, 65, 50, 43, 38, 30, 23, 0};
-    private int[] vaccineTypeWeight = {50, 5, 15};
-    private int[] providerWeight = {25, 10, 15};
-    private int[] sourceWeight = {-7, 15, 60, 15};
-
-    private int Smax;
-    private int Smin;
+    private double Smin;
+    private double Smax;
 
     // Constructor
     public Weighted() {
+        PropertyLoader propertyLoader = PropertyLoader.getInstance();
+        this.parameters = propertyLoader.getWeightedParameters();
+        this.dateDifferenceWeight = propertyLoader.getWeightDateDifferences();
+
         updateSminAndSmax();
     }
 
@@ -37,39 +40,50 @@ public class Weighted {
 	 */
 	// TODO change name
     public Result score(Immunization immunization1, Immunization immunization2, double minThreshold, double maxThreshold) {
-int score=0;
+        int score=0;
     	
     	// Lot Number
         if (!(immunization1.getLotNumber().isEmpty() || immunization2.getLotNumber().isEmpty())){
-        	if (immunization1.getLotNumber().equals(immunization2.getLotNumber())) {score+=lotNumberWeight[0];} // Present and same  	
-        	else {score+=lotNumberWeight[1];} // Present and different
+        	if (immunization1.getLotNumber().equals(immunization2.getLotNumber())) {score+=parameters.get(PropertyLoader.WEIGHT_SAME_LOT_NUMBER);} // Present and same
+        	else {score+=parameters.get(PropertyLoader.WEIGHT_DIFFERENT_LOT_NUMBER);} // Present and different
         }
-        else{score+=lotNumberWeight[2];} // Absent one or both
-        
-        // START : TO MODIFICATE *****************************
-        
+        else{score+=parameters.get(PropertyLoader.WEIGHT_ABSENT_LOT_NUMBER);} // Absent one or both
+
+        // Date administered
+        int dateDifferenceInDays = (int) (immunization1.getDate().getTime() - immunization2.getDate().getTime() / (24*60*60*1000));
+        if (dateDifferenceInDays > dateDifferenceWeight.size()) {
+            dateDifferenceInDays = dateDifferenceWeight.size();
+        }
+        score+=dateDifferenceWeight.get(dateDifferenceInDays-1);
+
         // Vaccine Type
         if (!(immunization1.getVaccineCode().isEmpty() || immunization2.getVaccineCode().isEmpty())){
-        	if (immunization1.getVaccineCode().equals(immunization2.getVaccineCode())) {score+=50;}
-        	else {score+=5;}
+        	if (immunization1.getVaccineCode().equals(immunization2.getVaccineCode())) {score+=parameters.get(PropertyLoader.WEIGHT_SAME_VACCINE_FAMILY);}
+        	else {score+=parameters.get(PropertyLoader.WEIGHT_DIFFERENT_VACCINE_FAMILY);}
         }
-        else{score+=15;}
-        
-        // ******** TRADE NAME TO DO *************
+        else{score+=parameters.get(PropertyLoader.WEIGHT_ABSENT_VACCINE_FAMILY);}
         
         // Provider Organization
         if (!(immunization1.getOrganisationID().isEmpty() || immunization2.getOrganisationID().isEmpty())){
-        	if (immunization1.getOrganisationID().equals(immunization2.getOrganisationID())) {score+=25;}
-        	else {score+=10;}
+        	if (immunization1.getOrganisationID().equals(immunization2.getOrganisationID())) {score+=parameters.get(PropertyLoader.WEIGHT_SAME_ORGANISATION_ID);}
+        	else {score+=parameters.get(PropertyLoader.WEIGHT_DIFFERENT_ORGANISATION_ID);}
         }
-        else{score+=15;}
-        
-        // Date Administrated 
-        
-        // Admin/Historical
-        
-        // END : TO MODIFICATE ***************************
-        
+        else{score+=parameters.get(PropertyLoader.WEIGHT_ABSENT_ORGANISATION_ID);}
+
+        // Source
+        if (!(immunization1.getSource() == null && immunization2.getSource() == null)){
+            if (immunization1.getSource() == Immunization.SOURCE.SOURCE && immunization2.getSource() == Immunization.SOURCE.SOURCE) {
+                score+=parameters.get(PropertyLoader.WEIGHT_SAME_SOURCE_ADMIN);
+            } else if (immunization1.getSource() == Immunization.SOURCE.HISTORICAL && immunization2.getSource() == Immunization.SOURCE.HISTORICAL) {
+                score+=parameters.get(PropertyLoader.WEIGHT_SAME_SOURCE_HISTORICAL);
+            } else {
+                score+=parameters.get(PropertyLoader.WEIGHT_DIFFERENT_SOURCE);
+            }
+        }
+        else{score+=parameters.get(PropertyLoader.WEIGHT_ABSENT_SOURCE);}
+
+
+
         return Result.UNSURE;
     }
 
@@ -80,98 +94,59 @@ int score=0;
 	 * @return call the score method with default thresholds
 	 */
     public Result score(Immunization immunization1, Immunization immunization2) {
-        return score(immunization1, immunization2, this.minThreshold, this.maxThreshold);
+        return score(immunization1, immunization2, parameters.get(PropertyLoader.WEIGHT_MIN_THRESHOLD), parameters.get(PropertyLoader.WEIGHT_MAX_THRESHOLD));
     }
 
-    public double getMinThreshold() {
-        return minThreshold;
-    }
-
-    public void setMinThreshold(double minThreshold) {
-        this.minThreshold = minThreshold;
-    }
-
-    public double getMaxThreshold() {
-        return maxThreshold;
-    }
-
-    public void setMaxThreshold(double maxThreshold) {
-        this.maxThreshold = maxThreshold;
-    }
-
-    public int[] getLotNumberWeight() {
-        return lotNumberWeight;
-    }
-
-    public void setLotNumberWeight(int[] lotNumberWeight) {
-        this.lotNumberWeight = lotNumberWeight;
-        updateSminAndSmax();
-    }
-
-    public int[] getDateDifferenceWeight() {
-        return dateDifferenceWeight;
-    }
-
-    public void setDateDifferenceWeight(int[] dateDifferenceWeight) {
-        this.dateDifferenceWeight = dateDifferenceWeight;
-        updateSminAndSmax();
-    }
-
-    public int[] getVaccineTypeWeight() {
-        return vaccineTypeWeight;
-    }
-
-    public void setVaccineTypeWeight(int[] vaccineTypeWeight) {
-        this.vaccineTypeWeight = vaccineTypeWeight;
-        updateSminAndSmax();
-    }
-
-    public int[] getProviderWeight() {
-        return providerWeight;
-    }
-
-    public void setProviderWeight(int[] providerWeight) {
-        this.providerWeight = providerWeight;
-        updateSminAndSmax();
-    }
-
-    public int[] getSourceWeight() {
-        return sourceWeight;
-    }
-
-    public void setSourceWeight(int[] sourceWeight) {
-        this.sourceWeight = sourceWeight;
-        updateSminAndSmax();
-    }
-
-    private int getMinimum(int[] array) {
-        int min = Integer.MAX_VALUE;
+    private double getMinimum(double[] array) {
+        double min = Integer.MAX_VALUE;
         for (int i = 0; i < array.length; i++)
             if (array[i] < min)
                 min = array[i];
         return min;
     }
 
-    private int getMaximum(int[] array) {
-        int max = Integer.MIN_VALUE;
+    private double getMaximum(double[] array) {
+        double max = Integer.MIN_VALUE;
         for (int i = 0; i < array.length; i++)
             if (array[i] > max)
                 max = array[i];
         return max;
     }
 
+    private double getMinimum(ArrayList<Double> array) {
+        double min = Integer.MAX_VALUE;
+        for (int i = 0; i < array.size(); i++)
+            if (array.get(i) < min)
+                min = array.get(i);
+        return min;
+    }
+
+    private double getMaximum(ArrayList<Double> array) {
+        double max = Integer.MIN_VALUE;
+        for (int i = 0; i < array.size(); i++)
+            if (array.get(i) > max)
+                max = array.get(i);
+        return max;
+    }
+
     public void updateSminAndSmax() {
+        double[] lotNumberWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_LOT_NUMBER),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_LOT_NUMBER),parameters.get(PropertyLoader.WEIGHT_ABSENT_LOT_NUMBER)};
+        double[] vaccineFamilyWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_VACCINE_FAMILY),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_VACCINE_FAMILY),parameters.get(PropertyLoader.WEIGHT_ABSENT_VACCINE_FAMILY)};
+        double[] organisationIdWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_ORGANISATION_ID),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_ORGANISATION_ID),parameters.get(PropertyLoader.WEIGHT_ABSENT_ORGANISATION_ID)};
+        double[] sourceWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_SOURCE_ADMIN),parameters.get(PropertyLoader.WEIGHT_SAME_SOURCE_HISTORICAL),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_SOURCE),parameters.get(PropertyLoader.WEIGHT_ABSENT_SOURCE)};
+
+
         this.Smin =
                 getMinimum(lotNumberWeight) +
                 getMinimum(dateDifferenceWeight) +
-                getMinimum(vaccineTypeWeight) +
-                getMinimum(providerWeight) +
+                getMinimum(vaccineFamilyWeight) +
+                getMinimum(organisationIdWeight) +
                 getMinimum(sourceWeight);
         this.Smax =
                 getMaximum(lotNumberWeight) +
                 getMaximum(dateDifferenceWeight) +
-                getMaximum(vaccineTypeWeight) +
-                getMaximum(providerWeight) +
+                getMaximum(vaccineFamilyWeight) +
+                getMaximum(organisationIdWeight ) +
                 getMaximum(sourceWeight);
     }
 }

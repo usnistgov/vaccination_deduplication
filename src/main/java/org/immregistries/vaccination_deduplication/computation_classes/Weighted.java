@@ -83,8 +83,15 @@ public class Weighted {
         else{score+=parameters.get(PropertyLoader.WEIGHT_ABSENT_SOURCE);}
 
 
+        double balancedScore = (score - this.Smin) / this.Smax;
 
-        return Result.UNSURE;
+        if (balancedScore > maxThreshold) {
+            return Result.EQUAL;
+        } else if (balancedScore < minThreshold) {
+            return Result.DIFFERENT;
+        } else {
+            return Result.UNSURE;
+        }
     }
 
 	/**

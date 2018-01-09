@@ -1,9 +1,7 @@
 package org.immregistries.vaccination_deduplication;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
@@ -40,10 +38,12 @@ public class PropertyLoader {
         Properties prop = new Properties();
         InputStream input = null;
 
-        URL fileUrl = this.getClass().getResource("/config.properties");
+        // URL fileUrl = this.getClass().getResource("/config.properties");
 
         try {
-            input = new FileInputStream(fileUrl.toString());
+            // input = new FileInputStream(fileUrl.toString());
+            input = this.getClass().getResourceAsStream("/config.properties");
+            
             // load a properties file
             prop.load(input);
 

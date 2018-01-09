@@ -36,7 +36,7 @@ public class Weighted {
 	 * 
 	 * @param immunization1 and immunization2 are the two record to compare to each other
 	 * @param minThreshold and maxThreshold correspond to the weight scores used to determine the outcome
-	 * @return the weighted scoring outcome which can be "equal" (case : maxThreshold < score), "unsure" (case : minThreshold < score < maxThreshold), or different (case : score < minThreshold)
+	 * @return the weighted scoring outcome which can be "equal" (case : maxThreshold &lt; score), "unsure" (case : minThreshold &lt; score &lt; maxThreshold), or different (case : score &lt; minThreshold)
 	 */
 	// TODO change name
     public Result score(Immunization immunization1, Immunization immunization2, double minThreshold, double maxThreshold) {

@@ -12,7 +12,6 @@ import java.time.temporal.ChronoUnit;
  */
 public class Deterministic {
 
-
 	public Deterministic() {
 
 	}
@@ -20,7 +19,8 @@ public class Deterministic {
 	/**
 	 * Allows to know if two records have to be deduplicated according to the deterministic approach
 	 * 
-	 * @param immunization1 and immunization2 are the two record to compare to each other
+	 * @param immunization1 and
+	 * @param immunization2 are the two record to compare to each other
 	 * @return the deterministic scoring outcome which can be "equal", "unsure", or different
 	 */
 	// TODO change name

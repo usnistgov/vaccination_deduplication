@@ -20,7 +20,8 @@ public class StepOne {
      * Determines selection phase outcome. Records must be evaluated if they verify 3 different factors : 
      * date window met,  same vaccine family and Not identical vaccination event.
      * 
-     * @param immunization1 and immunization2 are the records to compare to each other
+     * @param immunization1
+     * @param immunization2 are the records to compare to each other
      * @return true if the records must be evaluated or false if the records must not be evaluated
      */
     public boolean stepOneEvaluation(Immunization immunization1, Immunization immunization2) {

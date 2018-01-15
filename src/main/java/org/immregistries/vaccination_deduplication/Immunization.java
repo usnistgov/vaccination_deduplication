@@ -20,6 +20,7 @@ public class Immunization {
     // business identifier ~= data base key
     private String vaccineType ; // Vaccine Type(CVX)
     private String tradeName ; // Trade Name(NDC)
+
     public String getTradeName() {
 		return tradeName;
 	}

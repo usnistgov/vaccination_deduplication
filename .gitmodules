@@ -1,6 +1,0 @@
-[submodule "codebase-client"]
-	path = codebase-client
-	url = git@github.com:immregistries/dqa-codebase-client.git
-[submodule "codebase"]
-	path = codebase
-	url = git@github.com:immregistries/dqa-codebase.git

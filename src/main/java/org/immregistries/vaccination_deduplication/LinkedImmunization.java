@@ -1,6 +1,7 @@
 package org.immregistries.vaccination_deduplication;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * 
@@ -10,13 +11,21 @@ import java.util.ArrayList;
  *
  */
 
-public class LinkedImmunization {
+public class LinkedImmunization implements Iterable<Immunization> {
 
-    public enum TYPE {SURE, UNSURE, SINGLETON}
+    public LinkedImmunization() {
+		super();
+	}
+
+	public enum TYPE {SURE, UNSURE, SINGLETON}
 
     private TYPE type;
 
     private ArrayList<Immunization> immunizations;
+    
+    public int getSize() {
+    	return immunizations.size();
+    }
 
     public TYPE getType() {
         return type;
@@ -41,4 +50,9 @@ public class LinkedImmunization {
     public void addImmunizations(ArrayList<Immunization> immunizations) {
         this.immunizations.addAll(immunizations);
     }
+
+	public Iterator<Immunization> iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

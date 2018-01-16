@@ -1,6 +1,8 @@
 package org.immregistries.vaccination_deduplication.computation_classes;
 
+import org.immregistries.vaccination_deduplication.DeterministicResult;
 import org.immregistries.vaccination_deduplication.Immunization;
+import org.immregistries.vaccination_deduplication.Immunization.SOURCE;
 import org.immregistries.vaccination_deduplication.Result;
 
 import java.time.LocalDate;
@@ -15,7 +17,7 @@ public class Deterministic {
 	public Deterministic() {
 
 	}
-	
+	final long dateWindow = 23l ;
 	/**
 	 * Allows to know if two records have to be deduplicated according to the deterministic approach
 	 * 
@@ -25,118 +27,125 @@ public class Deterministic {
 	 */
 	// TODO change name
 	public Result score(Immunization immunization1, Immunization immunization2) {
-		Result lotresult ; 
-		long duration ; 
-		Result vaccineresult; 
-		Result vaccinetyperesult;
-		Result tradenameresult;
-		if (immunization1.getLotNumber().equals(immunization2.getLotNumber()))
+		DeterministicResult lotNumberResult ; 
+		DeterministicResult vaccineCodeResult; 
+		DeterministicResult vaccineTypeResult;
+		DeterministicResult tradeNameResult;
+		DeterministicResult dateResult; 
+		DeterministicResult organizationIdResult;
+		DeterministicResult sourceResult;
+
+		if(immunization1.getDate().compareTo(immunization2.getDate())==0)
 		{
-			lotresult = Result.EQUAL;
+			dateResult = DeterministicResult.SAME;
 		}
-		else if (immunization1.getLotNumber()==null && immunization2.getLotNumber()==null)
+		else
 		{
-			lotresult=Result.DIFFERENT;
+			dateResult = DeterministicResult.DIFFERENT; 
 		}
-		else if (immunization1.getLotNumber()==null && immunization2.getLotNumber()!=null)
+		organizationIdResult = compareArgument(immunization1.getOrganisationID(), immunization2.getOrganisationID());
+		vaccineCodeResult = compareArgument(immunization1.getVaccineCode(), immunization2.getVaccineCode());
+		lotNumberResult = compareArgument(immunization1.getLotNumber(), immunization2.getLotNumber());
+		vaccineTypeResult = compareArgument(immunization1.getVaccineType(), immunization2.getVaccineType());
+		tradeNameResult = compareArgument(immunization1.getTradeName(), immunization2.getTradeName());
+		if ((immunization1.getSource()== null && immunization2.getSource() == null ))
 		{
-			lotresult=Result.UNSURE;
+			sourceResult = DeterministicResult.NEITHER;
 		}
-		else if (immunization1.getLotNumber()!=null && immunization2.getLotNumber()==null)
+		else if ((immunization1.getSource() == null ||immunization2.getSource() == null)) 
 		{
-			lotresult=Result.UNSURE;
+			sourceResult = DeterministicResult.ONLYONE;
 		}
-		LocalDate date1 = immunization1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate date2 = immunization2.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		duration= ChronoUnit.DAYS.between(date1,date2);
-		if (immunization1.getVaccineCode().equals(immunization2.getVaccineCode()))
+		else if(immunization1.getSource().equals(immunization2.getSource()))
 		{
-			vaccineresult=Result.EQUAL;
+			sourceResult = DeterministicResult.SAME;
 		}
-		else if (immunization1.getVaccineCode()==null && immunization2.getVaccineCode()==null)
+		else 
 		{
-			vaccineresult=Result.DIFFERENT;
+	sourceResult	= DeterministicResult.DIFFERENT;
 		}
-		else if (immunization1.getVaccineCode()==null && immunization2.getVaccineCode()!=null)
+		return sumResult(immunization1,immunization2,sourceResult,lotNumberResult,vaccineCodeResult,vaccineTypeResult,organizationIdResult ,tradeNameResult,dateResult);
+			
+
+	}
+	public DeterministicResult compareArgument(String s1,String s2)
+	{		
+		DeterministicResult result ; 
+		if ((s1.isEmpty() && s2.isEmpty()))
 		{
-			vaccineresult=Result.UNSURE;
+			result = DeterministicResult.NEITHER;
 		}
-		else if (immunization1.getVaccineCode()!=null && immunization2.getVaccineCode()==null)
+		else if ((s1.isEmpty() || s2.isEmpty()) )
 		{
-			vaccineresult=Result.UNSURE;
+			result=DeterministicResult.ONLYONE;
+		}
+		else if(s1.equals(s2)){
+			result = DeterministicResult.SAME;
+		}
+		else 
+		{
+			result = DeterministicResult.DIFFERENT;
+		}
+		return result ;
+
+	}
+	//Step 2 Evaluation phase
+	public Result sumResult(Immunization immunization1,Immunization immunization2,DeterministicResult sourceResult,DeterministicResult lotNumberResult,DeterministicResult vaccineResult,DeterministicResult vaccineTypeResult,DeterministicResult organizationIdResult ,DeterministicResult tradeNameResult,DeterministicResult dateResult)
+	{
+		Boolean likelyDifferentSource=false;
+		int likelyMatch = 0; 
+		int likelyDifferent = 0 ; 
+		int noOutcome = 0; 
+		//Lot Numbers rule 
+		if (lotNumberResult==DeterministicResult.DIFFERENT)
+		{
+			likelyDifferent++;
+		}
+		else {noOutcome++;}	
+		//Date
+		if(dateResult==DeterministicResult.SAME)
+		{
+			likelyMatch++;
+		}
+		else {noOutcome++;}
+		//Distintive variables 
+		if(lotNumberResult==DeterministicResult.SAME && vaccineTypeResult==DeterministicResult.SAME && tradeNameResult==DeterministicResult.SAME && organizationIdResult==DeterministicResult.SAME)
+		{																																																																																																																																																																																																																																																																									{
+			likelyMatch++;
+		}}
+		else if(lotNumberResult == DeterministicResult.ONLYONE && dateResult == DeterministicResult.SAME && vaccineTypeResult == DeterministicResult.DIFFERENT && tradeNameResult == DeterministicResult.NEITHER && organizationIdResult == DeterministicResult.DIFFERENT)
+		{
+			likelyMatch++;
+		}
+		else if(lotNumberResult == DeterministicResult.DIFFERENT && dateResult == DeterministicResult.SAME && organizationIdResult == DeterministicResult.SAME )	
+		{
+			likelyDifferent++;
+		}
+		else if(lotNumberResult == DeterministicResult.DIFFERENT && dateResult == DeterministicResult.DIFFERENT)
+		{
+			noOutcome++ ;
+		}
+		//Different Submitting Providers
+		if( organizationIdResult != DeterministicResult.SAME && immunization1.getSource() == SOURCE.SOURCE && immunization2.getSource() == SOURCE.SOURCE) 
+		{
+			likelyDifferent++; 
+			likelyDifferentSource = true ;
+		}
+		else if(organizationIdResult != DeterministicResult.SAME && sourceResult == DeterministicResult.DIFFERENT)
+		{
+			likelyMatch++;
+		}
+		else
+		{
+			noOutcome++ ;
 		}
 		
-		
-		// 
-		if (immunization1.getVaccineType().equals(immunization2.getVaccineType()))
+		if(likelyMatch>	likelyDifferent || (likelyMatch == likelyDifferent && likelyDifferentSource == true	) )
 		{
-			vaccinetyperesult=Result.EQUAL;
+			return Result.DIFFERENT ; 
 		}
-		else if (immunization1.getVaccineType()==null && immunization2.getVaccineType()==null)
-		{
-			vaccinetyperesult=Result.DIFFERENT;
-		}
-		else if (immunization1.getVaccineType()==null && immunization2.getVaccineType()!=null)
-		{
-			vaccinetyperesult=Result.UNSURE;
-		}
-		else if (immunization1.getVaccineType()!=null && immunization2.getVaccineType()==null)
-		{
-			vaccinetyperesult=Result.UNSURE;
-		}
-		
-		if (immunization1.getVaccineType().equals(immunization2.getVaccineType()))
-		{
-			vaccinetyperesult=Result.EQUAL;
-		}
-		else if (immunization1.getVaccineType()==null && immunization2.getVaccineType()==null)
-		{
-			vaccinetyperesult=Result.DIFFERENT;
-		}
-		else if (immunization1.getVaccineType()==null && immunization2.getVaccineType()!=null)
-		{
-			vaccinetyperesult=Result.UNSURE;
-		}
-		else if (immunization1.getVaccineType()!=null && immunization2.getVaccineType()==null)
-		{
-			vaccinetyperesult=Result.UNSURE;
-		}
-		
-		if (immunization1.getVaccineType().equals(immunization2.getVaccineType()))
-		{
-			vaccinetyperesult=Result.EQUAL;
-		}
-		else if (immunization1.getVaccineType()==null && immunization2.getVaccineType()==null)
-		{
-			vaccinetyperesult=Result.DIFFERENT;
-		}
-		else if (immunization1.getVaccineType()==null && immunization2.getVaccineType()!=null)
-		{
-			vaccinetyperesult=Result.UNSURE;
-		}
-		else if (immunization1.getVaccineType()!=null && immunization2.getVaccineType()==null)
-		{
-			vaccinetyperesult=Result.UNSURE;
-		}
-		
-		
-		if (immunization1.getTradeName().equals(immunization2.getTradeName()))
-		{
-			vaccinetyperesult=Result.EQUAL;
-		}
-		else if (immunization1.getTradeName()==null && immunization2.getTradeName()==null)
-		{
-			vaccinetyperesult=Result.DIFFERENT;
-		}
-		else if (immunization1.getTradeName()==null && immunization2.getTradeName()!=null)
-		{
-			vaccinetyperesult=Result.UNSURE;
-		}
-		else if (immunization1.getTradeName()!=null && immunization2.getTradeName()==null)
-		{
-			vaccinetyperesult=Result.UNSURE;
-		}
-		
-		return Result.UNSURE;
+		else {return Result.EQUAL;}
 	}
 }
+
+

@@ -3,6 +3,7 @@ package org.immregistries.vaccination_deduplication;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -15,10 +16,12 @@ public class Immunization {
 
     public enum SOURCE {SOURCE, ALTERNATE, HISTORICAL}
 
-    private String vaccineCode; // Vaccine product administered
+    private String CVX; // Vaccine code
 
-    // business identifier ~= data base key
-    private String vaccineType ; // Vaccine Type(CVX)
+    private List<String> vaccineGroupList ; // Vaccine Group
+
+    private String MVX; // Manufacturer vaccine code
+
     private String tradeName ; // Trade Name(NDC)
 
     public String getTradeName() {
@@ -27,14 +30,6 @@ public class Immunization {
 
 	public void setTradeName(String tradeName) {
 		this.tradeName = tradeName;
-	}
-
-	public String getVaccineType() {
-		return vaccineType;
-	}
-
-	public void setVaccineType(String vaccineType) {
-		this.vaccineType = vaccineType;
 	}
 
     private Date date; // Vaccination administration/payment/... date
@@ -49,12 +44,12 @@ public class Immunization {
 
     }
 
-    public String getVaccineCode() {
-        return vaccineCode;
+    public List<String> getVaccineGroupList() {
+        return vaccineGroupList;
     }
 
-    public void setVaccineCode(String vaccineCode) {
-        this.vaccineCode = vaccineCode;
+    public void setVaccineGroupList(List<String> vaccineGroupList) {
+        this.vaccineGroupList = vaccineGroupList;
     }
 
     public Date getDate() {

@@ -44,12 +44,28 @@ public class Immunization {
 
     }
 
+    public String getCVX() {
+        return CVX;
+    }
+
+    public void setCVX(String CVX) {
+        this.CVX = CVX;
+    }
+
     public List<String> getVaccineGroupList() {
         return vaccineGroupList;
     }
 
     public void setVaccineGroupList(List<String> vaccineGroupList) {
         this.vaccineGroupList = vaccineGroupList;
+    }
+
+    public String getMVX() {
+        return MVX;
+    }
+
+    public void setMVX(String MVX) {
+        this.MVX = MVX;
     }
 
     public Date getDate() {
@@ -59,11 +75,11 @@ public class Immunization {
     public void setDate(Date date) {
         this.date = date;
     }
-    
+
     public void setDate(String dateString) throws ParseException
     {
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyymmdd");  
-      this.date = sdf.parse(dateString);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyymmdd");
+        this.date = sdf.parse(dateString);
     }
 
     public String getLotNumber() {

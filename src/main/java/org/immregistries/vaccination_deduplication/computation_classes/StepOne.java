@@ -10,7 +10,11 @@ import java.util.ArrayList;
  */
 public class StepOne {
 
-    private long dateWindow = 23;
+    public StepOne() {
+		super();
+	}
+
+	private long dateWindow = 23;
 
     /**
      * Determines selection phase outcome. Records must be evaluated if they verify 3 different factors : 
@@ -26,7 +30,7 @@ public class StepOne {
 		
 		// Same vaccine family ?
 		boolean sameVaccineFamily = false;
-		if (immunization1.getVaccineCode().equals(immunization2.getVaccineCode()))
+		if (immunization1.getCVX().equals(immunization2.getCVX()))
 			sameVaccineFamily = true;
 		
 		// Not identical vaccination event ?

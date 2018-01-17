@@ -59,13 +59,13 @@ public class DeterministicTest extends TestCase {
         immunization1.setDate("20161217");
         //immunization1.setLotNumber("test lot number");
         immunization1.setCVX("03");
-        immunization1.setTradeName("MMR");
+        immunization1.setProductCode("MMR");
         immunization1.setSource(Immunization.SOURCE.SOURCE);
         immunization1.setOrganisationID("Mercy Hospital");
         
         immunization2.setDate("20160506");
         //immunization2.setLotNumber("test lot number 2");
-        immunization2.setTradeName("HEP B");
+        immunization2.setProductCode("HEP B");
         immunization2.setCVX("08");
         immunization2.setOrganisationID("Dr Murphey");
         immunization2.setSource(Immunization.SOURCE.HISTORICAL);

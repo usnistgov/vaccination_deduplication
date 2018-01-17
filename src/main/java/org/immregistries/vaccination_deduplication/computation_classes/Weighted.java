@@ -7,7 +7,10 @@ import org.immregistries.vaccination_deduplication.Result;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
+
+import static org.immregistries.vaccination_deduplication.utils.Matching.compareForWeighted;
+import static org.immregistries.vaccination_deduplication.utils.Matching.isThereAMatch;
 
 /**
  * Execute Step 2 : Evaluation phase using the weighted scoring approach
@@ -40,35 +43,48 @@ public class Weighted {
 	 */
 	// TODO change name
     public Result score(Immunization immunization1, Immunization immunization2, double minThreshold, double maxThreshold) {
-        int score=0;
-    	
+        double score=0;
+
+        // TODO add CVX, MVX, ProductCode
+
     	// Lot Number
-        if (!(immunization1.getLotNumber().isEmpty() || immunization2.getLotNumber().isEmpty())){
-        	if (immunization1.getLotNumber().equals(immunization2.getLotNumber())) {score+=parameters.get(PropertyLoader.WEIGHT_SAME_LOT_NUMBER);} // Present and same
-        	else {score+=parameters.get(PropertyLoader.WEIGHT_DIFFERENT_LOT_NUMBER);} // Present and different
-        }
-        else{score+=parameters.get(PropertyLoader.WEIGHT_ABSENT_LOT_NUMBER);} // Absent one or both
+        score += compareForWeighted(
+                immunization1.getLotNumber(),
+                immunization2.getLotNumber(),
+                parameters.get(PropertyLoader.WEIGHT_SAME_LOT_NUMBER),
+                parameters.get(PropertyLoader.WEIGHT_ABSENT_LOT_NUMBER),
+                parameters.get(PropertyLoader.WEIGHT_DIFFERENT_LOT_NUMBER)
+        );
 
         // Date administered
-        int dateDifferenceInDays = (int) (immunization1.getDate().getTime() - immunization2.getDate().getTime() / (24*60*60*1000));
+        int dateDifferenceInDays = (int) ((immunization1.getDate().getTime() - immunization2.getDate().getTime()) / (24*60*60*1000));
+        System.out.println(dateDifferenceInDays);
         if (dateDifferenceInDays > dateDifferenceWeight.size()) {
             dateDifferenceInDays = dateDifferenceWeight.size();
         }
+        System.out.println(dateDifferenceInDays);
         score+=dateDifferenceWeight.get(dateDifferenceInDays-1);
 
-        // Vaccine Type
-        if (!(immunization1.getVaccineCode().isEmpty() || immunization2.getVaccineCode().isEmpty())){
-        	if (immunization1.getVaccineCode().equals(immunization2.getVaccineCode())) {score+=parameters.get(PropertyLoader.WEIGHT_SAME_VACCINE_FAMILY);}
-        	else {score+=parameters.get(PropertyLoader.WEIGHT_DIFFERENT_VACCINE_FAMILY);}
+        // Vaccine Group
+        if (!(immunization1.getVaccineGroupList().isEmpty() || immunization2.getVaccineGroupList().isEmpty())){
+            List<String> immunization1GroupList = immunization1.getVaccineGroupList();
+            List<String> immunization2GroupList = immunization2.getVaccineGroupList();
+
+        	if (isThereAMatch(immunization1GroupList, immunization2GroupList)) {
+        	    score+=parameters.get(PropertyLoader.WEIGHT_SAME_VACCINE_FAMILY);
+        	} else {
+        	    score+=parameters.get(PropertyLoader.WEIGHT_DIFFERENT_VACCINE_FAMILY);
+        	}
         }
         else{score+=parameters.get(PropertyLoader.WEIGHT_ABSENT_VACCINE_FAMILY);}
         
         // Provider Organization
-        if (!(immunization1.getOrganisationID().isEmpty() || immunization2.getOrganisationID().isEmpty())){
-        	if (immunization1.getOrganisationID().equals(immunization2.getOrganisationID())) {score+=parameters.get(PropertyLoader.WEIGHT_SAME_ORGANISATION_ID);}
-        	else {score+=parameters.get(PropertyLoader.WEIGHT_DIFFERENT_ORGANISATION_ID);}
-        }
-        else{score+=parameters.get(PropertyLoader.WEIGHT_ABSENT_ORGANISATION_ID);}
+        score += compareForWeighted(
+                immunization1.getOrganisationID(),
+                immunization2.getOrganisationID(),
+                parameters.get(PropertyLoader.WEIGHT_SAME_ORGANISATION_ID),
+                parameters.get(PropertyLoader.WEIGHT_ABSENT_ORGANISATION_ID),
+                parameters.get(PropertyLoader.WEIGHT_DIFFERENT_ORGANISATION_ID));
 
         // Source
         if (!(immunization1.getSource() == null && immunization2.getSource() == null)){
@@ -106,37 +122,37 @@ public class Weighted {
 
     private double getMinimum(double[] array) {
         double min = Integer.MAX_VALUE;
-        for (int i = 0; i < array.length; i++)
-            if (array[i] < min)
-                min = array[i];
+        for (double anArray : array)
+            if (anArray < min)
+                min = anArray;
         return min;
     }
 
     private double getMaximum(double[] array) {
         double max = Integer.MIN_VALUE;
-        for (int i = 0; i < array.length; i++)
-            if (array[i] > max)
-                max = array[i];
+        for (double anArray : array)
+            if (anArray > max)
+                max = anArray;
         return max;
     }
 
     private double getMinimum(ArrayList<Double> array) {
         double min = Integer.MAX_VALUE;
-        for (int i = 0; i < array.size(); i++)
-            if (array.get(i) < min)
-                min = array.get(i);
+        for (Double anArray : array)
+            if (anArray < min)
+                min = anArray;
         return min;
     }
 
     private double getMaximum(ArrayList<Double> array) {
         double max = Integer.MIN_VALUE;
-        for (int i = 0; i < array.size(); i++)
-            if (array.get(i) > max)
-                max = array.get(i);
+        for (Double anArray : array)
+            if (anArray > max)
+                max = anArray;
         return max;
     }
 
-    public void updateSminAndSmax() {
+    private void updateSminAndSmax() {
         double[] lotNumberWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_LOT_NUMBER),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_LOT_NUMBER),parameters.get(PropertyLoader.WEIGHT_ABSENT_LOT_NUMBER)};
         double[] vaccineFamilyWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_VACCINE_FAMILY),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_VACCINE_FAMILY),parameters.get(PropertyLoader.WEIGHT_ABSENT_VACCINE_FAMILY)};
         double[] organisationIdWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_ORGANISATION_ID),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_ORGANISATION_ID),parameters.get(PropertyLoader.WEIGHT_ABSENT_ORGANISATION_ID)};

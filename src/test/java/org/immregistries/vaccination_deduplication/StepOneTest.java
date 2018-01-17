@@ -18,14 +18,14 @@ public class StepOneTest extends TestCase {
 
         immunization1.setDate("20161217");   
         immunization1.setCVX("03");
-        immunization1.setTradeName("");
+        immunization1.setProductCode("");
         immunization1.setOrganisationID("Mercy Hospital");
         immunization1.setSource(Immunization.SOURCE.HISTORICAL);
         immunization1.setLotNumber("");
 
         immunization2.setDate("20161218");
         immunization2.setCVX("03");
-        immunization2.setTradeName("");
+        immunization2.setProductCode("");
         immunization2.setOrganisationID("Medicare");
         immunization2.setSource(Immunization.SOURCE.HISTORICAL);
         immunization2.setLotNumber("");

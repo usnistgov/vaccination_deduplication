@@ -40,7 +40,9 @@ public class Deterministic {
 		organizationIdResult = compareArgument(immunization1.getOrganisationID(), immunization2.getOrganisationID());
 		cvxResult = compareArgument(immunization1.getCVX(), immunization2.getCVX());
 		lotNumberResult = compareArgument(immunization1.getLotNumber(), immunization2.getLotNumber());
-		mvxResult = compareArgument(immunization1.getTradeName(), immunization2.getTradeName());
+		mvxResult = compareArgument(immunization1.getMVX(), immunization2.getMVX());
+		// TODO missing vaccine Group and vaccine product code
+
 		if ((immunization1.getSource()== null && immunization2.getSource() == null ))
 		{
 			sourceResult = DeterministicResult.NEITHER;

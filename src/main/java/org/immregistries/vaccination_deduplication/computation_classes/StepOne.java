@@ -2,6 +2,8 @@ package org.immregistries.vaccination_deduplication.computation_classes;
 
 import org.immregistries.vaccination_deduplication.Immunization;
 import org.immregistries.vaccination_deduplication.LinkedImmunization;
+import org.immregistries.vaccination_deduplication.PropertyLoader;
+
 import java.util.ArrayList;
 
 /**
@@ -9,12 +11,14 @@ import java.util.ArrayList;
  *
  */
 public class StepOne {
+	
+	private double dateWindow;
 
     public StepOne() {
 		super();
+		PropertyLoader propertyLoader = PropertyLoader.getInstance();
+        this.dateWindow = propertyLoader.getDateWindow();
 	}
-
-	private long dateWindow = 23;
 
     /**
      * Determines selection phase outcome. Records must be evaluated if they verify 3 different factors : 
@@ -66,14 +70,6 @@ public class StepOne {
     	}
         return LinkedImmArray;
     }
-
-    public long getDateWindow() {
-        return dateWindow;
-    }
-
-    public void setDateWindow(int dateWindow) {
-        this.dateWindow = dateWindow;
-    }
     
     public boolean dateWindowMet(Immunization immunization1, Immunization immunization2){
     	boolean dateWindowMet = false;
@@ -81,7 +77,7 @@ public class StepOne {
     	long date1 = immunization1.getDate().getTime();
     	long date2 = immunization2.getDate().getTime();	
 		duration = (date2 - date1)/86400000; // 1000 ms * 60s * 60min * 24h = 86.400.000 ms = 1 day
-		if (duration < getDateWindow())
+		if (duration < this.dateWindow)
 			dateWindowMet = true;
     return dateWindowMet;
     }

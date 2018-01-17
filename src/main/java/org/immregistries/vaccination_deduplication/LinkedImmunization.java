@@ -11,26 +11,10 @@ import java.util.Iterator;
  *
  */
 
-public class LinkedImmunization implements Iterable<Immunization> {
-
-    public LinkedImmunization() {
-		super();
-	}
-    
-    public LinkedImmunization(Immunization i){
-    	super();
-    	this.immunizations.add(i);
-    }
-
+public class LinkedImmunization extends ArrayList<Immunization> {
 	public enum TYPE {SURE, UNSURE, SINGLETON}
 
     private TYPE type;
-
-    private ArrayList<Immunization> immunizations;
-    
-    public int getSize() {
-    	return immunizations.size();
-    }
 
     public TYPE getType() {
         return type;
@@ -39,25 +23,4 @@ public class LinkedImmunization implements Iterable<Immunization> {
     public void setType(TYPE type) {
         this.type = type;
     }
-
-    public ArrayList<Immunization> getImmunizations() {
-        return immunizations;
-    }
-
-    public void setImmunizations(ArrayList<Immunization> immunizations) {
-        this.immunizations = immunizations;
-    }
-
-    public void addImmunization(Immunization immunization) {
-        this.immunizations.add(immunization);
-    }
-
-    public void addImmunizations(ArrayList<Immunization> immunizations) {
-        this.immunizations.addAll(immunizations);
-    }
-
-	public Iterator<Immunization> iterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

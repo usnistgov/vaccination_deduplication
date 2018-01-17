@@ -16,6 +16,11 @@ public class LinkedImmunization implements Iterable<Immunization> {
     public LinkedImmunization() {
 		super();
 	}
+    
+    public LinkedImmunization(Immunization i){
+    	super();
+    	this.immunizations.add(i);
+    }
 
 	public enum TYPE {SURE, UNSURE, SINGLETON}
 

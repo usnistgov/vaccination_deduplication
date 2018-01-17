@@ -28,7 +28,7 @@ public class StepOne {
      * @param immunization2 are the records to compare to each other
      * @return true if the records must be evaluated or false if the records must not be evaluated
      */
-    public boolean stepOneEvaluation(Immunization immunization1, Immunization immunization2) {
+    public boolean selectionPhase(Immunization immunization1, Immunization immunization2) {
     	// Date window met ?    	
     	boolean dateWindowMet = dateWindowMet(immunization1, immunization2);
 		
@@ -45,14 +45,13 @@ public class StepOne {
 		return (dateWindowMet && sameVaccineFamily && notIdenticalVaccinationEvent);
     }
 
-    public ArrayList<LinkedImmunization> stepOne(ArrayList<Immunization> immunizations) {
+    public ArrayList<LinkedImmunization> multipleSelection(ArrayList<Immunization> immunizations) {
     	ArrayList<Immunization> immunizationsCopy = immunizations; // We make a copy because we are going to modify it within this method
     	ArrayList<LinkedImmunization> LinkedImmArray = new ArrayList<LinkedImmunization>();
     	for (Immunization i : immunizationsCopy){
-    		LinkedImmunization LinkedImm = new LinkedImmunization();
-			LinkedImm.addImmunization(i);
-    		for (Immunization j : immunizationsCopy){ // if an immunization i is linked with another j, we check if j date window is met with all the immunization already linked with i
-    			if (stepOneEvaluation(i, j)){
+    		LinkedImmunization LinkedImm = new LinkedImmunization(i);
+    		for (Immunization j : immunizationsCopy){ // if an immunization i is linked with another immunization j, we check if j date window is met with all the immunization already linked with i
+    			if (selectionPhase(i, j)){
     				boolean dateWindowMet = true;
     				for (Immunization k : LinkedImm){
     					if(!(dateWindowMet(j,k)))

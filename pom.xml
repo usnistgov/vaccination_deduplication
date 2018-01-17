@@ -46,7 +46,7 @@
                             <artifactId>dqa-codebase-client</artifactId>
                             <version>1.0</version>
                             <packaging>jar</packaging>
-                            <file>E:/workspace/vaccination_deduplication/lib/dqa-codebase-client-2.1.jar</file>
+                            <file>${basedir}/lib/dqa-codebase-client-2.1.jar</file>
                         </configuration>
                     </execution>
                 </executions>

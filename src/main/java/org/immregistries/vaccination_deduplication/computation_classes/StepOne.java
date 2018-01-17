@@ -2,6 +2,8 @@ package org.immregistries.vaccination_deduplication.computation_classes;
 
 import org.immregistries.vaccination_deduplication.Immunization;
 import org.immregistries.vaccination_deduplication.LinkedImmunization;
+import org.immregistries.vaccination_deduplication.PropertyLoader;
+
 import java.util.ArrayList;
 
 /**
@@ -9,8 +11,14 @@ import java.util.ArrayList;
  *
  */
 public class StepOne {
+	
+	private double dateWindow;
 
-    private long dateWindow = 23;
+    public StepOne() {
+		super();
+		PropertyLoader propertyLoader = PropertyLoader.getInstance();
+        this.dateWindow = propertyLoader.getDateWindow();
+	}
 
     /**
      * Determines selection phase outcome. Records must be evaluated if they verify 3 different factors : 
@@ -20,13 +28,13 @@ public class StepOne {
      * @param immunization2 are the records to compare to each other
      * @return true if the records must be evaluated or false if the records must not be evaluated
      */
-    public boolean stepOneEvaluation(Immunization immunization1, Immunization immunization2) {
+    public boolean selectionPhase(Immunization immunization1, Immunization immunization2) {
     	// Date window met ?    	
     	boolean dateWindowMet = dateWindowMet(immunization1, immunization2);
 		
 		// Same vaccine family ?
 		boolean sameVaccineFamily = false;
-		if (immunization1.getVaccineCode().equals(immunization2.getVaccineCode()))
+		if (immunization1.getCVX().equals(immunization2.getCVX()))
 			sameVaccineFamily = true;
 		
 		// Not identical vaccination event ?
@@ -37,14 +45,13 @@ public class StepOne {
 		return (dateWindowMet && sameVaccineFamily && notIdenticalVaccinationEvent);
     }
 
-    public ArrayList<LinkedImmunization> stepOne(ArrayList<Immunization> immunizations) {
+    public ArrayList<LinkedImmunization> multipleSelection(ArrayList<Immunization> immunizations) {
     	ArrayList<Immunization> immunizationsCopy = immunizations; // We make a copy because we are going to modify it within this method
     	ArrayList<LinkedImmunization> LinkedImmArray = new ArrayList<LinkedImmunization>();
     	for (Immunization i : immunizationsCopy){
-    		LinkedImmunization LinkedImm = new LinkedImmunization();
-			LinkedImm.addImmunization(i);
-    		for (Immunization j : immunizationsCopy){ // if an immunization i is linked with another j, we check if j date window is met with all the immunization already linked with i
-    			if (stepOneEvaluation(i, j)){
+    		LinkedImmunization LinkedImm = new LinkedImmunization(i);
+    		for (Immunization j : immunizationsCopy){ // if an immunization i is linked with another immunization j, we check if j date window is met with all the immunization already linked with i
+    			if (selectionPhase(i, j)){
     				boolean dateWindowMet = true;
     				for (Immunization k : LinkedImm){
     					if(!(dateWindowMet(j,k)))
@@ -62,14 +69,6 @@ public class StepOne {
     	}
         return LinkedImmArray;
     }
-
-    public long getDateWindow() {
-        return dateWindow;
-    }
-
-    public void setDateWindow(int dateWindow) {
-        this.dateWindow = dateWindow;
-    }
     
     public boolean dateWindowMet(Immunization immunization1, Immunization immunization2){
     	boolean dateWindowMet = false;
@@ -77,7 +76,7 @@ public class StepOne {
     	long date1 = immunization1.getDate().getTime();
     	long date2 = immunization2.getDate().getTime();	
 		duration = (date2 - date1)/86400000; // 1000 ms * 60s * 60min * 24h = 86.400.000 ms = 1 day
-		if (duration < getDateWindow())
+		if (duration < this.dateWindow)
 			dateWindowMet = true;
     return dateWindowMet;
     }

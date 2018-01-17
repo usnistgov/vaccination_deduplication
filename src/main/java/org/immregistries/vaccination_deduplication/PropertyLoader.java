@@ -50,6 +50,7 @@ public class PropertyLoader {
             prop.load(input);
 
             // get the property values
+            
 
             // for the weighted method
             weightedParameters.put(DATE_WINDOW, stringToDouble(prop.getProperty(DATE_WINDOW)));
@@ -117,5 +118,13 @@ public class PropertyLoader {
 
     public void setWeightDateDifferences(ArrayList<Double> weightDateDifferences) {
         this.weightDateDifferences = weightDateDifferences;
+    }
+    
+    public void setDateWindow(double dateWindow){
+    	 weightedParameters.replace(DATE_WINDOW, weightedParameters.get(DATE_WINDOW), dateWindow);
+    }
+    
+    public Double getDateWindow(){
+    	return weightedParameters.get(DATE_WINDOW);
     }
 }

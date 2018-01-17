@@ -4,10 +4,6 @@ import org.immregistries.vaccination_deduplication.DeterministicResult;
 import org.immregistries.vaccination_deduplication.Immunization;
 import org.immregistries.vaccination_deduplication.Immunization.SOURCE;
 import org.immregistries.vaccination_deduplication.Result;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 /**
  * Execute Step 2 : Evaluation phase using the Deterministic scoring approach
  *
@@ -17,7 +13,6 @@ public class Deterministic {
 	public Deterministic() {
 
 	}
-	final long dateWindow = 23l ;
 	/**
 	 * Allows to know if two records have to be deduplicated according to the deterministic approach
 	 * 
@@ -28,9 +23,8 @@ public class Deterministic {
 	// TODO change name
 	public Result score(Immunization immunization1, Immunization immunization2) {
 		DeterministicResult lotNumberResult ; 
-		DeterministicResult vaccineCodeResult; 
-		DeterministicResult vaccineTypeResult;
-		DeterministicResult tradeNameResult;
+		DeterministicResult cvxResult; 
+		DeterministicResult mvxResult;
 		DeterministicResult dateResult; 
 		DeterministicResult organizationIdResult;
 		DeterministicResult sourceResult;
@@ -44,10 +38,9 @@ public class Deterministic {
 			dateResult = DeterministicResult.DIFFERENT; 
 		}
 		organizationIdResult = compareArgument(immunization1.getOrganisationID(), immunization2.getOrganisationID());
-		vaccineCodeResult = compareArgument(immunization1.getVaccineCode(), immunization2.getVaccineCode());
+		cvxResult = compareArgument(immunization1.getCVX(), immunization2.getCVX());
 		lotNumberResult = compareArgument(immunization1.getLotNumber(), immunization2.getLotNumber());
-		vaccineTypeResult = compareArgument(immunization1.getVaccineType(), immunization2.getVaccineType());
-		tradeNameResult = compareArgument(immunization1.getTradeName(), immunization2.getTradeName());
+		mvxResult = compareArgument(immunization1.getTradeName(), immunization2.getTradeName());
 		if ((immunization1.getSource()== null && immunization2.getSource() == null ))
 		{
 			sourceResult = DeterministicResult.NEITHER;
@@ -64,18 +57,18 @@ public class Deterministic {
 		{
 	sourceResult	= DeterministicResult.DIFFERENT;
 		}
-		return sumResult(immunization1,immunization2,sourceResult,lotNumberResult,vaccineCodeResult,vaccineTypeResult,organizationIdResult ,tradeNameResult,dateResult);
+		return sumResult(immunization1,immunization2,sourceResult,lotNumberResult,cvxResult,organizationIdResult ,mvxResult,dateResult);
 			
 
 	}
 	public DeterministicResult compareArgument(String s1,String s2)
 	{		
 		DeterministicResult result ; 
-		if ((s1.isEmpty() && s2.isEmpty()))
+		if ((s1==null) && (s2==null))
 		{
 			result = DeterministicResult.NEITHER;
 		}
-		else if ((s1.isEmpty() || s2.isEmpty()) )
+		else if ((s1==null) || (s2==null) )
 		{
 			result=DeterministicResult.ONLYONE;
 		}
@@ -90,9 +83,11 @@ public class Deterministic {
 
 	}
 	//Step 2 Evaluation phase
-	public Result sumResult(Immunization immunization1,Immunization immunization2,DeterministicResult sourceResult,DeterministicResult lotNumberResult,DeterministicResult vaccineResult,DeterministicResult vaccineTypeResult,DeterministicResult organizationIdResult ,DeterministicResult tradeNameResult,DeterministicResult dateResult)
+	public Result sumResult(Immunization immunization1,Immunization immunization2,DeterministicResult sourceResult,DeterministicResult lotNumberResult,DeterministicResult cvxResult,DeterministicResult organizationIdResult ,DeterministicResult tradeNameResult,DeterministicResult dateResult)
 	{
 		Boolean likelyDifferentSource=false;
+		Boolean likelyMatchSource=false;
+
 		int likelyMatch = 0; 
 		int likelyDifferent = 0 ; 
 		int noOutcome = 0; 
@@ -109,11 +104,11 @@ public class Deterministic {
 		}
 		else {noOutcome++;}
 		//Distintive variables 
-		if(lotNumberResult==DeterministicResult.SAME && vaccineTypeResult==DeterministicResult.SAME && tradeNameResult==DeterministicResult.SAME && organizationIdResult==DeterministicResult.SAME)
+		if(lotNumberResult==DeterministicResult.DIFFERENT && cvxResult==DeterministicResult.SAME && tradeNameResult==DeterministicResult.SAME && organizationIdResult==DeterministicResult.SAME)
 		{																																																																																																																																																																																																																																																																									{
 			likelyMatch++;
 		}}
-		else if(lotNumberResult == DeterministicResult.ONLYONE && dateResult == DeterministicResult.SAME && vaccineTypeResult == DeterministicResult.DIFFERENT && tradeNameResult == DeterministicResult.NEITHER && organizationIdResult == DeterministicResult.DIFFERENT)
+		else if(lotNumberResult == DeterministicResult.ONLYONE && dateResult == DeterministicResult.SAME && cvxResult == DeterministicResult.DIFFERENT && tradeNameResult == DeterministicResult.NEITHER && organizationIdResult == DeterministicResult.DIFFERENT)
 		{
 			likelyMatch++;
 		}
@@ -134,17 +129,26 @@ public class Deterministic {
 		else if(organizationIdResult != DeterministicResult.SAME && sourceResult == DeterministicResult.DIFFERENT)
 		{
 			likelyMatch++;
+			likelyMatchSource = true ; 
 		}
 		else
 		{
 			noOutcome++ ;
 		}
 		
-		if(likelyMatch>	likelyDifferent || (likelyMatch == likelyDifferent && likelyDifferentSource == true	) )
+		if(likelyMatch>	likelyDifferent || (likelyMatch == likelyDifferent && likelyDifferentSource == true	))
 		{
-			return Result.DIFFERENT ; 
+			return Result.EQUAL; 
 		}
-		else {return Result.EQUAL;}
+		else if(likelyDifferent>likelyMatch || (likelyMatch == likelyDifferent && likelyMatchSource == true	))
+		{
+			return Result.DIFFERENT;
+		}
+		else
+		{
+			return Result.UNSURE;
+		}
+
 	}
 }
 

@@ -2,7 +2,9 @@ package org.immregistries.vaccination_deduplication;
 
 import org.immregistries.vaccination_deduplication.computation_classes.Deterministic;
 import org.immregistries.vaccination_deduplication.computation_classes.Weighted;
+import org.immregistries.vaccination_deduplication.utils.ImmunizationNormalisation;
 
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -13,9 +15,21 @@ import java.util.ArrayList;
  */
 // TODO change name
 public class Workclass {
+    ImmunizationNormalisation immunizationNormalisation;
 
-	// Methods which can be used to launch the deduplication process
-    public enum METHOD {WEIGHTED, DETERMINISTIC, COMBO}
+    public Workclass(String codebaseFilePath) throws FileNotFoundException {
+        this.immunizationNormalisation = ImmunizationNormalisation.getInstance();
+        this.immunizationNormalisation.initialize(codebaseFilePath);
+    }
+
+    public Workclass() {
+        this.immunizationNormalisation = ImmunizationNormalisation.getInstance();
+        this.immunizationNormalisation.initialize();
+    }
+
+    public void refreshCodebase(String codebaseFilePath) throws FileNotFoundException {
+        this.immunizationNormalisation.refreshCodebase(codebaseFilePath);
+    }
 
     /**
      * Launch the deduplication process using the weighted approach
@@ -24,6 +38,7 @@ public class Workclass {
      * @return
      */
     public ArrayList<LinkedImmunization> deduplicateWeighted(LinkedImmunization patientImmunizationRecords) {
+        immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
         Weighted weighted = new Weighted();
         Result result;
 
@@ -42,6 +57,7 @@ public class Workclass {
      * @return
      */
     public ArrayList<LinkedImmunization> deduplicateDeterministic(LinkedImmunization patientImmunizationRecords) {
+        immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
         Deterministic deterministic = new Deterministic();
         Result result;
 
@@ -59,6 +75,7 @@ public class Workclass {
      * @return
      */
     public ArrayList<LinkedImmunization> deduplicateCombo(LinkedImmunization patientImmunizationRecords) {
+        immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
         Result result1;
         Result result2;
 
@@ -79,7 +96,7 @@ public class Workclass {
      * @param method
      * @return
      */
-    public ArrayList<LinkedImmunization> deduplicate(LinkedImmunization patientImmunizationRecords, METHOD method) {
+    public ArrayList<LinkedImmunization> deduplicate(LinkedImmunization patientImmunizationRecords, DeduplicationMethod method) {
         switch (method) {
             case DETERMINISTIC:
                 return(deduplicateDeterministic(patientImmunizationRecords));

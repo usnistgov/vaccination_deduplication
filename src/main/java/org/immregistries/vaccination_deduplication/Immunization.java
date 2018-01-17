@@ -22,15 +22,7 @@ public class Immunization {
 
     private String MVX; // Manufacturer vaccine code
 
-    private String tradeName ; // Trade Name(NDC)
-
-    public String getTradeName() {
-		return tradeName;
-	}
-
-	public void setTradeName(String tradeName) {
-		this.tradeName = tradeName;
-	}
+    private String productCode ; // Directly linkable to the tradename
 
     private Date date; // Vaccination administration/payment/... date
 
@@ -66,6 +58,14 @@ public class Immunization {
 
     public void setMVX(String MVX) {
         this.MVX = MVX;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
     }
 
     public Date getDate() {

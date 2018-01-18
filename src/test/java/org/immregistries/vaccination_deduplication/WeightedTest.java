@@ -10,13 +10,19 @@ public class WeightedTest extends TestCase {
 
         immunization1.setDate("20171225");
         immunization1.setLotNumber("test lot number");
-        immunization1.setCVX("VCX");
+        immunization1.setCVX("CVX");
+        immunization1.setMVX("MVX");
+        immunization1.setProductCode("pc");
         immunization1.setSource(Immunization.SOURCE.SOURCE);
+        immunization1.setOrganisationID("20171225");
 
         immunization2.setDate("20171225");
         immunization2.setLotNumber("test lot number");
-        immunization2.setCVX("VCX");
+        immunization2.setCVX("CVX");
+        immunization2.setMVX("MVX");
+        immunization2.setProductCode("pc");
         immunization2.setSource(Immunization.SOURCE.ALTERNATE);
+        immunization2.setOrganisationID("20171225");
 
         Weighted weighted = new Weighted();
 
@@ -31,12 +37,18 @@ public class WeightedTest extends TestCase {
         immunization1.setDate("20171225");
         immunization1.setLotNumber("test lot number 1");
         immunization1.setCVX("VCX 1");
+        immunization1.setMVX("MVX 1");
+        immunization1.setProductCode("pc 2");
         immunization1.setSource(Immunization.SOURCE.SOURCE);
+        immunization1.setOrganisationID("20171225");
 
         immunization2.setDate("20101102");
         immunization2.setLotNumber("test lot number 2");
         immunization2.setCVX("VCX 2");
+        immunization2.setMVX("MVX 2");
+        immunization2.setProductCode("pc 2");
         immunization2.setSource(Immunization.SOURCE.ALTERNATE);
+        immunization2.setOrganisationID("20171225");
 
         Weighted weighted = new Weighted();
 
@@ -53,12 +65,18 @@ public class WeightedTest extends TestCase {
         immunization1.setDate("20171225");
         immunization1.setLotNumber("test lot number");
         immunization1.setCVX("VCX");
+        immunization1.setMVX("MVX");
+        immunization1.setProductCode("pc");
         immunization1.setSource(Immunization.SOURCE.SOURCE);
+        immunization1.setOrganisationID("20171225");
 
         immunization2.setDate("20171225");
         immunization2.setLotNumber("test lot number");
         immunization2.setCVX("VCX");
-        immunization2.setSource(Immunization.SOURCE.SOURCE);
+        immunization2.setMVX("MVX");
+        immunization2.setProductCode("pc");
+        immunization2.setSource(Immunization.SOURCE.HISTORICAL);
+        immunization2.setOrganisationID("20171225");
 
         Weighted weighted = new Weighted();
 

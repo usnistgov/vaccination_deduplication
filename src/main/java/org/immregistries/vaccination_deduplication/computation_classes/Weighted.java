@@ -1,16 +1,13 @@
 package org.immregistries.vaccination_deduplication.computation_classes;
 
-
 import org.immregistries.vaccination_deduplication.Immunization;
 import org.immregistries.vaccination_deduplication.PropertyLoader;
 import org.immregistries.vaccination_deduplication.Result;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import static org.immregistries.vaccination_deduplication.utils.Matching.compareForWeighted;
-import static org.immregistries.vaccination_deduplication.utils.Matching.isThereAMatch;
 
 /**
  * Execute Step 2 : Evaluation phase using the weighted scoring approach
@@ -45,7 +42,32 @@ public class Weighted {
     public Result score(Immunization immunization1, Immunization immunization2, double minThreshold, double maxThreshold) {
         double score=0;
 
-        // TODO add CVX, MVX, ProductCode
+        // CVX
+        score += compareForWeighted(
+                immunization1.getCVX(),
+                immunization2.getCVX(),
+                parameters.get(PropertyLoader.WEIGHT_SAME_CVX),
+                parameters.get(PropertyLoader.WEIGHT_ABSENT_CVX),
+                parameters.get(PropertyLoader.WEIGHT_DIFFERENT_CVX)
+        );
+
+        // MVX
+        score += compareForWeighted(
+                immunization1.getMVX(),
+                immunization2.getMVX(),
+                parameters.get(PropertyLoader.WEIGHT_SAME_MVX),
+                parameters.get(PropertyLoader.WEIGHT_ABSENT_MVX),
+                parameters.get(PropertyLoader.WEIGHT_DIFFERENT_MVX)
+        );
+
+        // Product Code
+        score += compareForWeighted(
+                immunization1.getProductCode(),
+                immunization2.getProductCode(),
+                parameters.get(PropertyLoader.WEIGHT_SAME_PRODUCT_CODE),
+                parameters.get(PropertyLoader.WEIGHT_ABSENT_PRODUCT_CODE),
+                parameters.get(PropertyLoader.WEIGHT_DIFFERENT_PRODUCT_CODE)
+        );
 
     	// Lot Number
         score += compareForWeighted(
@@ -58,25 +80,10 @@ public class Weighted {
 
         // Date administered
         int dateDifferenceInDays = (int) ((immunization1.getDate().getTime() - immunization2.getDate().getTime()) / (24*60*60*1000));
-        System.out.println(dateDifferenceInDays);
-        if (dateDifferenceInDays > dateDifferenceWeight.size()) {
-            dateDifferenceInDays = dateDifferenceWeight.size();
+        if (dateDifferenceInDays >= dateDifferenceWeight.size()) {
+            dateDifferenceInDays = dateDifferenceWeight.size()-1;
         }
-        System.out.println(dateDifferenceInDays);
-        score+=dateDifferenceWeight.get(dateDifferenceInDays-1);
-
-        // Vaccine Group
-        if (!(immunization1.getVaccineGroupList().isEmpty() || immunization2.getVaccineGroupList().isEmpty())){
-            List<String> immunization1GroupList = immunization1.getVaccineGroupList();
-            List<String> immunization2GroupList = immunization2.getVaccineGroupList();
-
-        	if (isThereAMatch(immunization1GroupList, immunization2GroupList)) {
-        	    score+=parameters.get(PropertyLoader.WEIGHT_SAME_VACCINE_FAMILY);
-        	} else {
-        	    score+=parameters.get(PropertyLoader.WEIGHT_DIFFERENT_VACCINE_FAMILY);
-        	}
-        }
-        else{score+=parameters.get(PropertyLoader.WEIGHT_ABSENT_VACCINE_FAMILY);}
+        score+=dateDifferenceWeight.get(dateDifferenceInDays);
         
         // Provider Organization
         score += compareForWeighted(
@@ -154,7 +161,9 @@ public class Weighted {
 
     private void updateSminAndSmax() {
         double[] lotNumberWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_LOT_NUMBER),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_LOT_NUMBER),parameters.get(PropertyLoader.WEIGHT_ABSENT_LOT_NUMBER)};
-        double[] vaccineFamilyWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_VACCINE_FAMILY),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_VACCINE_FAMILY),parameters.get(PropertyLoader.WEIGHT_ABSENT_VACCINE_FAMILY)};
+        double[] cvxWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_CVX),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_CVX),parameters.get(PropertyLoader.WEIGHT_ABSENT_CVX)};
+        double[] mvxWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_MVX),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_MVX),parameters.get(PropertyLoader.WEIGHT_ABSENT_MVX)};
+        double[] productCodeWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_PRODUCT_CODE),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_PRODUCT_CODE),parameters.get(PropertyLoader.WEIGHT_ABSENT_PRODUCT_CODE)};
         double[] organisationIdWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_ORGANISATION_ID),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_ORGANISATION_ID),parameters.get(PropertyLoader.WEIGHT_ABSENT_ORGANISATION_ID)};
         double[] sourceWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_SOURCE_ADMIN),parameters.get(PropertyLoader.WEIGHT_SAME_SOURCE_HISTORICAL),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_SOURCE),parameters.get(PropertyLoader.WEIGHT_ABSENT_SOURCE)};
 
@@ -162,13 +171,17 @@ public class Weighted {
         this.Smin =
                 getMinimum(lotNumberWeight) +
                 getMinimum(dateDifferenceWeight) +
-                getMinimum(vaccineFamilyWeight) +
+                getMinimum(cvxWeight) +
+                getMinimum(mvxWeight) +
+                getMinimum(productCodeWeight) +
                 getMinimum(organisationIdWeight) +
                 getMinimum(sourceWeight);
         this.Smax =
                 getMaximum(lotNumberWeight) +
                 getMaximum(dateDifferenceWeight) +
-                getMaximum(vaccineFamilyWeight) +
+                getMaximum(cvxWeight) +
+                getMaximum(mvxWeight) +
+                getMaximum(productCodeWeight) +
                 getMaximum(organisationIdWeight ) +
                 getMaximum(sourceWeight);
     }

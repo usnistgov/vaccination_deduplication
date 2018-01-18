@@ -48,20 +48,23 @@ public class StepOne {
     public ArrayList<LinkedImmunization> multipleSelection(ArrayList<Immunization> immunizations) {
     	ArrayList<Immunization> immunizationsCopy = immunizations; // We make a copy because we are going to modify it within this method
     	ArrayList<LinkedImmunization> LinkedImmArray = new ArrayList<LinkedImmunization>();
-    	for (Immunization i : immunizationsCopy){
-    		LinkedImmunization LinkedImm = new LinkedImmunization(i);
-    		for (Immunization j : immunizationsCopy){ // if an immunization i is linked with another immunization j, we check if j date window is met with all the immunization already linked with i
-    			if (selectionPhase(i, j)){
-    				boolean dateWindowMet = true;
-    				for (Immunization k : LinkedImm){
-    					if(!(dateWindowMet(j,k)))
-    							dateWindowMet = false;
+    	for (int i=0; i<immunizations.size(); i++){
+    		LinkedImmunization LinkedImm = new LinkedImmunization();
+    		LinkedImm.add(immunizations.get(i));
+    		for (int j=0; j<immunizationsCopy.size();j++){ // if an immunization i is linked with another immunization j, we check if j date window is met with all the immunization already linked with i
+    			if (selectionPhase(immunizations.get(i), immunizationsCopy.get(j))){
+    				boolean dateWindowMet = false;
+    				for (int k=0; k<LinkedImm.size();k++){
+    					if (!immunizationsCopy.get(j).equals(LinkedImm.get(k))){
+    						if(dateWindowMet(immunizationsCopy.get(j), LinkedImm.get(k)))
+    							dateWindowMet = true;
+    					}
     				}
     				if (dateWindowMet)
-    					LinkedImm.addImmunization(j);
+    					LinkedImm.add(immunizationsCopy.get(j));
     		}
     	}
-    		if (LinkedImm.getSize() > 1){ // If we find at least 2 linked immunizations records, we add it to the LinkedImmunization ArrayList to return 
+    		if (LinkedImm.size() > 1){ // If we find at least 2 linked immunizations records, we add it to the LinkedImmunization ArrayList to return 
     			LinkedImmArray.add(LinkedImm);
     			for (Immunization k : LinkedImm) // We remove from the copy all the immunizations whose linked have already been established
     				immunizationsCopy.remove(k);

@@ -23,9 +23,9 @@ public class Deterministic {
 	// TODO change name
 	public Result score(Immunization immunization1, Immunization immunization2) {
 		DeterministicResult lotNumberResult ; 
+		DeterministicResult dateResult; 
 		DeterministicResult cvxResult; 
 		DeterministicResult mvxResult;
-		DeterministicResult dateResult; 
 		DeterministicResult organizationIdResult;
 		DeterministicResult sourceResult;
 
@@ -41,7 +41,6 @@ public class Deterministic {
 		cvxResult = compareArgument(immunization1.getCVX(), immunization2.getCVX());
 		lotNumberResult = compareArgument(immunization1.getLotNumber(), immunization2.getLotNumber());
 		mvxResult = compareArgument(immunization1.getMVX(), immunization2.getMVX());
-		// TODO missing vaccine Group and vaccine product code
 
 		if ((immunization1.getSource()== null && immunization2.getSource() == null ))
 		{
@@ -57,7 +56,7 @@ public class Deterministic {
 		}
 		else 
 		{
-	sourceResult	= DeterministicResult.DIFFERENT;
+			sourceResult	= DeterministicResult.DIFFERENT;
 		}
 		return sumResult(immunization1,immunization2,sourceResult,lotNumberResult,cvxResult,organizationIdResult ,mvxResult,dateResult);
 			
@@ -93,19 +92,28 @@ public class Deterministic {
 		int likelyMatch = 0; 
 		int likelyDifferent = 0 ; 
 		int noOutcome = 0; 
-		//Lot Numbers rule 
+		/**Lot Numbers rule
+		 * If vaccine lot numbers are different in evaluated records, 
+		 * these records are most likely to be different. 
+		 */
 		if (lotNumberResult==DeterministicResult.DIFFERENT)
 		{
 			likelyDifferent++;
 		}
 		else {noOutcome++;}	
-		//Date
+		/** Date rule 
+		 * If vaccination  encounter dates are the same in evaluated records, 
+		 * these records are most likely to be duplicates.
+		 */
 		if(dateResult==DeterministicResult.SAME)
 		{
 			likelyMatch++;
 		}
 		else {noOutcome++;}
-		//Distintive variables 
+		/**
+		 * Distinctive combinations of variables should be considered for the evaluation 
+		 * of candidates records.
+		 */
 		if(lotNumberResult==DeterministicResult.DIFFERENT && cvxResult==DeterministicResult.SAME && tradeNameResult==DeterministicResult.SAME && organizationIdResult==DeterministicResult.SAME)
 		{																																																																																																																																																																																																																																																																									{
 			likelyMatch++;
@@ -122,7 +130,12 @@ public class Deterministic {
 		{
 			noOutcome++ ;
 		}
-		//Different Submitting Providers
+		/** If Record Source Types are “Administered” in evaluated records and are from
+		*different providers, these records are most likely to be different (not duplicates).
+		*If Record Source Type is “Administered” in one record and “Historical” in another 
+		*record and vaccination dates are close(P11),
+		*these records are most likely to be duplicates. 
+		*/
 		if( organizationIdResult != DeterministicResult.SAME && immunization1.getSource() == SOURCE.SOURCE && immunization2.getSource() == SOURCE.SOURCE) 
 		{
 			likelyDifferent++; 

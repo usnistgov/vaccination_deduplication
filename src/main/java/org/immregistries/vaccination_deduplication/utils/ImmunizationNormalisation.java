@@ -13,7 +13,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 public class ImmunizationNormalisation {
     private static ImmunizationNormalisation instance;
@@ -65,9 +64,7 @@ public class ImmunizationNormalisation {
     }
 
     public void normalizeAllImmunizations(LinkedImmunization linkedImmunization){
-        ArrayList<Immunization> immunizations = linkedImmunization.getImmunizations();
-
-        for (Immunization immunization : immunizations) {
+        for (Immunization immunization : linkedImmunization) {
             normalizeImmunization(immunization);
         }
     }

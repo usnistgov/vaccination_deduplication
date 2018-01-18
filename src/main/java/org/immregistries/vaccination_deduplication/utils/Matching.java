@@ -2,9 +2,6 @@ package org.immregistries.vaccination_deduplication.utils;
 
 import java.util.List;
 
-/**
- * Created by Ansel on 17/01/2018.
- */
 public class Matching {
     public static boolean isThereAMatch(List<String> list1, List<String> list2) {
         for (String s1 : list1) {

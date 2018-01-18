@@ -1,6 +1,7 @@
 package org.immregistries.vaccination_deduplication;
 
 import org.immregistries.vaccination_deduplication.computation_classes.Deterministic;
+import org.immregistries.vaccination_deduplication.computation_classes.StepOne;
 import org.immregistries.vaccination_deduplication.computation_classes.Weighted;
 import org.immregistries.vaccination_deduplication.utils.ImmunizationNormalisation;
 
@@ -39,6 +40,10 @@ public class Workclass {
      */
     public ArrayList<LinkedImmunization> deduplicateWeighted(LinkedImmunization patientImmunizationRecords) {
         immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
+
+        StepOne stepOne = new StepOne();
+        stepOne.multipleSelection(patientImmunizationRecords);
+
         Weighted weighted = new Weighted();
         Result result;
 
@@ -46,7 +51,7 @@ public class Workclass {
         int i = 1;
         int j = 2;
 
-        result = weighted.score(patientImmunizationRecords.getImmunizations().get(i), patientImmunizationRecords.getImmunizations().get(j));
+        result = weighted.score(patientImmunizationRecords.get(i), patientImmunizationRecords.get(j));
 
         return null;
     }
@@ -65,7 +70,7 @@ public class Workclass {
         int i = 1;
         int j = 2;
 
-        result = deterministic.score(patientImmunizationRecords.getImmunizations().get(i), patientImmunizationRecords.getImmunizations().get(j));
+        result = deterministic.score(patientImmunizationRecords.get(i), patientImmunizationRecords.get(j));
         return null;
     }
 
@@ -84,8 +89,8 @@ public class Workclass {
         // TODO compare 2 by 2
         int i = 1;
         int j = 2;
-        result1 = weighted.score(patientImmunizationRecords.getImmunizations().get(i), patientImmunizationRecords.getImmunizations().get(j));
-        result2 = deterministic.score(patientImmunizationRecords.getImmunizations().get(i), patientImmunizationRecords.getImmunizations().get(j));
+        result1 = weighted.score(patientImmunizationRecords.get(i), patientImmunizationRecords.get(j));
+        result2 = deterministic.score(patientImmunizationRecords.get(i), patientImmunizationRecords.get(j));
 
         return null;
     }

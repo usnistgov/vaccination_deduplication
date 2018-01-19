@@ -35,15 +35,13 @@ public class StepOne {
 		
 		// Same vaccine family ? Check Vaccine Goup
 		boolean sameVaccineFamily = false;
-		if (!(immunization1.getVaccineGroupList()==null && immunization2.getVaccineGroupList()==null)){
-			if (!(immunization1.getVaccineGroupList().isEmpty() || immunization2.getVaccineGroupList().isEmpty())){
+		if (!(immunization1.getVaccineGroupList()==null || immunization2.getVaccineGroupList()==null)){
 				List<String> immunization1GroupList = immunization1.getVaccineGroupList();
 	            List<String> immunization2GroupList = immunization2.getVaccineGroupList();
 
 	        	if (Matching.isThereAMatch(immunization1GroupList, immunization2GroupList)) {
 	        		sameVaccineFamily = true;
 	        	}
-			}
 		}
 
 		
@@ -51,9 +49,9 @@ public class StepOne {
 		boolean notIdenticalVaccinationEvent = false;
 		if (immunization1.getDate().equals(immunization2.getDate()) && immunization1.getOrganisationID().equals(immunization2.getOrganisationID()) && immunization1.getCVX().equals(immunization2.getCVX())){
 			notIdenticalVaccinationEvent = true;	
-		}		
+		}
 		
-		return (dateWindowMet && sameVaccineFamily && notIdenticalVaccinationEvent);
+		return (dateWindowMet && sameVaccineFamily && !notIdenticalVaccinationEvent);
     }
 
     public ArrayList<LinkedImmunization> multipleSelection(ArrayList<Immunization> immunizations) {

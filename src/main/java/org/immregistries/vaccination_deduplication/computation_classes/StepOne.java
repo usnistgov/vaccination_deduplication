@@ -1,6 +1,7 @@
 package org.immregistries.vaccination_deduplication.computation_classes;
 
 import org.immregistries.vaccination_deduplication.Immunization;
+import org.immregistries.vaccination_deduplication.StepOneResult;
 import org.immregistries.vaccination_deduplication.utils.Matching;
 import org.immregistries.vaccination_deduplication.LinkedImmunization;
 import org.immregistries.vaccination_deduplication.PropertyLoader;
@@ -21,6 +22,17 @@ public class StepOne {
         this.dateWindow = propertyLoader.getDateWindow();
 	}
 
+	public boolean dateWindowMet(Immunization immunization1, Immunization immunization2){
+		boolean dateWindowMet = false;
+		long duration;
+		long date1 = immunization1.getDate().getTime();
+		long date2 = immunization2.getDate().getTime();
+		duration = (date2 - date1)/86400000; // 1000 ms * 60s * 60min * 24h = 86.400.000 ms = 1 day
+		if (duration < this.dateWindow)
+			dateWindowMet = true;
+		return dateWindowMet;
+	}
+
     /**
      * Determines selection phase outcome. Records must be evaluated if they verify 3 different factors : 
      * date window met,  same vaccine family and Not identical vaccination event.
@@ -29,13 +41,14 @@ public class StepOne {
      * @param immunization2 are the records to compare to each other
      * @return true if the records must be evaluated or false if the records must not be evaluated
      */
-    public boolean selectionPhase(Immunization immunization1, Immunization immunization2) {
+    public boolean isPotentialDuplicate(Immunization immunization1, Immunization immunization2) {
     	// Date window met ?    	
     	boolean dateWindowMet = dateWindowMet(immunization1, immunization2);
 		
 		// Same vaccine family ? Check Vaccine Goup
 		boolean sameVaccineFamily = false;
-		if (!(immunization1.getVaccineGroupList()==null || immunization2.getVaccineGroupList()==null)){
+		if (!(immunization1.getVaccineGroupList()==null || immunization2.getVaccineGroupList()==null ||
+                immunization1.getVaccineGroupList().isEmpty() || immunization2.getVaccineGroupList().isEmpty())){
 				List<String> immunization1GroupList = immunization1.getVaccineGroupList();
 	            List<String> immunization2GroupList = immunization2.getVaccineGroupList();
 
@@ -54,43 +67,27 @@ public class StepOne {
 		return (dateWindowMet && sameVaccineFamily && !notIdenticalVaccinationEvent);
     }
 
-    public ArrayList<LinkedImmunization> multipleSelection(LinkedImmunization immunizations) {
-		ArrayList<Immunization> immunizationsCopy = new ArrayList<Immunization>(immunizations); // We make a copy because we are going to modify it within this method
+	public StepOneResult executeStepOne(LinkedImmunization immunizations) {
+        LinkedImmunization toEvaluate = new LinkedImmunization();
+        LinkedImmunization notToEvaluate = new LinkedImmunization();
 
-    	ArrayList<LinkedImmunization> LinkedImmArray = new ArrayList<LinkedImmunization>();
-    	for (int i=0; i<immunizations.size(); i++){
-    		LinkedImmunization LinkedImm = new LinkedImmunization();
-    		LinkedImm.add(immunizations.get(i));
-    		for (int j=0; j<immunizationsCopy.size();j++){ // if an immunization i is linked with another immunization j, we check if j date window is met with all the immunization already linked with i
-    			if (selectionPhase(immunizations.get(i), immunizationsCopy.get(j))){
-    				boolean dateWindowMet = false;
-    				for (int k=0; k<LinkedImm.size();k++){
-    					if (!immunizationsCopy.get(j).equals(LinkedImm.get(k))){
-    						if(dateWindowMet(immunizationsCopy.get(j), LinkedImm.get(k)))
-    							dateWindowMet = true;
-    					}
-    				}
-    				if (dateWindowMet)
-    					LinkedImm.add(immunizationsCopy.get(j));
-    		}
-    	}
-    		if (LinkedImm.size() > 1){ // If we find at least 2 linked immunizations records, we add it to the LinkedImmunization ArrayList to return 
-    			LinkedImmArray.add(LinkedImm);
-    			for (Immunization k : LinkedImm) // We remove from the copy all the immunizations whose linked have already been established
-    				immunizationsCopy.remove(k);
-    			}
-    	}
-        return LinkedImmArray;
-    }
-    
-    public boolean dateWindowMet(Immunization immunization1, Immunization immunization2){
-    	boolean dateWindowMet = false;
-        long duration;
-    	long date1 = immunization1.getDate().getTime();
-    	long date2 = immunization2.getDate().getTime();	
-		duration = (date2 - date1)/86400000; // 1000 ms * 60s * 60min * 24h = 86.400.000 ms = 1 day
-		if (duration < this.dateWindow)
-			dateWindowMet = true;
-    return dateWindowMet;
-    }
+        boolean potentialDuplicate = false;
+
+        for (int i = 0; i < immunizations.size(); i++) {
+            potentialDuplicate = false;
+            for (int j = 0; j < immunizations.size(); j++) {
+                if (i != j && // We don't want to compare a record with itself
+                        isPotentialDuplicate(immunizations.get(i), immunizations.get(j))) {
+                    potentialDuplicate = true;
+                }
+            }
+            if (potentialDuplicate) {
+                toEvaluate.add(immunizations.get(i));
+            } else {
+                notToEvaluate.add(immunizations.get(i));
+            }
+        }
+
+        return new StepOneResult(toEvaluate, notToEvaluate);
+	}
 }

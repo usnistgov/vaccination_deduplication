@@ -7,6 +7,7 @@ import org.immregistries.vaccination_deduplication.utils.ImmunizationNormalisati
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * 
@@ -42,16 +43,26 @@ public class Workclass {
         immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
 
         StepOne stepOne = new StepOne();
-        stepOne.multipleSelection(patientImmunizationRecords);
+        ArrayList<LinkedImmunization> groupedImmunizationRecords = stepOne.multipleSelection(patientImmunizationRecords);
 
         Weighted weighted = new Weighted();
         Result result;
+        ArrayList<ArrayList<Result>> Results;
 
-        // TODO compare 2 by 2
-        int i = 1;
-        int j = 2;
 
-        result = weighted.score(patientImmunizationRecords.get(i), patientImmunizationRecords.get(j));
+        for (LinkedImmunization immunizationGroup : groupedImmunizationRecords) {
+
+            ArrayList<Result> R = new ArrayList<Result>(Collections.nCopies(immunizationGroup.size(),  Result.UNSURE));
+            Results = new ArrayList<ArrayList<Result>>(Collections.nCopies(immunizationGroup.size(),  R));
+
+            for (int i = 0; i < immunizationGroup.size(); i ++) {
+                for (int j = i; j < immunizationGroup.size(); j ++) {
+                    Results.get(i).set(j, weighted.score(immunizationGroup.get(i), immunizationGroup.get(j)));
+
+
+                }
+            }
+        }
 
         return null;
     }

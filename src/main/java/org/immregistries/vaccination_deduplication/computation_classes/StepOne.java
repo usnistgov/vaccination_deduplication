@@ -45,8 +45,9 @@ public class StepOne {
 		return (dateWindowMet && sameVaccineFamily && notIdenticalVaccinationEvent);
     }
 
-    public ArrayList<LinkedImmunization> multipleSelection(ArrayList<Immunization> immunizations) {
-    	ArrayList<Immunization> immunizationsCopy = immunizations; // We make a copy because we are going to modify it within this method
+    public ArrayList<LinkedImmunization> multipleSelection(LinkedImmunization immunizations) {
+		ArrayList<Immunization> immunizationsCopy = new ArrayList<Immunization>(immunizations); // We make a copy because we are going to modify it within this method
+
     	ArrayList<LinkedImmunization> LinkedImmArray = new ArrayList<LinkedImmunization>();
     	for (int i=0; i<immunizations.size(); i++){
     		LinkedImmunization LinkedImm = new LinkedImmunization();

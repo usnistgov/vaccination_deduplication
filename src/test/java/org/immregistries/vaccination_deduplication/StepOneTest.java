@@ -1,5 +1,6 @@
 package org.immregistries.vaccination_deduplication;
 
+import java.io.LineNumberReader;
 import java.util.ArrayList;
 
 import org.immregistries.vaccination_deduplication.computation_classes.StepOne;
@@ -73,7 +74,7 @@ public class StepOneTest extends TestCase {
          immunization5.setCVX("83");
          immunization5.setSource(Immunization.SOURCE.SOURCE);
          
-         immunization6.setDate("20160605");   
+         immunization6.setDate("20160605");
          immunization6.setCVX("08");
          immunization6.setSource(Immunization.SOURCE.SOURCE);
          
@@ -89,7 +90,7 @@ public class StepOneTest extends TestCase {
          // Add the expected linked immunization to the array which will be 
          //compare with the one built by the StepOne class' multipleSelection method
           
-      	ArrayList<Immunization> immunizations = new ArrayList<Immunization>();
+      	LinkedImmunization immunizations = new LinkedImmunization();
       	LinkedImmunization expectedLinkedImmunization = new LinkedImmunization();
       	ArrayList<LinkedImmunization> expectedLinkedArray = new ArrayList<LinkedImmunization>();
       	

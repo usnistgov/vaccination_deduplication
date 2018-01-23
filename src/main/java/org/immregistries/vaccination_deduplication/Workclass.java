@@ -8,6 +8,7 @@ import org.immregistries.vaccination_deduplication.utils.ImmunizationNormalisati
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * 
@@ -33,6 +34,15 @@ public class Workclass {
         this.immunizationNormalisation.refreshCodebase(codebaseFilePath);
     }
 
+
+    public boolean lineHas(ArrayList<Result> line, Result result) {
+        for (Result r : line)
+            if (r.equals(result))
+                return true;
+
+        return false;
+    }
+
     /**
      * Launch the deduplication process using the weighted approach
      * 
@@ -43,28 +53,77 @@ public class Workclass {
         immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
 
         StepOne stepOne = new StepOne();
-        ArrayList<LinkedImmunization> groupedImmunizationRecords = stepOne.multipleSelection(patientImmunizationRecords);
+        StepOneResult stepOneResult = stepOne.executeStepOne(patientImmunizationRecords);
+        LinkedImmunization toEvaluate = stepOneResult.getToEvaluate();
 
         Weighted weighted = new Weighted();
-        Result result;
         ArrayList<ArrayList<Result>> Results;
 
+        HashMap<Integer, LinkedImmunization> groups = new HashMap<Integer, LinkedImmunization>();
 
-        for (LinkedImmunization immunizationGroup : groupedImmunizationRecords) {
+        ArrayList<Result> R = new ArrayList<Result>(Collections.nCopies(toEvaluate.size(),  Result.TO_BE_DETERMINED));
+        Results = new ArrayList<ArrayList<Result>>(Collections.nCopies(toEvaluate.size(),  R));
 
-            ArrayList<Result> R = new ArrayList<Result>(Collections.nCopies(immunizationGroup.size(),  Result.UNSURE));
-            Results = new ArrayList<ArrayList<Result>>(Collections.nCopies(immunizationGroup.size(),  R));
+        for (int i = 0; i < toEvaluate.size(); i ++) {
+            for (int j = i; j < toEvaluate.size(); j ++) {
+                Result result = weighted.score(toEvaluate.get(i), toEvaluate.get(j));
+                Results.get(i).set(j, result);
 
-            for (int i = 0; i < immunizationGroup.size(); i ++) {
-                for (int j = i; j < immunizationGroup.size(); j ++) {
-                    Results.get(i).set(j, weighted.score(immunizationGroup.get(i), immunizationGroup.get(j)));
-
-
+                if (result.equals(Result.EQUAL)) {
+                    if(groups.containsKey(i)) {
+                        groups.get(i).add(toEvaluate.get(j));
+                    } else if(groups.containsKey(j)) {
+                        groups.get(j).add(toEvaluate.get(i));
+                    } else {
+                        LinkedImmunization group = new LinkedImmunization();
+                        group.add(toEvaluate.get(i));
+                        group.add(toEvaluate.get(j));
+                        groups.put(i, group);
+                        groups.put(j, group);
+                    }
                 }
             }
         }
 
-        return null;
+        ArrayList<LinkedImmunization> GroupedImmunizations = new ArrayList<LinkedImmunization>();
+
+
+        for (Integer key:groups.keySet()) {
+            if (!GroupedImmunizations.contains(groups.get(key))) {
+                GroupedImmunizations.add(groups.get(key));
+            }
+        }
+
+        boolean contains = false;
+        LinkedImmunization different = new LinkedImmunization();
+        for (int i = 0; i < toEvaluate.size(); i ++) {
+            contains = false;
+            for (Integer j:groups.keySet()) {
+                if (i == j)
+                    contains = true;
+            }
+
+            if (!contains) { // leftovers
+                if (lineHas(Results.get(i), Result.UNSURE)) {
+                    ArrayList<Result> line = Results.get(i);
+                    LinkedImmunization group = new LinkedImmunization();
+                    group.add(toEvaluate.get(i));
+                    for (int j = 0; j < toEvaluate.size(); j++) {
+                        if (line.get(j).equals(Result.UNSURE)) {
+                            group.add(toEvaluate.get(j));
+                        }
+                    }
+                    GroupedImmunizations.add(group);
+                } else if(!lineHas(Results.get(i), Result.EQUAL)) {
+                    different.add(toEvaluate.get(i));
+                }
+            }
+        }
+
+        GroupedImmunizations.add(different);
+
+
+        return GroupedImmunizations;
     }
 
     /**

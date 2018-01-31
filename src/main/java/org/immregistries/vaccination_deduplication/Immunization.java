@@ -105,4 +105,18 @@ public class Immunization {
     public void setSource(SOURCE source) {
         this.source = source;
     }
+
+    @Override
+    public String toString() {
+        return "Immunization{" +
+                "CVX='" + CVX + '\'' +
+                ", vaccineGroupList=" + vaccineGroupList +
+                ", MVX='" + MVX + '\'' +
+                ", productCode='" + productCode + '\'' +
+                ", date=" + date +
+                ", lotNumber='" + lotNumber + '\'' +
+                ", organisationID='" + organisationID + '\'' +
+                ", source=" + source +
+                '}';
+    }
 }

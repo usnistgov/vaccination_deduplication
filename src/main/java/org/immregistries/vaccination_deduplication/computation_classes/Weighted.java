@@ -79,9 +79,13 @@ public class Weighted implements Comparer {
         );
 
         // Date administered
+        // TODO review calculations
         int dateDifferenceInDays = (int) ((immunization1.getDate().getTime() - immunization2.getDate().getTime()) / (24*60*60*1000));
         if (dateDifferenceInDays >= dateDifferenceWeight.size()) {
             dateDifferenceInDays = dateDifferenceWeight.size()-1;
+        }
+        if (dateDifferenceInDays < 0) {
+            dateDifferenceInDays = 0;
         }
         score+=dateDifferenceWeight.get(dateDifferenceInDays);
         

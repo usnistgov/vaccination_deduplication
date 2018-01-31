@@ -16,20 +16,20 @@ import java.util.HashMap;
  */
 // TODO change name
 public class Workclass {
-    ImmunizationNormalisation immunizationNormalisation;
+    //ImmunizationNormalisation immunizationNormalisation;
 
     public Workclass(String codebaseFilePath) throws FileNotFoundException {
-        this.immunizationNormalisation = ImmunizationNormalisation.getInstance();
-        this.immunizationNormalisation.initialize(codebaseFilePath);
+        //this.immunizationNormalisation = ImmunizationNormalisation.getInstance();
+        //this.immunizationNormalisation.initialize(codebaseFilePath);
     }
 
     public Workclass() {
-        this.immunizationNormalisation = ImmunizationNormalisation.getInstance();
-        this.immunizationNormalisation.initialize();
+        //this.immunizationNormalisation = ImmunizationNormalisation.getInstance();
+        //this.immunizationNormalisation.initialize();
     }
 
     public void refreshCodebase(String codebaseFilePath) throws FileNotFoundException {
-        this.immunizationNormalisation.refreshCodebase(codebaseFilePath);
+        //this.immunizationNormalisation.refreshCodebase(codebaseFilePath);
     }
 
 
@@ -49,10 +49,12 @@ public class Workclass {
         for (int i = 0; i < results.size(); i++) {
             boolean lineHasEqual = false;
             LinkedImmunization unsure = new LinkedImmunization();
+            unsure.setType(LinkedImmunization.TYPE.UNSURE);
             unsure.add(toEvaluate.get(i));
 
             LinkedImmunization different = new LinkedImmunization();
             different.add(toEvaluate.get(i));
+            different.setType(LinkedImmunization.TYPE.DIFFERENT);
 
             for (int j = 0; j < results.size(); j++) {
                 if (results.get(i).get(j).equals(Result.EQUAL)) {
@@ -67,6 +69,7 @@ public class Workclass {
                         groups.put(i, groups.get(j));
                     } else {
                         LinkedImmunization group = new LinkedImmunization();
+                        group.setType(LinkedImmunization.TYPE.SURE);
                         group.add(toEvaluate.get(i));
                         group.add(toEvaluate.get(j));
                         groups.put(i, group);
@@ -147,7 +150,7 @@ public class Workclass {
                 comparer = new Hybrid();
         }
 
-        immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
+        //immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
 
         StepOne stepOne = new StepOne();
         StepOneResult stepOneResult = stepOne.executeStepOne(patientImmunizationRecords);

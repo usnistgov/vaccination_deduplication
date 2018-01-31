@@ -12,7 +12,7 @@ import java.util.Iterator;
  */
 
 public class LinkedImmunization extends ArrayList<Immunization> {
-	public enum TYPE {SURE, UNSURE, SINGLETON}
+	public enum TYPE {SURE, UNSURE, DIFFERENT}
 
     private TYPE type;
 
@@ -22,5 +22,30 @@ public class LinkedImmunization extends ArrayList<Immunization> {
 
     public void setType(TYPE type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        String s = "";
+
+        if (type != null)
+            switch (this.type) {
+                case SURE:
+                    s += "TYPE = sure\n";
+                case UNSURE:
+                    s += "TYPE = unsure\n";
+                case DIFFERENT:
+                    s += "TYPE = different\n";
+            }
+        else
+            s += "TYPE = not set\n";
+
+        s += "{\n";
+
+        for (Immunization immunization : this) {
+            s += "\t" + immunization.toString() + "\n";
+        }
+        s += "}\n";
+        return s;
     }
 }

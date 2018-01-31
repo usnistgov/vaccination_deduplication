@@ -13,7 +13,7 @@ public class Matching {
     }
 
     public static double compareForWeighted(String s1, String s2, double scoreSame, double scoreAbsent, double scoreDifferent) {
-        if (!(s1.isEmpty() || s2.isEmpty())){
+        if (!(s1 == null || s2 == null) && !(s1.length() == 0 || s2.length() == 0)){
             if (s1.equals(s2)) {
                 return scoreSame; // Present and same
             }

@@ -2,6 +2,7 @@ package org.immregistries.vaccination_deduplication;
 
 import java.io.LineNumberReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.immregistries.vaccination_deduplication.computation_classes.StepOne;
@@ -10,7 +11,7 @@ import junit.framework.TestCase;
 
 public class StepOneTest extends TestCase {
 	
-	
+
     public void testSelection() throws Exception {
     	
     	// Init Immunizations
@@ -21,8 +22,7 @@ public class StepOneTest extends TestCase {
 
         immunization1.setDate("20161217");   
         immunization1.setCVX("03");
-        vaccineGroupList.add("MMR");
-		immunization1.setVaccineGroupList(vaccineGroupList);
+		immunization1.setVaccineGroupList(new ArrayList<String>(Arrays.asList("MMR")));
         immunization1.setProductCode("");
         immunization1.setOrganisationID("Mercy Hospital");
         immunization1.setSource(Immunization.SOURCE.HISTORICAL);
@@ -30,16 +30,14 @@ public class StepOneTest extends TestCase {
 
         immunization2.setDate("20161218");
         immunization2.setCVX("03");
-        vaccineGroupList.clear();
-        vaccineGroupList.add("MMR");
-		immunization2.setVaccineGroupList(vaccineGroupList);
+        immunization2.setVaccineGroupList(new ArrayList<String>(Arrays.asList("MMR")));
         immunization2.setProductCode("");
         immunization2.setOrganisationID("Medicare");
         immunization2.setSource(Immunization.SOURCE.HISTORICAL);
         immunization2.setLotNumber("");
         
         StepOne stepOne = new StepOne();
-        boolean result = stepOne.selectionPhase(immunization1, immunization2);
+        boolean result = stepOne.isPotentialDuplicate(immunization1, immunization2);
         
         assertEquals(true, result);
         

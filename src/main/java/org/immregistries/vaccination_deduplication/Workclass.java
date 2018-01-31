@@ -163,12 +163,14 @@ public class Workclass {
         ArrayList<Result> R = new ArrayList<Result>(Collections.nCopies(toEvaluate.size(),  Result.TO_BE_DETERMINED));
         results = new ArrayList<ArrayList<Result>>(Collections.nCopies(toEvaluate.size(),  R));
 
-        for (int i = 0; i < toEvaluate.size(); i ++) {
-            for (int j = i; j < toEvaluate.size(); j ++) {
+        for (int i = 0; i < toEvaluate.size()-1; i ++) {
+            for (int j = i+1; j < toEvaluate.size(); j ++) {
                 Result result = comparer.score(toEvaluate.get(i), toEvaluate.get(j));
                 results.get(i).set(j, result);
             }
         }
+
+        // TODO add back in not to compare
 
         return postprocessing(toEvaluate, results);
     }

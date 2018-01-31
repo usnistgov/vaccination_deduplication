@@ -30,6 +30,10 @@ public class CompleteTest extends TestCase {
         Workclass workclass = new Workclass();
         ArrayList<LinkedImmunization> result = workclass.deduplicateWeighted(patientRecords);
 
+        for (LinkedImmunization linkedImmunization:result) {
+            System.out.println(linkedImmunization.toString());
+        }
+
         assertEquals(true, true);
     }
 
@@ -40,6 +44,10 @@ public class CompleteTest extends TestCase {
 
         Workclass workclass = new Workclass();
         ArrayList<LinkedImmunization> result = workclass.deduplicateHybrid(patientRecords);
+
+        for (LinkedImmunization linkedImmunization:result) {
+            System.out.println(linkedImmunization.toString());
+        }
 
         assertEquals(true, true);
     }

@@ -12,15 +12,14 @@ import java.util.Iterator;
  */
 
 public class LinkedImmunization extends ArrayList<Immunization> {
-	public enum TYPE {SURE, UNSURE, DIFFERENT}
 
-    private TYPE type;
+    private LinkedImmunizationType type;
 
-    public TYPE getType() {
+    public LinkedImmunizationType getType() {
         return type;
     }
 
-    public void setType(TYPE type) {
+    public void setType(LinkedImmunizationType type) {
         this.type = type;
     }
 

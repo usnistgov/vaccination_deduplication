@@ -1,8 +1,6 @@
 package org.immregistries.vaccination_deduplication;
 
-import org.immregistries.vaccination_deduplication.computation_classes.Deterministic;
-import org.immregistries.vaccination_deduplication.computation_classes.StepOne;
-import org.immregistries.vaccination_deduplication.computation_classes.Weighted;
+import org.immregistries.vaccination_deduplication.computation_classes.*;
 import org.immregistries.vaccination_deduplication.utils.ImmunizationNormalisation;
 
 import java.io.*;
@@ -43,37 +41,30 @@ public class Workclass {
         return false;
     }
 
-    /**
-     * Launch the deduplication process using the weighted approach
-     * 
-     * @param patientImmunizationRecords
-     * @return
-     */
-    public ArrayList<LinkedImmunization> deduplicateWeighted(LinkedImmunization patientImmunizationRecords) {
-        immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
-
-        StepOne stepOne = new StepOne();
-        StepOneResult stepOneResult = stepOne.executeStepOne(patientImmunizationRecords);
-        LinkedImmunization toEvaluate = stepOneResult.getToEvaluate();
-
-        Weighted weighted = new Weighted();
-        ArrayList<ArrayList<Result>> Results;
-
+    public ArrayList<LinkedImmunization> postprocessing(LinkedImmunization toEvaluate, ArrayList<ArrayList<Result>> results) {
         HashMap<Integer, LinkedImmunization> groups = new HashMap<Integer, LinkedImmunization>();
+        ArrayList<LinkedImmunization> unsures = new ArrayList<LinkedImmunization>();
+        ArrayList<LinkedImmunization> differents = new ArrayList<LinkedImmunization>();
 
-        ArrayList<Result> R = new ArrayList<Result>(Collections.nCopies(toEvaluate.size(),  Result.TO_BE_DETERMINED));
-        Results = new ArrayList<ArrayList<Result>>(Collections.nCopies(toEvaluate.size(),  R));
+        for (int i = 0; i < results.size(); i++) {
+            boolean lineHasEqual = false;
+            LinkedImmunization unsure = new LinkedImmunization();
+            unsure.add(toEvaluate.get(i));
 
-        for (int i = 0; i < toEvaluate.size(); i ++) {
-            for (int j = i; j < toEvaluate.size(); j ++) {
-                Result result = weighted.score(toEvaluate.get(i), toEvaluate.get(j));
-                Results.get(i).set(j, result);
+            LinkedImmunization different = new LinkedImmunization();
+            different.add(toEvaluate.get(i));
 
-                if (result.equals(Result.EQUAL)) {
-                    if(groups.containsKey(i)) {
+            for (int j = 0; j < results.size(); j++) {
+                if (results.get(i).get(j).equals(Result.EQUAL)) {
+                    lineHasEqual = true;
+                    if(groups.containsKey(i) && groups.containsKey(j)) {
+
+                    } else if(groups.containsKey(i)) {
                         groups.get(i).add(toEvaluate.get(j));
+                        groups.put(j, groups.get(i));
                     } else if(groups.containsKey(j)) {
                         groups.get(j).add(toEvaluate.get(i));
+                        groups.put(i, groups.get(j));
                     } else {
                         LinkedImmunization group = new LinkedImmunization();
                         group.add(toEvaluate.get(i));
@@ -81,49 +72,42 @@ public class Workclass {
                         groups.put(i, group);
                         groups.put(j, group);
                     }
+                } else if (results.get(i).get(j).equals(Result.UNSURE)) {
+                    unsure.add(toEvaluate.get(j));
+                } else if (results.get(i).get(j).equals(Result.DIFFERENT)) {
+                    different.add(toEvaluate.get(j));
                 }
             }
-        }
 
-        ArrayList<LinkedImmunization> GroupedImmunizations = new ArrayList<LinkedImmunization>();
-
-
-        for (Integer key:groups.keySet()) {
-            if (!GroupedImmunizations.contains(groups.get(key))) {
-                GroupedImmunizations.add(groups.get(key));
+            if (unsure.size()>1) {
+                unsures.add(unsure);
+            }
+            if (!lineHasEqual) {
+                differents.add(different);
             }
         }
 
-        boolean contains = false;
-        LinkedImmunization different = new LinkedImmunization();
-        for (int i = 0; i < toEvaluate.size(); i ++) {
-            contains = false;
-            for (Integer j:groups.keySet()) {
-                if (i == j)
-                    contains = true;
-            }
+        ArrayList<LinkedImmunization> groupedImmunizations = new ArrayList<LinkedImmunization>();
 
-            if (!contains) { // leftovers
-                if (lineHas(Results.get(i), Result.UNSURE)) {
-                    ArrayList<Result> line = Results.get(i);
-                    LinkedImmunization group = new LinkedImmunization();
-                    group.add(toEvaluate.get(i));
-                    for (int j = 0; j < toEvaluate.size(); j++) {
-                        if (line.get(j).equals(Result.UNSURE)) {
-                            group.add(toEvaluate.get(j));
-                        }
-                    }
-                    GroupedImmunizations.add(group);
-                } else if(!lineHas(Results.get(i), Result.EQUAL)) {
-                    different.add(toEvaluate.get(i));
-                }
-            }
+        for (Integer i : groups.keySet()) {
+            if (!groupedImmunizations.contains(groups.get(i)))
+                groupedImmunizations.add(groups.get(i));
         }
 
-        GroupedImmunizations.add(different);
+        groupedImmunizations.addAll(unsures);
+        groupedImmunizations.addAll(differents);
 
+        return groupedImmunizations;
+    }
 
-        return GroupedImmunizations;
+    /**
+     * Launch the deduplication process using the weighted approach
+     * 
+     * @param patientImmunizationRecords
+     * @return
+     */
+    public ArrayList<LinkedImmunization> deduplicateWeighted(LinkedImmunization patientImmunizationRecords) {
+        return deduplicate(patientImmunizationRecords, DeduplicationMethod.WEIGHTED);
     }
 
     /**
@@ -132,16 +116,7 @@ public class Workclass {
      * @return
      */
     public ArrayList<LinkedImmunization> deduplicateDeterministic(LinkedImmunization patientImmunizationRecords) {
-        immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
-        Deterministic deterministic = new Deterministic();
-        Result result;
-
-        // TODO compare 2 by 2
-        int i = 1;
-        int j = 2;
-
-        result = deterministic.score(patientImmunizationRecords.get(i), patientImmunizationRecords.get(j));
-        return null;
+        return deduplicate(patientImmunizationRecords, DeduplicationMethod.DETERMINISTIC);
     }
 
     /**
@@ -149,20 +124,8 @@ public class Workclass {
      * @param patientImmunizationRecords
      * @return
      */
-    public ArrayList<LinkedImmunization> deduplicateCombo(LinkedImmunization patientImmunizationRecords) {
-        immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
-        Result result1;
-        Result result2;
-
-        Weighted weighted = new Weighted();
-        Deterministic deterministic = new Deterministic();
-        // TODO compare 2 by 2
-        int i = 1;
-        int j = 2;
-        result1 = weighted.score(patientImmunizationRecords.get(i), patientImmunizationRecords.get(j));
-        result2 = deterministic.score(patientImmunizationRecords.get(i), patientImmunizationRecords.get(j));
-
-        return null;
+    public ArrayList<LinkedImmunization> deduplicateHybrid(LinkedImmunization patientImmunizationRecords) {
+        return deduplicate(patientImmunizationRecords, DeduplicationMethod.HYBRID);
     }
 
     /**
@@ -172,14 +135,38 @@ public class Workclass {
      * @return
      */
     public ArrayList<LinkedImmunization> deduplicate(LinkedImmunization patientImmunizationRecords, DeduplicationMethod method) {
+        Comparer comparer;
         switch (method) {
             case DETERMINISTIC:
-                return(deduplicateDeterministic(patientImmunizationRecords));
+                comparer = new Deterministic();
             case WEIGHTED:
-                return(deduplicateWeighted(patientImmunizationRecords));
-            case COMBO:
-                return(deduplicateCombo(patientImmunizationRecords));
+                comparer = new Weighted();
+            case HYBRID:
+                comparer = new Hybrid();
+            default :
+                comparer = new Hybrid();
         }
-        return null;
+
+        immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
+
+        StepOne stepOne = new StepOne();
+        StepOneResult stepOneResult = stepOne.executeStepOne(patientImmunizationRecords);
+        LinkedImmunization toEvaluate = stepOneResult.getToEvaluate();
+
+        ArrayList<ArrayList<Result>> results;
+
+        HashMap<Integer, LinkedImmunization> groups = new HashMap<Integer, LinkedImmunization>();
+
+        ArrayList<Result> R = new ArrayList<Result>(Collections.nCopies(toEvaluate.size(),  Result.TO_BE_DETERMINED));
+        results = new ArrayList<ArrayList<Result>>(Collections.nCopies(toEvaluate.size(),  R));
+
+        for (int i = 0; i < toEvaluate.size(); i ++) {
+            for (int j = i; j < toEvaluate.size(); j ++) {
+                Result result = comparer.score(toEvaluate.get(i), toEvaluate.get(j));
+                results.get(i).set(j, result);
+            }
+        }
+
+        return postprocessing(toEvaluate, results);
     }
 }

@@ -78,7 +78,7 @@ public class Immunization {
 
     public void setDate(String dateString) throws ParseException
     {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyymmdd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         this.date = sdf.parse(dateString);
     }
 

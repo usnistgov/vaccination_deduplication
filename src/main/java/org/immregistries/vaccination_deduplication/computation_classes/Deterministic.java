@@ -8,7 +8,7 @@ import org.immregistries.vaccination_deduplication.Result;
  * Execute Step 2 : Evaluation phase using the Deterministic scoring approach
  *
  */
-public class Deterministic {
+public class Deterministic implements Comparer {
 
 	public Deterministic() {
 
@@ -130,9 +130,9 @@ public class Deterministic {
 		{
 			noOutcome++ ;
 		}
-		/** If Record Source Types are “Administered” in evaluated records and are from
+		/** If Record Source Types are ï¿½Administeredï¿½ in evaluated records and are from
 		*different providers, these records are most likely to be different (not duplicates).
-		*If Record Source Type is “Administered” in one record and “Historical” in another 
+		*If Record Source Type is ï¿½Administeredï¿½ in one record and ï¿½Historicalï¿½ in another 
 		*record and vaccination dates are close(P11),
 		*these records are most likely to be duplicates. 
 		*/

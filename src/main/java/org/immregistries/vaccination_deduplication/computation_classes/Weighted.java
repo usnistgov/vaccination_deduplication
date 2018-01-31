@@ -13,7 +13,7 @@ import static org.immregistries.vaccination_deduplication.utils.Matching.compare
  * Execute Step 2 : Evaluation phase using the weighted scoring approach
  *
  */
-public class Weighted {
+public class Weighted implements Comparer {
 
     // Thresholds allow to take a decision. They are compared to the weighted score
     private HashMap<String, Double> parameters;

@@ -31,8 +31,10 @@ public class LinkedImmunization extends ArrayList<Immunization> {
             switch (this.type) {
                 case SURE:
                     s += "TYPE = sure\n";
+                    break;
                 case UNSURE:
                     s += "TYPE = unsure\n";
+                    break;
                 case DIFFERENT:
                     s += "TYPE = different\n";
             }

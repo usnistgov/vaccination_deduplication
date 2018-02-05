@@ -49,12 +49,12 @@ public class Workclass {
         for (int i = 0; i < results.size(); i++) {
             boolean lineHasEqual = false;
             LinkedImmunization unsure = new LinkedImmunization();
-            unsure.setType(LinkedImmunization.TYPE.UNSURE);
+            unsure.setType(LinkedImmunizationType.UNSURE);
             unsure.add(toEvaluate.get(i));
 
             LinkedImmunization different = new LinkedImmunization();
             different.add(toEvaluate.get(i));
-            different.setType(LinkedImmunization.TYPE.DIFFERENT);
+            different.setType(LinkedImmunizationType.DIFFERENT);
 
             for (int j = 0; j < results.size(); j++) {
                 if (results.get(i).get(j).equals(Result.EQUAL)) {
@@ -69,7 +69,7 @@ public class Workclass {
                         groups.put(i, groups.get(j));
                     } else {
                         LinkedImmunization group = new LinkedImmunization();
-                        group.setType(LinkedImmunization.TYPE.SURE);
+                        group.setType(LinkedImmunizationType.SURE);
                         group.add(toEvaluate.get(i));
                         group.add(toEvaluate.get(j));
                         groups.put(i, group);
@@ -142,10 +142,13 @@ public class Workclass {
         switch (method) {
             case DETERMINISTIC:
                 comparer = new Deterministic();
+                break;
             case WEIGHTED:
                 comparer = new Weighted();
+                break;
             case HYBRID:
                 comparer = new Hybrid();
+                break;
             default :
                 comparer = new Hybrid();
         }
@@ -158,10 +161,13 @@ public class Workclass {
 
         ArrayList<ArrayList<Result>> results;
 
-        HashMap<Integer, LinkedImmunization> groups = new HashMap<Integer, LinkedImmunization>();
-
-        ArrayList<Result> R = new ArrayList<Result>(Collections.nCopies(toEvaluate.size(),  Result.TO_BE_DETERMINED));
-        results = new ArrayList<ArrayList<Result>>(Collections.nCopies(toEvaluate.size(),  R));
+        results = new ArrayList<ArrayList<Result>>(toEvaluate.size());
+        for (int i = 0; i < toEvaluate.size(); i++) {
+            results.add(new ArrayList<Result>());
+            for (int j = 0; j < toEvaluate.size(); j++) {
+                results.get(i).add(Result.TO_BE_DETERMINED);
+            }
+        }
 
         for (int i = 0; i < toEvaluate.size()-1; i ++) {
             for (int j = i+1; j < toEvaluate.size(); j ++) {

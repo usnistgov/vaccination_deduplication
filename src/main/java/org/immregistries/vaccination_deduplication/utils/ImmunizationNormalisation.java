@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 public class ImmunizationNormalisation {
     private static ImmunizationNormalisation instance;
 
-    CodeMapBuilder codeMapBuilder;
+    CodeMapBuilder codeMapBuilder = CodeMapBuilder.INSTANCE;
     InputStream inputStream;
     CodeMap codeMap;
     RelatedCode relatedCode;
@@ -26,24 +26,22 @@ public class ImmunizationNormalisation {
     private ImmunizationNormalisation() {}
 
     public void initialize() {
-        codeMapBuilder = CodeMapBuilder.INSTANCE;
-        inputStream = codeMapBuilder.getClass().getResourceAsStream("/DQA_CM_2.1.xml");
+        inputStream = CodeMapBuilder.class.getResourceAsStream("/DQA_CM_2.1.xml");
         codeMap = codeMapBuilder.getCodeMap(inputStream);
         relatedCode = new RelatedCode(codeMap);
     }
 
     public void initialize(String codebaseFilePath) throws FileNotFoundException {
-        codeMapBuilder = CodeMapBuilder.INSTANCE;
         File file = new File(codebaseFilePath);
         inputStream = new FileInputStream(file);
-        codeMap = codeMapBuilder.getCodeMap(inputStream);
+        codeMap = CodeMapBuilder.INSTANCE.getCodeMap(inputStream);
         relatedCode = new RelatedCode(codeMap);
     }
 
     public void refreshCodebase(String codebaseFilePath) throws FileNotFoundException {
         File file = new File(codebaseFilePath);
         inputStream = new FileInputStream(file);
-        codeMap = codeMapBuilder.getCodeMap(inputStream);
+        codeMap = CodeMapBuilder.INSTANCE.getCodeMap(inputStream);
         relatedCode = new RelatedCode(codeMap);
     }
 

@@ -62,13 +62,12 @@ public class VaccinationDeduplication {
     /**
      * This method will process the results form the comparison process and return the LinkedImmunization grouping duplicates (or unsures or non duplicates) together.
      * @param toEvaluate This ArrayList contains the Immunizations that have been determined by step one to be potential duplicates.
-     * @param notToEvaluate This ArrayList contains the Immunizations that have been determined by step one not to be potential duplicates.
      * @param results This 2D ArrayList contains the results from the comparisons of the toEvaluate Immunizations.
      * @return An ArrayList of LinkedImmunization containing the final result from the deduplication process.
      */
-    public ArrayList<LinkedImmunization> postprocessing(LinkedImmunization toEvaluate, LinkedImmunization notToEvaluate, ArrayList<ArrayList<ComparisonResult>> results) {
+    public ArrayList<LinkedImmunization> postprocessing(LinkedImmunization toEvaluate, ArrayList<ArrayList<ComparisonResult>> results) {
         HashMap<Integer, LinkedImmunization> sameGrouped = new HashMap<Integer, LinkedImmunization>();
-        ArrayList<LinkedImmunization> unsures = new ArrayList<LinkedImmunization>();
+        HashMap<Integer, LinkedImmunization> unsureGrouped = new HashMap<Integer, LinkedImmunization>();
 
         // first pass to group the ones we are SURE are the same together
         for (int i = 0; i < results.size()-1; i++) {
@@ -94,33 +93,39 @@ public class VaccinationDeduplication {
             }
         }
 
-        // second pass to handle the UNSURE and DIFFERENT
-
-        LinkedImmunization different = new LinkedImmunization();
-        different.setType(LinkedImmunizationType.DIFFERENT);
-
+        // second pass to handle the UNSURE
         for (int i = 0; i < results.size()-1; i++) {
             if (!sameGrouped.keySet().contains(i)) {
-                //if (lineHas(results.get(i), ComparisonResult.UNSURE)) {
-                if (results.get(i).contains(ComparisonResult.UNSURE)) {
-                    LinkedImmunization unsure = new LinkedImmunization();
-                    unsure.setType(LinkedImmunizationType.UNSURE);
-                    unsure.add(toEvaluate.get(i));
-                    for (int j = i+1; j < results.size(); j++) {
-                        if (results.get(i).get(j) == ComparisonResult.UNSURE)
-                            unsure.add(toEvaluate.get(j));
-                    }
-                    if (unsure.size() > 1)
-                        unsures.add(unsure);
+                for (int j = i+1; j < results.size(); j++) {
+                    if (results.get(i).get(j).equals(ComparisonResult.UNSURE)) {
+                        if(unsureGrouped.containsKey(i) && unsureGrouped.containsKey(j)) {
 
-                } else {
-                    different.add(toEvaluate.get(i));
-                    for (int j = i+1; j < results.size(); j++) {
-                        if (!sameGrouped.keySet().contains(j) && !different.contains(toEvaluate.get(j))) {
-                            different.add(toEvaluate.get(j));
+                        } else if(unsureGrouped.containsKey(i)) {
+                            unsureGrouped.get(i).add(toEvaluate.get(j));
+                            unsureGrouped.put(j, unsureGrouped.get(i));
+                        } else if(unsureGrouped.containsKey(j)) {
+                            unsureGrouped.get(j).add(toEvaluate.get(i));
+                            unsureGrouped.put(i, unsureGrouped.get(j));
+                        } else {
+                            LinkedImmunization group = new LinkedImmunization();
+                            group.setType(LinkedImmunizationType.UNSURE);
+                            group.add(toEvaluate.get(i));
+                            group.add(toEvaluate.get(j));
+                            unsureGrouped.put(i, group);
+                            unsureGrouped.put(j, group);
                         }
                     }
                 }
+            }
+        }
+
+        // third pass to handle the DIFFERENT
+        LinkedImmunization different = new LinkedImmunization();
+        different.setType(LinkedImmunizationType.DIFFERENT);
+
+        for (int i = 0; i < results.size(); i++) {
+            if (!sameGrouped.keySet().contains(i) && !results.get(i).contains(ComparisonResult.UNSURE)){
+                different.add(toEvaluate.get(i));
             }
         }
 
@@ -130,10 +135,11 @@ public class VaccinationDeduplication {
             if (!groupedImmunizations.contains(sameGrouped.get(i)))
                 groupedImmunizations.add(sameGrouped.get(i));
         }
+        for (Integer i : unsureGrouped.keySet()) {
+            if (!groupedImmunizations.contains(unsureGrouped.get(i)))
+                groupedImmunizations.add(unsureGrouped.get(i));
+        }
 
-        groupedImmunizations.addAll(unsures);
-
-        different.addAll(notToEvaluate);
         groupedImmunizations.add(different);
 
         return groupedImmunizations;
@@ -192,8 +198,9 @@ public class VaccinationDeduplication {
         immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
 
         StepOne stepOne = new StepOne();
-        StepOneResult stepOneResult = stepOne.executeStepOne(patientImmunizationRecords);
-        LinkedImmunization toEvaluate = stepOneResult.getToEvaluate();
+        //StepOneResult stepOneResult = stepOne.executeStepOne(patientImmunizationRecords);
+        //LinkedImmunization toEvaluate = stepOneResult.getToEvaluate();
+        LinkedImmunization toEvaluate = patientImmunizationRecords;
 
         ArrayList<ArrayList<ComparisonResult>> results;
 
@@ -207,12 +214,17 @@ public class VaccinationDeduplication {
 
         for (int i = 0; i < toEvaluate.size()-1; i ++) {
             for (int j = i+1; j < toEvaluate.size(); j ++) {
-                ComparisonResult result = comparer.score(toEvaluate.get(i), toEvaluate.get(j));
-                results.get(i).set(j, result);
-                results.get(j).set(i, result);
+                if (stepOne.isPotentialDuplicate(toEvaluate.get(i), toEvaluate.get(j))) {
+                    ComparisonResult result = comparer.score(toEvaluate.get(i), toEvaluate.get(j));
+                    results.get(i).set(j, result);
+                    results.get(j).set(i, result);
+                } else {
+                    results.get(i).set(j, ComparisonResult.DIFFERENT);
+                    results.get(j).set(i, ComparisonResult.DIFFERENT);
+                }
             }
         }
 
-        return postprocessing(toEvaluate, stepOneResult.getNotToEvaluate(), results);
+        return postprocessing(toEvaluate, results);
     }
 }

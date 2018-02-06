@@ -28,6 +28,8 @@ public class StepOne {
 		long date1 = immunization1.getDate().getTime();
 		long date2 = immunization2.getDate().getTime();
 		duration = (date2 - date1)/86400000; // 1000 ms * 60s * 60min * 24h = 86.400.000 ms = 1 day
+		if (duration < 0)
+			duration = -duration;
 		if (duration < this.dateWindow)
 			dateWindowMet = true;
 		return dateWindowMet;

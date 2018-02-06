@@ -2,8 +2,9 @@ package org.immregistries.vaccination_deduplication.computation_classes;
 
 import org.immregistries.vaccination_deduplication.DeterministicResult;
 import org.immregistries.vaccination_deduplication.Immunization;
-import org.immregistries.vaccination_deduplication.Immunization.SOURCE;
+import org.immregistries.vaccination_deduplication.ImmunizationSource;
 import org.immregistries.vaccination_deduplication.Result;
+
 /**
  * Execute Step 2 : Evaluation phase using the Deterministic scoring approach
  *
@@ -136,7 +137,7 @@ public class Deterministic implements Comparer {
 		*record and vaccination dates are close(P11),
 		*these records are most likely to be duplicates. 
 		*/
-		if( organizationIdResult != DeterministicResult.SAME && immunization1.getSource() == SOURCE.SOURCE && immunization2.getSource() == SOURCE.SOURCE) 
+		if( organizationIdResult != DeterministicResult.SAME && immunization1.getSource() == ImmunizationSource.SOURCE && immunization2.getSource() == ImmunizationSource.SOURCE)
 		{
 			likelyDifferent++; 
 			likelyDifferentSource = true ;

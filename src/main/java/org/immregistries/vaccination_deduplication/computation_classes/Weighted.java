@@ -1,6 +1,7 @@
 package org.immregistries.vaccination_deduplication.computation_classes;
 
 import org.immregistries.vaccination_deduplication.Immunization;
+import org.immregistries.vaccination_deduplication.ImmunizationSource;
 import org.immregistries.vaccination_deduplication.PropertyLoader;
 import org.immregistries.vaccination_deduplication.Result;
 
@@ -99,9 +100,9 @@ public class Weighted implements Comparer {
 
         // Source
         if (!(immunization1.getSource() == null && immunization2.getSource() == null)){
-            if (immunization1.getSource() == Immunization.SOURCE.SOURCE && immunization2.getSource() == Immunization.SOURCE.SOURCE) {
+            if (immunization1.getSource() == ImmunizationSource.SOURCE && immunization2.getSource() == ImmunizationSource.SOURCE) {
                 score+=parameters.get(PropertyLoader.WEIGHT_SAME_SOURCE_ADMIN);
-            } else if (immunization1.getSource() == Immunization.SOURCE.HISTORICAL && immunization2.getSource() == Immunization.SOURCE.HISTORICAL) {
+            } else if (immunization1.getSource() == ImmunizationSource.HISTORICAL && immunization2.getSource() == ImmunizationSource.HISTORICAL) {
                 score+=parameters.get(PropertyLoader.WEIGHT_SAME_SOURCE_HISTORICAL);
             } else {
                 score+=parameters.get(PropertyLoader.WEIGHT_DIFFERENT_SOURCE);

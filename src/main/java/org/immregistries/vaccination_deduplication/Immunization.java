@@ -2,8 +2,9 @@ package org.immregistries.vaccination_deduplication;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,11 +15,9 @@ import java.util.List;
 
 public class Immunization {
 
-    public enum SOURCE {SOURCE, ALTERNATE, HISTORICAL}
-
     private String CVX; // Vaccine code
 
-    private List<String> vaccineGroupList ; // Vaccine Group
+    private ArrayList<String> vaccineGroupList ; // Vaccine Group
 
     private String MVX; // Manufacturer vaccine code
 
@@ -30,10 +29,21 @@ public class Immunization {
 
     private String organisationID; // get organisation through encounter.serviceProvider
 
-    private SOURCE source;
+    private ImmunizationSource source;
+
+    public Immunization(String cvx, ArrayList<String> vaccineGroupList, String mvx, String productCode, Date date, String lotNumber, String organisationID, ImmunizationSource source) {
+        this.CVX = cvx;
+        this.vaccineGroupList = vaccineGroupList;
+        this.MVX = mvx;
+        this.productCode = productCode;
+        this.date = date;
+        this.lotNumber = lotNumber;
+        this.organisationID = organisationID;
+        this.source = source;
+    }
 
     public Immunization() {
-
+        this("", new ArrayList<String>(), "", "", new Date(), "", "", ImmunizationSource.HISTORICAL);
     }
 
     public String getCVX() {
@@ -44,11 +54,11 @@ public class Immunization {
         this.CVX = CVX;
     }
 
-    public List<String> getVaccineGroupList() {
+    public ArrayList<String> getVaccineGroupList() {
         return vaccineGroupList;
     }
 
-    public void setVaccineGroupList(List<String> vaccineGroupList) {
+    public void setVaccineGroupList(ArrayList<String> vaccineGroupList) {
         this.vaccineGroupList = vaccineGroupList;
     }
 
@@ -98,11 +108,11 @@ public class Immunization {
         this.organisationID = organisationID;
     }
 
-    public SOURCE getSource() {
+    public ImmunizationSource getSource() {
         return source;
     }
 
-    public void setSource(SOURCE source) {
+    public void setSource(ImmunizationSource source) {
         this.source = source;
     }
 

@@ -9,5 +9,5 @@ import org.immregistries.vaccination_deduplication.Immunization;
  * in order to factorize some code
  */
 public interface Comparer {
-    ComparisonResult score(Immunization immunization1, Immunization immunization2);
+    ComparisonResult compare(Immunization immunization1, Immunization immunization2);
 }

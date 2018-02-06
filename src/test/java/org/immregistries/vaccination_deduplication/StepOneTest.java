@@ -13,7 +13,7 @@ public class StepOneTest extends TestCase {
 		ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
 		StepOne stepOne = new StepOne();
-		boolean result = stepOne.isPotentialDuplicate(immunizationLists.immunization7, immunizationLists.immunization8);
+		boolean result = stepOne.isPotentialDuplicate(immunizationLists.immunization1, immunizationLists.immunization2);
 
 		assertEquals(true, result);
 

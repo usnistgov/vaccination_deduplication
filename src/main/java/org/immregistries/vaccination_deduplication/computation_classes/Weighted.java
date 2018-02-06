@@ -40,7 +40,7 @@ public class Weighted implements Comparer {
 	 * @return the weighted scoring outcome which can be "equal" (case : maxThreshold &lt; score), "unsure" (case : minThreshold &lt; score &lt; maxThreshold), or different (case : score &lt; minThreshold)
 	 */
 	// TODO change name
-    public ComparisonResult score(Immunization immunization1, Immunization immunization2, double minThreshold, double maxThreshold) {
+    public ComparisonResult compare(Immunization immunization1, Immunization immunization2, double minThreshold, double maxThreshold) {
         double score=0;
 
         // CVX
@@ -80,7 +80,6 @@ public class Weighted implements Comparer {
         );
 
         // Date administered
-        // TODO review calculations
         int dateDifferenceInDays = (int) ((immunization1.getDate().getTime() - immunization2.getDate().getTime()) / (24*60*60*1000));
         if (dateDifferenceInDays < 0) {
             dateDifferenceInDays = -dateDifferenceInDays;
@@ -128,8 +127,8 @@ public class Weighted implements Comparer {
 	 * @param immunization1 and immunization2 are the two record to compare to each other
 	 * @return call the score method with default thresholds
 	 */
-    public ComparisonResult score(Immunization immunization1, Immunization immunization2) {
-        return score(immunization1, immunization2, parameters.get(PropertyLoader.WEIGHT_MIN_THRESHOLD), parameters.get(PropertyLoader.WEIGHT_MAX_THRESHOLD));
+    public ComparisonResult compare(Immunization immunization1, Immunization immunization2) {
+        return compare(immunization1, immunization2, parameters.get(PropertyLoader.WEIGHT_MIN_THRESHOLD), parameters.get(PropertyLoader.WEIGHT_MAX_THRESHOLD));
     }
 
     private double getMinimum(double[] array) {

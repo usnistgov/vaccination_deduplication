@@ -22,7 +22,7 @@ public class Deterministic implements Comparer {
 	 * @return the deterministic scoring outcome which can be "equal", "unsure", or different
 	 */
 	// TODO change name
-	public ComparisonResult score(Immunization immunization1, Immunization immunization2) {
+	public ComparisonResult compare(Immunization immunization1, Immunization immunization2) {
 		DeterministicResult lotNumberResult ; 
 		DeterministicResult dateResult; 
 		DeterministicResult cvxResult; 

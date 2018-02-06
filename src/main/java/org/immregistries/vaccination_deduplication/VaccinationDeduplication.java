@@ -140,7 +140,8 @@ public class VaccinationDeduplication {
                 groupedImmunizations.add(unsureGrouped.get(i));
         }
 
-        groupedImmunizations.add(different);
+        if (different.size()>0)
+            groupedImmunizations.add(different);
 
         return groupedImmunizations;
     }
@@ -215,7 +216,7 @@ public class VaccinationDeduplication {
         for (int i = 0; i < toEvaluate.size()-1; i ++) {
             for (int j = i+1; j < toEvaluate.size(); j ++) {
                 if (stepOne.isPotentialDuplicate(toEvaluate.get(i), toEvaluate.get(j))) {
-                    ComparisonResult result = comparer.score(toEvaluate.get(i), toEvaluate.get(j));
+                    ComparisonResult result = comparer.compare(toEvaluate.get(i), toEvaluate.get(j));
                     results.get(i).set(j, result);
                     results.get(j).set(i, result);
                 } else {

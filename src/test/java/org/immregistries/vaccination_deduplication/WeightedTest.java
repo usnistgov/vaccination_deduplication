@@ -2,6 +2,7 @@ package org.immregistries.vaccination_deduplication;
 
 import junit.framework.TestCase;
 import org.immregistries.vaccination_deduplication.computation_classes.Weighted;
+import org.immregistries.vaccination_deduplication.utils.ImmunizationLists;
 
 public class WeightedTest extends TestCase {
     public void testScoreEquals() throws Exception {
@@ -26,7 +27,7 @@ public class WeightedTest extends TestCase {
 
         Weighted weighted = new Weighted();
 
-        ComparisonResult score = weighted.score(immunization1, immunization2);
+        ComparisonResult score = weighted.compare(immunization1, immunization2);
         assertEquals(ComparisonResult.EQUAL, score);
     }
 
@@ -52,35 +53,15 @@ public class WeightedTest extends TestCase {
 
         Weighted weighted = new Weighted();
 
-        ComparisonResult score = weighted.score(immunization1, immunization2);
+        ComparisonResult score = weighted.compare(immunization1, immunization2);
         assertEquals(ComparisonResult.DIFFERENT, score);
     }
 
     public void testScoreUnsure() throws Exception {
-        Immunization immunization1 = new Immunization();
-        Immunization immunization2 = new Immunization();
-
-        // TODO find better values
-
-        immunization1.setDate("20171225");
-        immunization1.setLotNumber("test lot number");
-        immunization1.setCVX("VCX");
-        immunization1.setMVX("MVX");
-        immunization1.setProductCode("pc");
-        immunization1.setSource(ImmunizationSource.SOURCE);
-        immunization1.setOrganisationID("20171225");
-
-        immunization2.setDate("20171225");
-        immunization2.setLotNumber("test lot number");
-        immunization2.setCVX("VCX");
-        immunization2.setMVX("MVX");
-        immunization2.setProductCode("pc");
-        immunization2.setSource(ImmunizationSource.HISTORICAL);
-        immunization2.setOrganisationID("20171225");
-
+        ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
         Weighted weighted = new Weighted();
 
-        ComparisonResult score = weighted.score(immunization1, immunization2);
+        ComparisonResult score = weighted.compare(immunizationLists.immunization1, immunizationLists.immunization2);
         assertEquals(ComparisonResult.UNSURE, score);
     }
 

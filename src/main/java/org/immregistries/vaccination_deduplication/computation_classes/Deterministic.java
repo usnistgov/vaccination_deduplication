@@ -3,7 +3,7 @@ package org.immregistries.vaccination_deduplication.computation_classes;
 import org.immregistries.vaccination_deduplication.DeterministicResult;
 import org.immregistries.vaccination_deduplication.Immunization;
 import org.immregistries.vaccination_deduplication.ImmunizationSource;
-import org.immregistries.vaccination_deduplication.Result;
+import org.immregistries.vaccination_deduplication.ComparisonResult;
 
 /**
  * Execute Step 2 : Evaluation phase using the Deterministic scoring approach
@@ -22,7 +22,7 @@ public class Deterministic implements Comparer {
 	 * @return the deterministic scoring outcome which can be "equal", "unsure", or different
 	 */
 	// TODO change name
-	public Result score(Immunization immunization1, Immunization immunization2) {
+	public ComparisonResult score(Immunization immunization1, Immunization immunization2) {
 		DeterministicResult lotNumberResult ; 
 		DeterministicResult dateResult; 
 		DeterministicResult cvxResult; 
@@ -85,7 +85,7 @@ public class Deterministic implements Comparer {
 
 	}
 	//Step 2 Evaluation phase
-	public Result sumResult(Immunization immunization1,Immunization immunization2,DeterministicResult sourceResult,DeterministicResult lotNumberResult,DeterministicResult cvxResult,DeterministicResult organizationIdResult ,DeterministicResult tradeNameResult,DeterministicResult dateResult)
+	public ComparisonResult sumResult(Immunization immunization1,Immunization immunization2,DeterministicResult sourceResult,DeterministicResult lotNumberResult,DeterministicResult cvxResult,DeterministicResult organizationIdResult ,DeterministicResult tradeNameResult,DeterministicResult dateResult)
 	{
 		Boolean likelyDifferentSource=false;
 		Boolean likelyMatchSource=false;
@@ -154,15 +154,15 @@ public class Deterministic implements Comparer {
 		
 		if(likelyMatch>	likelyDifferent || (likelyMatch == likelyDifferent && likelyDifferentSource == true	))
 		{
-			return Result.EQUAL; 
+			return ComparisonResult.EQUAL;
 		}
 		else if(likelyDifferent>likelyMatch || (likelyMatch == likelyDifferent && likelyMatchSource == true	))
 		{
-			return Result.DIFFERENT;
+			return ComparisonResult.DIFFERENT;
 		}
 		else
 		{
-			return Result.UNSURE;
+			return ComparisonResult.UNSURE;
 		}
 
 	}

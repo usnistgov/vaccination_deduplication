@@ -16,15 +16,24 @@ import java.util.HashMap;
  */
 // TODO change name
 public class VaccinationDeduplication {
+    static VaccinationDeduplication instance;
     ImmunizationNormalisation immunizationNormalisation;
 
-    public VaccinationDeduplication(String codebaseFilePath) throws FileNotFoundException {
+    private VaccinationDeduplication() {
         this.immunizationNormalisation = ImmunizationNormalisation.getInstance();
+    }
+
+    public static VaccinationDeduplication getInstance() {
+        if (instance == null)
+            instance = new VaccinationDeduplication();
+        return instance;
+    }
+
+    public void initialize(String codebaseFilePath) throws FileNotFoundException {
         this.immunizationNormalisation.initialize(codebaseFilePath);
     }
 
-    public VaccinationDeduplication() {
-        this.immunizationNormalisation = ImmunizationNormalisation.getInstance();
+    public void initialize() {
         this.immunizationNormalisation.initialize();
     }
 
@@ -33,72 +42,84 @@ public class VaccinationDeduplication {
     }
 
 
-    public boolean lineHas(ArrayList<Result> line, Result result) {
-        for (Result r : line)
+    public boolean lineHas(ArrayList<ComparisonResult> line, ComparisonResult result) {
+        for (ComparisonResult r : line)
             if (r.equals(result))
                 return true;
 
         return false;
     }
 
-    public ArrayList<LinkedImmunization> postprocessing(LinkedImmunization toEvaluate, ArrayList<ArrayList<Result>> results) {
-        HashMap<Integer, LinkedImmunization> groups = new HashMap<Integer, LinkedImmunization>();
+    public ArrayList<LinkedImmunization> postprocessing(LinkedImmunization toEvaluate, LinkedImmunization notToEvaluate, ArrayList<ArrayList<ComparisonResult>> results) {
+        HashMap<Integer, LinkedImmunization> sameGrouped = new HashMap<Integer, LinkedImmunization>();
         ArrayList<LinkedImmunization> unsures = new ArrayList<LinkedImmunization>();
-        ArrayList<LinkedImmunization> differents = new ArrayList<LinkedImmunization>();
 
+        // first pass to group the ones we are SURE are the same together
         for (int i = 0; i < results.size(); i++) {
-            boolean lineHasEqual = false;
-            LinkedImmunization unsure = new LinkedImmunization();
-            unsure.setType(LinkedImmunizationType.UNSURE);
-            unsure.add(toEvaluate.get(i));
 
-            LinkedImmunization different = new LinkedImmunization();
-            different.add(toEvaluate.get(i));
-            different.setType(LinkedImmunizationType.DIFFERENT);
 
             for (int j = 0; j < results.size(); j++) {
-                if (results.get(i).get(j).equals(Result.EQUAL)) {
-                    lineHasEqual = true;
-                    if(groups.containsKey(i) && groups.containsKey(j)) {
+                if (results.get(i).get(j).equals(ComparisonResult.EQUAL)) {
+                    if(sameGrouped.containsKey(i) && sameGrouped.containsKey(j)) {
 
-                    } else if(groups.containsKey(i)) {
-                        groups.get(i).add(toEvaluate.get(j));
-                        groups.put(j, groups.get(i));
-                    } else if(groups.containsKey(j)) {
-                        groups.get(j).add(toEvaluate.get(i));
-                        groups.put(i, groups.get(j));
+                    } else if(sameGrouped.containsKey(i)) {
+                        sameGrouped.get(i).add(toEvaluate.get(j));
+                        sameGrouped.put(j, sameGrouped.get(i));
+                    } else if(sameGrouped.containsKey(j)) {
+                        sameGrouped.get(j).add(toEvaluate.get(i));
+                        sameGrouped.put(i, sameGrouped.get(j));
                     } else {
                         LinkedImmunization group = new LinkedImmunization();
                         group.setType(LinkedImmunizationType.SURE);
                         group.add(toEvaluate.get(i));
                         group.add(toEvaluate.get(j));
-                        groups.put(i, group);
-                        groups.put(j, group);
+                        sameGrouped.put(i, group);
+                        sameGrouped.put(j, group);
                     }
-                } else if (results.get(i).get(j).equals(Result.UNSURE)) {
-                    unsure.add(toEvaluate.get(j));
-                } else if (results.get(i).get(j).equals(Result.DIFFERENT)) {
-                    different.add(toEvaluate.get(j));
                 }
             }
+        }
 
-            if (unsure.size()>1) {
-                unsures.add(unsure);
-            }
-            if (!lineHasEqual) {
-                differents.add(different);
+        // second pass to handle the UNSURE and DIFFERENT
+
+        LinkedImmunization different = new LinkedImmunization();
+        different.setType(LinkedImmunizationType.DIFFERENT);
+
+        for (int i = 0; i < results.size()-1; i++) {
+            if (!sameGrouped.keySet().contains(i)) {
+                if (lineHas(results.get(i), ComparisonResult.UNSURE)) {
+                    LinkedImmunization unsure = new LinkedImmunization();
+                    unsure.setType(LinkedImmunizationType.UNSURE);
+                    unsure.add(toEvaluate.get(i));
+                    for (int j = i+1; j < results.size(); j++) {
+                        if (results.get(i).get(j) == ComparisonResult.UNSURE)
+                            unsure.add(toEvaluate.get(j));
+                    }
+                    if (unsure.size() > 1)
+                        unsures.add(unsure);
+
+                } else {
+                    different.add(toEvaluate.get(i));
+                    for (int j = i+1; j < results.size(); j++) {
+                        if (!sameGrouped.keySet().contains(j) && !different.contains(toEvaluate.get(j))) {
+                            different.add(toEvaluate.get(j));
+                        }
+                    }
+                }
             }
         }
 
         ArrayList<LinkedImmunization> groupedImmunizations = new ArrayList<LinkedImmunization>();
 
-        for (Integer i : groups.keySet()) {
-            if (!groupedImmunizations.contains(groups.get(i)))
-                groupedImmunizations.add(groups.get(i));
+        for (Integer i : sameGrouped.keySet()) {
+            if (!groupedImmunizations.contains(sameGrouped.get(i)))
+                groupedImmunizations.add(sameGrouped.get(i));
         }
 
         groupedImmunizations.addAll(unsures);
-        groupedImmunizations.addAll(differents);
+
+        different.addAll(notToEvaluate);
+        groupedImmunizations.add(different);
 
         return groupedImmunizations;
     }
@@ -159,25 +180,24 @@ public class VaccinationDeduplication {
         StepOneResult stepOneResult = stepOne.executeStepOne(patientImmunizationRecords);
         LinkedImmunization toEvaluate = stepOneResult.getToEvaluate();
 
-        ArrayList<ArrayList<Result>> results;
+        ArrayList<ArrayList<ComparisonResult>> results;
 
-        results = new ArrayList<ArrayList<Result>>(toEvaluate.size());
+        results = new ArrayList<ArrayList<ComparisonResult>>(toEvaluate.size());
         for (int i = 0; i < toEvaluate.size(); i++) {
-            results.add(new ArrayList<Result>());
+            results.add(new ArrayList<ComparisonResult>());
             for (int j = 0; j < toEvaluate.size(); j++) {
-                results.get(i).add(Result.TO_BE_DETERMINED);
+                results.get(i).add(ComparisonResult.TO_BE_DETERMINED);
             }
         }
 
         for (int i = 0; i < toEvaluate.size()-1; i ++) {
             for (int j = i+1; j < toEvaluate.size(); j ++) {
-                Result result = comparer.score(toEvaluate.get(i), toEvaluate.get(j));
+                ComparisonResult result = comparer.score(toEvaluate.get(i), toEvaluate.get(j));
                 results.get(i).set(j, result);
+                results.get(j).set(i, result);
             }
         }
 
-        // TODO add back in not to compare
-
-        return postprocessing(toEvaluate, results);
+        return postprocessing(toEvaluate, stepOneResult.getNotToEvaluate(), results);
     }
 }

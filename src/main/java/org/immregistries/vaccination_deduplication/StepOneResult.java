@@ -4,14 +4,14 @@ public class StepOneResult {
     private LinkedImmunization toEvaluate;
     private LinkedImmunization notToEvaluate;
 
-    public StepOneResult() {
-        this.toEvaluate = new LinkedImmunization();
-        this.notToEvaluate = new LinkedImmunization();
-    }
-
     public StepOneResult(LinkedImmunization toEvaluate, LinkedImmunization notToEvaluate) {
         this.toEvaluate = toEvaluate;
         this.notToEvaluate = notToEvaluate;
+        this.notToEvaluate.setType(LinkedImmunizationType.DIFFERENT);
+    }
+
+    public StepOneResult() {
+        this(new LinkedImmunization(), new LinkedImmunization());
     }
 
     public LinkedImmunization getToEvaluate() {

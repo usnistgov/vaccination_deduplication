@@ -30,11 +30,11 @@ public class HybridTest extends TestCase{
         Weighted weighted = new Weighted();
         Deterministic deterministic = new Deterministic();
 
-        Result scoreWeighted = weighted.score(immunization1, immunization2);
-        Result scoreDeterministic = deterministic.score(immunization1, immunization2);
+        ComparisonResult scoreWeighted = weighted.score(immunization1, immunization2);
+        ComparisonResult scoreDeterministic = deterministic.score(immunization1, immunization2);
 
         Hybrid hybrid = new Hybrid();
-       	assertEquals(Result.DIFFERENT,hybrid.score(scoreWeighted,scoreDeterministic));
+       	assertEquals(ComparisonResult.DIFFERENT,hybrid.score(scoreWeighted,scoreDeterministic));
     }
     }
 

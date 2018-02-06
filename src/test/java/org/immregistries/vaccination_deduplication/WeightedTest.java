@@ -26,8 +26,8 @@ public class WeightedTest extends TestCase {
 
         Weighted weighted = new Weighted();
 
-        Result score = weighted.score(immunization1, immunization2);
-        assertEquals(Result.EQUAL, score);
+        ComparisonResult score = weighted.score(immunization1, immunization2);
+        assertEquals(ComparisonResult.EQUAL, score);
     }
 
     public void testScoreDifferent() throws Exception {
@@ -52,8 +52,8 @@ public class WeightedTest extends TestCase {
 
         Weighted weighted = new Weighted();
 
-        Result score = weighted.score(immunization1, immunization2);
-        assertEquals(Result.DIFFERENT, score);
+        ComparisonResult score = weighted.score(immunization1, immunization2);
+        assertEquals(ComparisonResult.DIFFERENT, score);
     }
 
     public void testScoreUnsure() throws Exception {
@@ -80,8 +80,8 @@ public class WeightedTest extends TestCase {
 
         Weighted weighted = new Weighted();
 
-        Result score = weighted.score(immunization1, immunization2);
-        assertEquals(Result.UNSURE, score);
+        ComparisonResult score = weighted.score(immunization1, immunization2);
+        assertEquals(ComparisonResult.UNSURE, score);
     }
 
 }

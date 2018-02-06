@@ -12,7 +12,9 @@ public class CompleteTest extends TestCase {
 
         LinkedImmunization patientRecords = immunizationLists.patient1;
 
-        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
+        vaccinationDeduplication.initialize();
+
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(patientRecords);
 
         for (LinkedImmunization linkedImmunization:result) {
@@ -27,7 +29,9 @@ public class CompleteTest extends TestCase {
 
         LinkedImmunization patientRecords = immunizationLists.patient1;
 
-        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
+        vaccinationDeduplication.initialize();
+
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(patientRecords);
 
         for (LinkedImmunization linkedImmunization:result) {
@@ -42,7 +46,9 @@ public class CompleteTest extends TestCase {
 
         LinkedImmunization patientRecords = immunizationLists.patient1;
 
-        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
+        vaccinationDeduplication.initialize();
+
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateHybrid(patientRecords);
 
         for (LinkedImmunization linkedImmunization:result) {

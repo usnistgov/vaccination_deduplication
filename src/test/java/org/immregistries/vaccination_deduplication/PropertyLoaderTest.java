@@ -71,7 +71,7 @@ public class PropertyLoaderTest extends TestCase {
             }
 
         }
-        assertEquals(Result.EQUAL, Result.EQUAL);
+        assertEquals(ComparisonResult.EQUAL, ComparisonResult.EQUAL);
     }
 
     public void testReadPropertyFile() {

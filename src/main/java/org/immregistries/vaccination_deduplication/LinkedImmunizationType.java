@@ -1,5 +1,8 @@
 package org.immregistries.vaccination_deduplication;
 
 public enum LinkedImmunizationType {
-    SURE, UNSURE, DIFFERENT, INPUT
+    SURE,
+    UNSURE,
+    DIFFERENT,
+    INPUT // not really usefull
 }

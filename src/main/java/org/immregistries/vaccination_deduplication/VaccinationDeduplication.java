@@ -9,12 +9,8 @@ import java.util.Collections;
 import java.util.HashMap;
 
 /**
- * 
- * Launch the deduplication process according to the evaluation method chosen
- * which can be the weighted approach, the deterministic approach or a combination of both
- *
+ * This class is the entry point for the API. It contains the main logic for the deduplication process.
  */
-// TODO change name
 public class VaccinationDeduplication {
     static VaccinationDeduplication instance;
     ImmunizationNormalisation immunizationNormalisation;
@@ -23,42 +19,60 @@ public class VaccinationDeduplication {
         this.immunizationNormalisation = ImmunizationNormalisation.getInstance();
     }
 
+    /**
+     * This method will return the singleton instance of VaccinationDeduplication
+     * @return The singleton instance
+     */
     public static VaccinationDeduplication getInstance() {
         if (instance == null)
             instance = new VaccinationDeduplication();
         return instance;
     }
 
+    /**
+     * This method (or initialize()) has to be called after getting the instance for the first time.
+     * It will initialize the class for the Immunization Normalisation process.
+     * It will use the codebase file at the given path.
+     *
+     * @param codebaseFilePath The path to the codebase file.
+     * @throws FileNotFoundException Throws exception if the codebase file is not found.
+     */
     public void initialize(String codebaseFilePath) throws FileNotFoundException {
         this.immunizationNormalisation.initialize(codebaseFilePath);
     }
 
+    /**
+     * This method (or initialize(String codebaseFilePath)) has to be called after getting the instance for the first time.
+     * It will initialize the class for the Immunization Normalisation process.
+     * It will use the codebase file present in the codebase client jar.
+     */
     public void initialize() {
         this.immunizationNormalisation.initialize();
     }
 
+    /**
+     * This method will change the codebase file used by the Immunization Normalisation process.
+     * @param codebaseFilePath The path to the codebase file.
+     * @throws FileNotFoundException Throws exception if the codebase file is not found.
+     */
     public void refreshCodebase(String codebaseFilePath) throws FileNotFoundException {
         this.immunizationNormalisation.refreshCodebase(codebaseFilePath);
     }
 
-
-    public boolean lineHas(ArrayList<ComparisonResult> line, ComparisonResult result) {
-        for (ComparisonResult r : line)
-            if (r.equals(result))
-                return true;
-
-        return false;
-    }
-
+    /**
+     * This method will process the results form the comparison process and return the LinkedImmunization grouping duplicates (or unsures or non duplicates) together.
+     * @param toEvaluate This ArrayList contains the Immunizations that have been determined by step one to be potential duplicates.
+     * @param notToEvaluate This ArrayList contains the Immunizations that have been determined by step one not to be potential duplicates.
+     * @param results This 2D ArrayList contains the results from the comparisons of the toEvaluate Immunizations.
+     * @return An ArrayList of LinkedImmunization containing the final result from the deduplication process.
+     */
     public ArrayList<LinkedImmunization> postprocessing(LinkedImmunization toEvaluate, LinkedImmunization notToEvaluate, ArrayList<ArrayList<ComparisonResult>> results) {
         HashMap<Integer, LinkedImmunization> sameGrouped = new HashMap<Integer, LinkedImmunization>();
         ArrayList<LinkedImmunization> unsures = new ArrayList<LinkedImmunization>();
 
         // first pass to group the ones we are SURE are the same together
-        for (int i = 0; i < results.size(); i++) {
-
-
-            for (int j = 0; j < results.size(); j++) {
+        for (int i = 0; i < results.size()-1; i++) {
+            for (int j = i+1; j < results.size(); j++) {
                 if (results.get(i).get(j).equals(ComparisonResult.EQUAL)) {
                     if(sameGrouped.containsKey(i) && sameGrouped.containsKey(j)) {
 
@@ -87,7 +101,8 @@ public class VaccinationDeduplication {
 
         for (int i = 0; i < results.size()-1; i++) {
             if (!sameGrouped.keySet().contains(i)) {
-                if (lineHas(results.get(i), ComparisonResult.UNSURE)) {
+                //if (lineHas(results.get(i), ComparisonResult.UNSURE)) {
+                if (results.get(i).contains(ComparisonResult.UNSURE)) {
                     LinkedImmunization unsure = new LinkedImmunization();
                     unsure.setType(LinkedImmunizationType.UNSURE);
                     unsure.add(toEvaluate.get(i));
@@ -125,38 +140,38 @@ public class VaccinationDeduplication {
     }
 
     /**
-     * Launch the deduplication process using the weighted approach
-     * 
-     * @param patientImmunizationRecords
-     * @return
+     * This method will launch the deduplication process using the weighted approach.
+     * @param patientImmunizationRecords A LinkedImmunization object containing all the immunization records for a patient.
+     * @return An ArrayList of LinkedImmunization containing the final result from the deduplication process.
      */
     public ArrayList<LinkedImmunization> deduplicateWeighted(LinkedImmunization patientImmunizationRecords) {
         return deduplicate(patientImmunizationRecords, DeduplicationMethod.WEIGHTED);
     }
 
     /**
-     * // Launch the deduplication process using the deterministic approach
-     * @param patientImmunizationRecords
-     * @return
+     * This method will launch the deduplication process using the deterministic approach
+     * @param patientImmunizationRecords A LinkedImmunization object containing all the immunization records for a patient.
+     * @return An ArrayList of LinkedImmunization containing the final result from the deduplication process.
      */
     public ArrayList<LinkedImmunization> deduplicateDeterministic(LinkedImmunization patientImmunizationRecords) {
         return deduplicate(patientImmunizationRecords, DeduplicationMethod.DETERMINISTIC);
     }
 
     /**
-     * // Launch the deduplication process using a combination of the weighted approach and the deterministic approach
-     * @param patientImmunizationRecords
-     * @return
+     * This method will launch the deduplication process using a hybrid of the weighted approach and the deterministic approach.
+     * @param patientImmunizationRecords A LinkedImmunization object containing all the immunization records for a patient.
+     * @return An ArrayList of LinkedImmunization containing the final result from the deduplication process.
      */
     public ArrayList<LinkedImmunization> deduplicateHybrid(LinkedImmunization patientImmunizationRecords) {
         return deduplicate(patientImmunizationRecords, DeduplicationMethod.HYBRID);
     }
 
     /**
-     * // Call the deduplication process corresponding to the specified approach
-     * @param patientImmunizationRecords
-     * @param method
-     * @return
+     * This method will call all the methods necessary to the deduplication process.
+     * It can also be called directly instead of using the specific methods.
+     * @param patientImmunizationRecords A LinkedImmunization object containing all the immunization records for a patient.
+     * @param method The method to use for the deduplication process.
+     * @return An ArrayList of LinkedImmunization containing the final result from the deduplication process.
      */
     public ArrayList<LinkedImmunization> deduplicate(LinkedImmunization patientImmunizationRecords, DeduplicationMethod method) {
         Comparer comparer;

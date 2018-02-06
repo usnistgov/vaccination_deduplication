@@ -49,7 +49,7 @@ public class Deterministic implements Comparer {
 		}
 		else if ((immunization1.getSource() == null ||immunization2.getSource() == null)) 
 		{
-			sourceResult = DeterministicResult.ONLYONE;
+			sourceResult = DeterministicResult.ONLY_ONE;
 		}
 		else if(immunization1.getSource().equals(immunization2.getSource()))
 		{
@@ -72,7 +72,7 @@ public class Deterministic implements Comparer {
 		}
 		else if ((s1==null) || (s2==null) )
 		{
-			result=DeterministicResult.ONLYONE;
+			result=DeterministicResult.ONLY_ONE;
 		}
 		else if(s1.equals(s2)){
 			result = DeterministicResult.SAME;
@@ -119,7 +119,7 @@ public class Deterministic implements Comparer {
 		{																																																																																																																																																																																																																																																																									{
 			likelyMatch++;
 		}}
-		else if(lotNumberResult == DeterministicResult.ONLYONE && dateResult == DeterministicResult.SAME && cvxResult == DeterministicResult.DIFFERENT && tradeNameResult == DeterministicResult.NEITHER && organizationIdResult == DeterministicResult.DIFFERENT)
+		else if(lotNumberResult == DeterministicResult.ONLY_ONE && dateResult == DeterministicResult.SAME && cvxResult == DeterministicResult.DIFFERENT && tradeNameResult == DeterministicResult.NEITHER && organizationIdResult == DeterministicResult.DIFFERENT)
 		{
 			likelyMatch++;
 		}

@@ -1,12 +1,14 @@
 package org.immregistries.vaccination_deduplication;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
+
+/**
+ * This object reads the property file and loads the values. The classes needing these values will then call upon this class to get them.
+ */
 
 public class PropertyLoader {
 
@@ -112,6 +114,10 @@ public class PropertyLoader {
         }
     }
 
+    /**
+     * This method will instantiate the PropertyLoader singleton when first called then will return the singleton instance.
+     * @return The singleton's instance.
+     */
     public static PropertyLoader getInstance() {
         if(instance == null) {
             instance = new PropertyLoader();
@@ -136,7 +142,7 @@ public class PropertyLoader {
     }
     
     public void setDateWindow(double dateWindow){
-    	 weightedParameters.replace(DATE_WINDOW, weightedParameters.get(DATE_WINDOW), dateWindow);
+        weightedParameters.put(DATE_WINDOW, dateWindow);
     }
     
     public Double getDateWindow(){

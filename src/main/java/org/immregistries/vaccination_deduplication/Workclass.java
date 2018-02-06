@@ -16,20 +16,20 @@ import java.util.HashMap;
  */
 // TODO change name
 public class Workclass {
-    //ImmunizationNormalisation immunizationNormalisation;
+    ImmunizationNormalisation immunizationNormalisation;
 
     public Workclass(String codebaseFilePath) throws FileNotFoundException {
-        //this.immunizationNormalisation = ImmunizationNormalisation.getInstance();
-        //this.immunizationNormalisation.initialize(codebaseFilePath);
+        this.immunizationNormalisation = ImmunizationNormalisation.getInstance();
+        this.immunizationNormalisation.initialize(codebaseFilePath);
     }
 
     public Workclass() {
-        //this.immunizationNormalisation = ImmunizationNormalisation.getInstance();
-        //this.immunizationNormalisation.initialize();
+        this.immunizationNormalisation = ImmunizationNormalisation.getInstance();
+        this.immunizationNormalisation.initialize();
     }
 
     public void refreshCodebase(String codebaseFilePath) throws FileNotFoundException {
-        //this.immunizationNormalisation.refreshCodebase(codebaseFilePath);
+        this.immunizationNormalisation.refreshCodebase(codebaseFilePath);
     }
 
 
@@ -153,7 +153,7 @@ public class Workclass {
                 comparer = new Hybrid();
         }
 
-        //immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
+        immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
 
         StepOne stepOne = new StepOne();
         StepOneResult stepOneResult = stepOne.executeStepOne(patientImmunizationRecords);

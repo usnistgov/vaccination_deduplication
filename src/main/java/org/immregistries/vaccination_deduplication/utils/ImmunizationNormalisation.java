@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class ImmunizationNormalisation {
     private static ImmunizationNormalisation instance;
@@ -53,12 +54,14 @@ public class ImmunizationNormalisation {
     }
 
     public void normalizeImmunization(Immunization immunization){
-        immunization.setVaccineGroupList(relatedCode.getVaccineGroupLabelsFromCvx(immunization.getCVX()));
+        immunization.setVaccineGroupList(new ArrayList<String>(relatedCode.getVaccineGroupLabelsFromCvx(immunization.getCVX())) );
 
         Code productCode = codeMap.getProductFor(immunization.getCVX(), immunization.getMVX(), dateFormat.format(immunization.getDate()));
-        String productCodeString = productCode.getValue();
 
-        immunization.setProductCode(productCodeString);
+        if (productCode != null) {
+            immunization.setProductCode(productCode.getValue());
+        }
+
     }
 
     public void normalizeAllImmunizations(LinkedImmunization linkedImmunization){

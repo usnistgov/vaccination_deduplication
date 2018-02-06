@@ -35,17 +35,6 @@ public class StepOneTest extends TestCase {
 	Immunization immunization19;
 	Immunization immunization20;
 	Immunization immunization21;
-<<<<<<< HEAD
-=======
-	
-
-    public void testIsPotentialDuplicate() throws Exception {
-    /*
-    	// Init Immunizations
-    	
-        immunization1 = new Immunization();
-        immunization2 = new Immunization();
->>>>>>> branch 'master' of https://github.com/nathanbunker/vaccination_deduplication.git
 
 	public void testIsPotentialDuplicate() throws Exception {
 
@@ -64,98 +53,8 @@ public class StepOneTest extends TestCase {
 
 	public void testExecuteStepOne() throws Exception {
 
-<<<<<<< HEAD
 		ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
-=======
-         immunization8.setVaccineGroupList(new ArrayList<String>(Arrays.asList("Hep B")));
-         immunization8.setOrganisationID("Dr Murphey");
-         immunization8.setDate("20151111");
-         immunization8.setCVX("08");
-         immunization8.setSource(Immunization.SOURCE.HISTORICAL);
-         
-         
-         // Add the expected linked immunization to the array which will be 
-         //compare with the one built by the StepOne class' multipleSelection method
-      
-         patient1.add(immunization1);
-         patient1.add(immunization2);
-         patient1.add(immunization3);
-         patient1.add(immunization4);
-         patient1.add(immunization5);
-         patient1.add(immunization6);
-         patient1.add(immunization7);
-         patient1.add(immunization8);	
-      
-      	// Test Patient 1
-      	
-        StepOne stepOne = new StepOne();
-        StepOneResult result = stepOne.executeStepOne(patient1);
-        
-        StepOneResult expectedResult = new StepOneResult(); 
-        expectedResult.setToEvaluate(new LinkedImmunization());
-      	assertEquals(expectedResult, result);
-        
-         //assertEquals(true, true);
-         */
-      	
-    	/*// Init immunizations (Patient 2)
-    	
-    	immunization9 = new Immunization();
-    	immunization10 = new Immunization();
-    	immunization11 = new Immunization();
-    	immunization12 = new Immunization();
-    	immunization13 = new Immunization();
-    	immunization14 = new Immunization();
-    	immunization15 = new Immunization();
-    	immunization16 = new Immunization();
-    	immunization17 = new Immunization();
-    	immunization18 = new Immunization();
-    	 
-    	 // Patient 2
-     	
-    	 immunization9.setDate("20161217");   
-         immunization9.setCVX("110");
-         immunization9.setSource(Immunization.SOURCE.SOURCE);
-         
-         immunization10.setDate("20161217");   
-         immunization10.setCVX("20");
-         immunization10.setSource(Immunization.SOURCE.HISTORICAL);
-         
-         immunization11.setDate("20161217");   
-         immunization11.setCVX("08");
-         immunization11.setSource(Immunization.SOURCE.HISTORICAL);
-         
-         immunization12.setDate("20161217");   
-         immunization12.setCVX("10");
-         immunization12.setSource(Immunization.SOURCE.HISTORICAL);
-         
-         immunization13.setDate("20161217");   
-         immunization13.setCVX("03");
-         immunization13.setSource(Immunization.SOURCE.HISTORICAL);
-         
-         immunization14.setDate("20160605");   
-         immunization14.setCVX("08");
-         immunization14.setSource(Immunization.SOURCE.SOURCE);
-         
-         immunization15.setDate("20160605");   
-         immunization15.setCVX("08");
-         immunization15.setSource(Immunization.SOURCE.SOURCE);
-         
-         immunization16.setDate("20160401");   
-         immunization16.setCVX("08");
-         immunization16.setSource(Immunization.SOURCE.HISTORICAL);
-         
-         immunization17.setDate("20160201");   
-         immunization17.setCVX("08");
-         immunization17.setSource(Immunization.SOURCE.SOURCE);
-         
-         immunization18.setDate("20160201");   
-         immunization18.setCVX("08");
-         immunization18.setSource(Immunization.SOURCE.SOURCE);*/
-         
->>>>>>> branch 'master' of https://github.com/nathanbunker/vaccination_deduplication.git
 
-<<<<<<< HEAD
 		// Test Patient 1
 		TestPatient(immunizationLists.patient1);
 
@@ -207,8 +106,5 @@ public class StepOneTest extends TestCase {
 			assertEquals(bool, true);
 		}
 	}
-=======
-    }
 
->>>>>>> branch 'master' of https://github.com/nathanbunker/vaccination_deduplication.git
 }

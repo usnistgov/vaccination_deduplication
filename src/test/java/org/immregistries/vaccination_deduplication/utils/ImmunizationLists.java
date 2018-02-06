@@ -11,24 +11,20 @@ import java.util.Arrays;
 public class ImmunizationLists {
     static ImmunizationLists instance;
 
-    LinkedImmunization patient1;
-    LinkedImmunization patient2;
-    LinkedImmunization patient3;
+    // setting them all to public to not have to create getters
+    public LinkedImmunization patient1  =new LinkedImmunization();
+    public LinkedImmunization patient2 = new LinkedImmunization();
+    public LinkedImmunization patient3 = new LinkedImmunization();
+    public Immunization immunization1 = new Immunization();
+    public Immunization immunization2 = new Immunization();
+    public Immunization immunization3 = new Immunization();
+    public Immunization immunization4 = new Immunization();
+    public Immunization immunization5 = new Immunization();
+    public Immunization immunization6 = new Immunization();
+    public Immunization immunization7 = new Immunization();
+    public Immunization immunization8 = new Immunization();
 
     private ImmunizationLists() throws ParseException {
-        patient1 = new LinkedImmunization();
-        patient2 = new LinkedImmunization();
-        patient3 = new LinkedImmunization();
-
-        Immunization immunization1 = new Immunization();
-        Immunization immunization2 = new Immunization();
-        Immunization immunization3 = new Immunization();
-        Immunization immunization4 = new Immunization();
-        Immunization immunization5 = new Immunization();
-        Immunization immunization6 = new Immunization();
-        Immunization immunization7 = new Immunization();
-        Immunization immunization8 = new Immunization();
-
         immunization1.setVaccineGroupList(new ArrayList<String>(Arrays.asList("MMR")));
         immunization1.setOrganisationID("Dr Murphey");
         immunization1.setDate("20161217");
@@ -99,17 +95,5 @@ public class ImmunizationLists {
             ImmunizationLists.instance = new ImmunizationLists();
         }
         return ImmunizationLists.instance;
-    }
-
-    public LinkedImmunization getPatient1() {
-        return patient1;
-    }
-
-    public LinkedImmunization getPatient2() {
-        return patient2;
-    }
-
-    public LinkedImmunization getPatient3() {
-        return patient3;
     }
 }

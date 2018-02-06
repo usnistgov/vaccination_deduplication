@@ -14,7 +14,7 @@ public class CompleteTest extends TestCase {
         assertEquals(result.size(), expected.size());
 
         for (int i = 0; i < result.size(); i++) {
-            System.out.println(result.get(i).toString());
+            //System.out.println(result.get(i).toString());
 
             assertEquals(expected.get(i).getType(), result.get(i).getType());
             assertEquals(expected.get(i).size(), result.get(i).size());
@@ -56,6 +56,10 @@ public class CompleteTest extends TestCase {
         expected.add(sure);
         expected.add(unsure);
         expected.add(different);
+
+        for (int i = 0; i < result.size(); i++) {
+            System.out.println(result.get(i).toString());
+        }
 
         compareResultToExpected(result, expected);
     }

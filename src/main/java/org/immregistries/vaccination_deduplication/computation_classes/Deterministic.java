@@ -66,11 +66,11 @@ public class Deterministic implements Comparer {
 	public DeterministicResult compareArgument(String s1,String s2)
 	{		
 		DeterministicResult result ; 
-		if ((s1==null) && (s2==null))
+		if ((s1==null || s1.equals("")) && (s2==null || s2.equals("")))
 		{
 			result = DeterministicResult.NEITHER;
 		}
-		else if ((s1==null) || (s2==null) )
+		else if (s1==null || s1.equals("") || s2==null || s2.equals(""))
 		{
 			result=DeterministicResult.ONLY_ONE;
 		}

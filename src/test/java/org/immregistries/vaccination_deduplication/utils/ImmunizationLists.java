@@ -50,24 +50,24 @@ public class ImmunizationLists {
         immunization1.setOrganisationID("Dr Murphey");
         immunization1.setDate("20161217");
         immunization1.setCVX("03");
-        immunization1.setMVX("MSD");
-        immunization1.setLotNumber("1");
+        //immunization1.setMVX("MSD");
+        //immunization1.setLotNumber("1");
         immunization1.setSource(ImmunizationSource.SOURCE);
 
         immunization2.setVaccineGroupList(new ArrayList<String>(Arrays.asList("MMR")));
         immunization2.setOrganisationID("Mercy Hospital");
         immunization2.setDate("20161217");
         immunization2.setCVX("03");
-        immunization2.setMVX("MSD");
-        immunization2.setLotNumber("1");
+        //immunization2.setMVX("MSD");
+        //immunization2.setLotNumber("1");
         immunization2.setSource(ImmunizationSource.HISTORICAL);
 
         immunization3.setVaccineGroupList(new ArrayList<String>(Arrays.asList("MMR")));
         immunization3.setOrganisationID("Medicare");
         immunization3.setDate("20161218");
         immunization3.setCVX("03");
-        immunization3.setMVX("MSD");
-        immunization3.setLotNumber("1");
+        //immunization3.setMVX("MSD");
+        //immunization3.setLotNumber("1");
         immunization3.setSource(ImmunizationSource.HISTORICAL);
 
         immunization4.setVaccineGroupList(new ArrayList<String>(Arrays.asList("DTaP", "IPV")));

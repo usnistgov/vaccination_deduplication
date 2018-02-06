@@ -1,31 +1,36 @@
 package org.immregistries.vaccination_deduplication.computation_classes;
 
 import org.immregistries.vaccination_deduplication.Immunization;
-import org.immregistries.vaccination_deduplication.Result;
+import org.immregistries.vaccination_deduplication.ComparisonResult;
 
+/**
+ * 
+ * Hybrid method, uses Deterministic and Weighted classes
+ * Uses a majority vote between deterministic and weighted in order to give another result
+ */
 public class Hybrid implements Comparer {
 	public Hybrid() {}
 
-	public Result score(Immunization immunization1, Immunization immunization2) {
+	public ComparisonResult score(Immunization immunization1, Immunization immunization2) {
 		Deterministic deterministic = new Deterministic();
-		Result deterministicResult = deterministic.score(immunization1, immunization2);
+		ComparisonResult deterministicResult = deterministic.score(immunization1, immunization2);
 
 		Weighted weighted = new Weighted();
-		Result weightedResult = weighted.score(immunization1, immunization2);
+		ComparisonResult weightedResult = weighted.score(immunization1, immunization2);
 
 		return this.score(deterministicResult, weightedResult);
 	}
 
-	public Result score(Result deterministicResult,Result weightedResult)
+	public ComparisonResult score(ComparisonResult deterministicResult,ComparisonResult weightedResult)
 	{
-		if(deterministicResult==Result.EQUAL&&weightedResult==Result.EQUAL)
+		if(deterministicResult==ComparisonResult.EQUAL&&weightedResult==ComparisonResult.EQUAL)
 		{
-			return Result.EQUAL;
+			return ComparisonResult.EQUAL;
 		}
-		else if(deterministicResult==Result.DIFFERENT&&weightedResult==Result.DIFFERENT)
+		else if(deterministicResult==ComparisonResult.DIFFERENT&&weightedResult==ComparisonResult.DIFFERENT)
 		{
-			return Result.DIFFERENT;
+			return ComparisonResult.DIFFERENT;
 		}
-		else return Result.UNSURE;
+		else return ComparisonResult.UNSURE;
 	}
 }

@@ -8,7 +8,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.Properties;
-
+/**
+ * Tests the property loader, 
+ *  
+ */
 public class PropertyLoaderTest extends TestCase {
     public void obsoleteTestWritePropertyFile() throws Exception {
 
@@ -71,7 +74,7 @@ public class PropertyLoaderTest extends TestCase {
             }
 
         }
-        assertEquals(Result.EQUAL, Result.EQUAL);
+        assertEquals(ComparisonResult.EQUAL, ComparisonResult.EQUAL);
     }
 
     public void testReadPropertyFile() {

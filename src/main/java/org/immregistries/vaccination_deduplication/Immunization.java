@@ -7,10 +7,8 @@ import java.util.Date;
 import java.util.ArrayList;
 
 /**
- *
- * Describes all the elements we can find in a record of a vaccination which are useful for the duplication process
- * Immunization object based on a structure similar to FHIR : https://www.hl7.org/fhir/immunization.html
- *
+ * This object represents an immunization record containing only the relevant fields for the deduplication process.
+ * It is based on the immunization structure from FHIR : <a href="https://www.hl7.org/fhir/immunization.html">https://www.hl7.org/fhir/immunization.html</a>
  */
 
 public class Immunization {

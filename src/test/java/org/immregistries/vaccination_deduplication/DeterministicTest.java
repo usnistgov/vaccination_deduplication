@@ -25,8 +25,8 @@ public class DeterministicTest extends TestCase {
 
         Deterministic deterministic = new Deterministic();
         
-        Result score = deterministic.score(immunization1, immunization2);
-        assertEquals(Result.EQUAL, score);
+        ComparisonResult score = deterministic.score(immunization1, immunization2);
+        assertEquals(ComparisonResult.EQUAL, score);
     }
 
     public void testScoreEquals1() throws Exception {
@@ -49,8 +49,8 @@ public class DeterministicTest extends TestCase {
 
         Deterministic deterministic = new Deterministic();
         
-        Result score = deterministic.score(immunization1, immunization2);
-        assertEquals(Result.EQUAL, score);
+        ComparisonResult score = deterministic.score(immunization1, immunization2);
+        assertEquals(ComparisonResult.EQUAL, score);
     }*/
     public void testScoreDifferent() throws Exception {
         Immunization immunization1 = new Immunization();
@@ -72,8 +72,8 @@ public class DeterministicTest extends TestCase {
 
         Deterministic deterministic = new Deterministic();
 
-        Result score = deterministic.score(immunization1, immunization2);
-        assertEquals(Result.DIFFERENT, score);
+        ComparisonResult score = deterministic.score(immunization1, immunization2);
+        assertEquals(ComparisonResult.DIFFERENT, score);
     }/*
 
     public void testScoreUnsure() throws Exception {
@@ -94,7 +94,7 @@ public class DeterministicTest extends TestCase {
 
         Deterministic deterministic = new Deterministic();
 
-        Result score = deterministic.score(immunization1, immunization2);
-        assertEquals(Result.UNSURE, score);
+        ComparisonResult score = deterministic.score(immunization1, immunization2);
+        assertEquals(ComparisonResult.UNSURE, score);
     }*/
 }

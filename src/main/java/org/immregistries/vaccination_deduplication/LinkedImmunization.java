@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * 
- * Identifies two or more records that are possibly referring to the same real-world "occurrence"
- * LinkedImmunization object based on a structure similar to FHIR : https://www.hl7.org/fhir/linkage.html
- * 
- *
+ * This object links ImmunizationRecords together.
+ * It is based on the linkage structure from FHIR : <a href="https://www.hl7.org/fhir/linkage.html">https://www.hl7.org/fhir/linkage.html</a>.
+ * It is used as input for the API and as Output.
+ * When used as output the type attribute will indicate if the contained Immunizations are the SAME, DIFFERENT or UNSURE.
  */
 
 public class LinkedImmunization extends ArrayList<Immunization> {

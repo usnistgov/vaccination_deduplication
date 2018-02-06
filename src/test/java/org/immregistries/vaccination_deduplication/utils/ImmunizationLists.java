@@ -3,11 +3,15 @@ package org.immregistries.vaccination_deduplication.utils;
 import org.immregistries.vaccination_deduplication.Immunization;
 import org.immregistries.vaccination_deduplication.ImmunizationSource;
 import org.immregistries.vaccination_deduplication.LinkedImmunization;
+import org.immregistries.vaccination_deduplication.LinkedImmunizationType;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
+/**
+ * 
+ * Lists immunizations, those will be used for the tests in CompleteTest
+ */
 public class ImmunizationLists {
     static ImmunizationLists instance;
 
@@ -38,6 +42,10 @@ public class ImmunizationLists {
     public Immunization immunization21 = new Immunization();
 
     private ImmunizationLists() throws ParseException {
+        patient1.setType(LinkedImmunizationType.INPUT);
+        patient2.setType(LinkedImmunizationType.INPUT);
+        patient3.setType(LinkedImmunizationType.INPUT);
+
         immunization1.setVaccineGroupList(new ArrayList<String>(Arrays.asList("MMR")));
         immunization1.setOrganisationID("Dr Murphey");
         immunization1.setDate("20161217");

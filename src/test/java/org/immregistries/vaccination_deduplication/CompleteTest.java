@@ -5,14 +5,19 @@ import org.immregistries.vaccination_deduplication.utils.ImmunizationLists;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-
+/**
+ * 
+ * Extensive test of deterministic, weighted and the hybrid approaches
+ */
 public class CompleteTest extends TestCase {
     public void testDeduplicateDeterministic() throws ParseException {
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
         LinkedImmunization patientRecords = immunizationLists.patient1;
 
-        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
+        vaccinationDeduplication.initialize();
+
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(patientRecords);
 
         for (LinkedImmunization linkedImmunization:result) {
@@ -27,7 +32,9 @@ public class CompleteTest extends TestCase {
 
         LinkedImmunization patientRecords = immunizationLists.patient1;
 
-        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
+        vaccinationDeduplication.initialize();
+
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(patientRecords);
 
         for (LinkedImmunization linkedImmunization:result) {
@@ -42,7 +49,9 @@ public class CompleteTest extends TestCase {
 
         LinkedImmunization patientRecords = immunizationLists.patient1;
 
-        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
+        vaccinationDeduplication.initialize();
+
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateHybrid(patientRecords);
 
         for (LinkedImmunization linkedImmunization:result) {

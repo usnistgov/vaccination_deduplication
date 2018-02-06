@@ -50,7 +50,7 @@ public class StepOneTest extends TestCase {
 		immunization1.setVaccineGroupList(new ArrayList<String>(Arrays.asList("MMR")));
         immunization1.setProductCode("");
         immunization1.setOrganisationID("Mercy Hospital");
-        immunization1.setSource(Immunization.SOURCE.HISTORICAL);
+        immunization1.setSource(ImmunizationSource.HISTORICAL);
         immunization1.setLotNumber("");
 
         immunization2.setDate("20161218");
@@ -58,7 +58,7 @@ public class StepOneTest extends TestCase {
         immunization2.setVaccineGroupList(new ArrayList<String>(Arrays.asList("MMR")));
         immunization2.setProductCode("");
         immunization2.setOrganisationID("Medicare");
-        immunization2.setSource(Immunization.SOURCE.HISTORICAL);
+        immunization2.setSource(ImmunizationSource.HISTORICAL);
         immunization2.setLotNumber("");
         
         StepOne stepOne = new StepOne();

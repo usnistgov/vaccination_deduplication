@@ -13,7 +13,7 @@ public class WeightedTest extends TestCase {
         immunization1.setCVX("CVX");
         immunization1.setMVX("MVX");
         immunization1.setProductCode("pc");
-        immunization1.setSource(Immunization.SOURCE.SOURCE);
+        immunization1.setSource(ImmunizationSource.SOURCE);
         immunization1.setOrganisationID("20171225");
 
         immunization2.setDate("20171225");
@@ -21,7 +21,7 @@ public class WeightedTest extends TestCase {
         immunization2.setCVX("CVX");
         immunization2.setMVX("MVX");
         immunization2.setProductCode("pc");
-        immunization2.setSource(Immunization.SOURCE.ALTERNATE);
+        immunization2.setSource(ImmunizationSource.ALTERNATE);
         immunization2.setOrganisationID("20171225");
 
         Weighted weighted = new Weighted();
@@ -39,7 +39,7 @@ public class WeightedTest extends TestCase {
         immunization1.setCVX("VCX 1");
         immunization1.setMVX("MVX 1");
         immunization1.setProductCode("pc 2");
-        immunization1.setSource(Immunization.SOURCE.SOURCE);
+        immunization1.setSource(ImmunizationSource.SOURCE);
         immunization1.setOrganisationID("20171225");
 
         immunization2.setDate("20101102");
@@ -47,7 +47,7 @@ public class WeightedTest extends TestCase {
         immunization2.setCVX("VCX 2");
         immunization2.setMVX("MVX 2");
         immunization2.setProductCode("pc 2");
-        immunization2.setSource(Immunization.SOURCE.ALTERNATE);
+        immunization2.setSource(ImmunizationSource.ALTERNATE);
         immunization2.setOrganisationID("20171225");
 
         Weighted weighted = new Weighted();
@@ -67,7 +67,7 @@ public class WeightedTest extends TestCase {
         immunization1.setCVX("VCX");
         immunization1.setMVX("MVX");
         immunization1.setProductCode("pc");
-        immunization1.setSource(Immunization.SOURCE.SOURCE);
+        immunization1.setSource(ImmunizationSource.SOURCE);
         immunization1.setOrganisationID("20171225");
 
         immunization2.setDate("20171225");
@@ -75,7 +75,7 @@ public class WeightedTest extends TestCase {
         immunization2.setCVX("VCX");
         immunization2.setMVX("MVX");
         immunization2.setProductCode("pc");
-        immunization2.setSource(Immunization.SOURCE.HISTORICAL);
+        immunization2.setSource(ImmunizationSource.HISTORICAL);
         immunization2.setOrganisationID("20171225");
 
         Weighted weighted = new Weighted();

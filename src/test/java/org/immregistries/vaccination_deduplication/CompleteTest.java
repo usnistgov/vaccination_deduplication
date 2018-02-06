@@ -10,10 +10,10 @@ public class CompleteTest extends TestCase {
     public void testDeduplicateDeterministic() throws ParseException {
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
-        LinkedImmunization patientRecords = immunizationLists.getPatient1();
+        LinkedImmunization patientRecords = immunizationLists.patient1;
 
-        Workclass workclass = new Workclass();
-        ArrayList<LinkedImmunization> result = workclass.deduplicateDeterministic(patientRecords);
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(patientRecords);
 
         for (LinkedImmunization linkedImmunization:result) {
             System.out.println(linkedImmunization.toString());
@@ -25,10 +25,10 @@ public class CompleteTest extends TestCase {
     public void testDeduplicateWeighted() throws ParseException {
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
-        LinkedImmunization patientRecords = immunizationLists.getPatient1();
+        LinkedImmunization patientRecords = immunizationLists.patient1;
 
-        Workclass workclass = new Workclass();
-        ArrayList<LinkedImmunization> result = workclass.deduplicateWeighted(patientRecords);
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(patientRecords);
 
         for (LinkedImmunization linkedImmunization:result) {
             System.out.println(linkedImmunization.toString());
@@ -40,10 +40,10 @@ public class CompleteTest extends TestCase {
     public void testDeduplicateHybrid() throws ParseException {
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
-        LinkedImmunization patientRecords = immunizationLists.getPatient1();
+        LinkedImmunization patientRecords = immunizationLists.patient1;
 
-        Workclass workclass = new Workclass();
-        ArrayList<LinkedImmunization> result = workclass.deduplicateHybrid(patientRecords);
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateHybrid(patientRecords);
 
         for (LinkedImmunization linkedImmunization:result) {
             System.out.println(linkedImmunization.toString());

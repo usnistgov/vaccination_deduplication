@@ -13,14 +13,14 @@ public class DeterministicTest extends TestCase {
         //immunization1.setLotNumber("test lot number");
         immunization1.setCVX("03");
         immunization1.setTradeName("MMR");
-        immunization1.setSource(Immunization.SOURCE.SOURCE);
+        immunization1.setSource(ImmunizationSource.SOURCE);
         immunization1.setOrganisationID("Dr Murphey");
         
         immunization2.setDate("20161218");
         //immunization2.setLotNumber("test lot number");
         immunization2.setTradeName("MMR");
         immunization2.setCVX("03");
-        immunization2.setSource(Immunization.SOURCE.HISTORICAL);
+        immunization2.setSource(ImmunizationSource.HISTORICAL);
         immunization2.setOrganisationID("Medicare");
 
         Deterministic deterministic = new Deterministic();
@@ -37,14 +37,14 @@ public class DeterministicTest extends TestCase {
         //immunization1.setLotNumber("test lot number");
         immunization1.setCVX("10");
         immunization1.setTradeName("IPV");
-        immunization1.setSource(Immunization.SOURCE.SOURCE);
+        immunization1.setSource(ImmunizationSource.SOURCE);
         immunization1.setOrganisationID("Dr Murphey");
         
         immunization2.setDate("20161218");
         //immunization2.setLotNumber("test lot number");
         immunization2.setTradeName("Polio");
         immunization2.setCVX("89");
-        immunization2.setSource(Immunization.SOURCE.HISTORICAL);
+        immunization2.setSource(ImmunizationSource.HISTORICAL);
         immunization2.setOrganisationID("Mercy Hospital");
 
         Deterministic deterministic = new Deterministic();
@@ -60,7 +60,7 @@ public class DeterministicTest extends TestCase {
         //immunization1.setLotNumber("test lot number");
         immunization1.setCVX("03");
         immunization1.setProductCode("MMR");
-        immunization1.setSource(Immunization.SOURCE.SOURCE);
+        immunization1.setSource(ImmunizationSource.SOURCE);
         immunization1.setOrganisationID("Mercy Hospital");
         
         immunization2.setDate("20160506");
@@ -68,7 +68,7 @@ public class DeterministicTest extends TestCase {
         immunization2.setProductCode("HEP B");
         immunization2.setCVX("08");
         immunization2.setOrganisationID("Dr Murphey");
-        immunization2.setSource(Immunization.SOURCE.HISTORICAL);
+        immunization2.setSource(ImmunizationSource.HISTORICAL);
 
         Deterministic deterministic = new Deterministic();
 
@@ -85,12 +85,12 @@ public class DeterministicTest extends TestCase {
         immunization1.setDate("20171225");
         immunization1.setLotNumber("test lot number");
         immunization1.setCVX("VCX");
-        immunization1.setSource(Immunization.SOURCE.SOURCE);
+        immunization1.setSource(ImmunizationSource.SOURCE);
 
         immunization2.setDate("20171225");
         immunization2.setLotNumber("test lot number");
         immunization2.setCVX("VCX");
-        immunization2.setSource(Immunization.SOURCE.ALTERNATE);
+        immunization2.setSource(ImmunizationSource.ALTERNATE);
 
         Deterministic deterministic = new Deterministic();
 

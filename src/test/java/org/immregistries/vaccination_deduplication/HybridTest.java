@@ -16,7 +16,7 @@ public class HybridTest extends TestCase{
         immunization1.setCVX("VCX 1");
         immunization1.setMVX("MVX 1");
         immunization1.setProductCode("pc 2");
-        immunization1.setSource(Immunization.SOURCE.SOURCE);
+        immunization1.setSource(ImmunizationSource.SOURCE);
         immunization1.setOrganisationID("20171225");
 
         immunization2.setDate("20101102");
@@ -24,7 +24,7 @@ public class HybridTest extends TestCase{
         immunization2.setCVX("VCX 2");
         immunization2.setMVX("MVX 2");
         immunization2.setProductCode("pc 2");
-        immunization2.setSource(Immunization.SOURCE.ALTERNATE);
+        immunization2.setSource(ImmunizationSource.ALTERNATE);
         immunization2.setOrganisationID("20171225");
 
         Weighted weighted = new Weighted();

@@ -1,5 +1,8 @@
 package org.immregistries.vaccination_deduplication;
-
+/**
+ * 
+ * Returns the result of step one, saying if the records must be evaluated or not
+ */
 public class StepOneResult {
     private LinkedImmunization toEvaluate;
     private LinkedImmunization notToEvaluate;

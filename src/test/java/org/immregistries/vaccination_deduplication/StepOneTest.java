@@ -1,24 +1,49 @@
 package org.immregistries.vaccination_deduplication;
 
-import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.immregistries.vaccination_deduplication.computation_classes.StepOne;
+import org.immregistries.vaccination_deduplication.utils.ImmunizationLists;
 
 import junit.framework.TestCase;
 
 public class StepOneTest extends TestCase {
+	public LinkedImmunization patient1;
+    public LinkedImmunization patient2;
+    public LinkedImmunization patient3;
 	
-
-    public void testSelection() throws Exception {
+    Immunization immunization1;
+    Immunization immunization2;
+    Immunization immunization3;
+    Immunization immunization4;
+    Immunization immunization5;
+    Immunization immunization6;
+    Immunization immunization7;
+    Immunization immunization8;
+    
+    Immunization immunization9;
+	Immunization immunization10;
+	Immunization immunization11;
+	Immunization immunization12;
+	Immunization immunization13;
+	Immunization immunization14;
+	Immunization immunization15;
+	Immunization immunization16;
+	Immunization immunization17;
+	Immunization immunization18;
+	
+	Immunization immunization19;
+	Immunization immunization20;
+	Immunization immunization21;
+	
+    
+    public void testIsPotentialDuplicate() throws Exception {
     	
     	// Init Immunizations
     	
-        Immunization immunization1 = new Immunization();
-        Immunization immunization2 = new Immunization();
-        ArrayList<String> vaccineGroupList = new ArrayList<String>();
+        immunization1 = new Immunization();
+        immunization2 = new Immunization();
 
         immunization1.setDate("20161217");   
         immunization1.setCVX("03");
@@ -43,153 +68,111 @@ public class StepOneTest extends TestCase {
         
     }
     
-   /* public void testMultipleSelection() throws Exception {
-    	
-    	// Init immunizations (Patient 1)
-    	
-    	 Immunization immunization1 = new Immunization();
-    	 Immunization immunization2 = new Immunization();
-    	 Immunization immunization3 = new Immunization();
-    	 Immunization immunization4 = new Immunization();
-    	 Immunization immunization5 = new Immunization();
-    	 Immunization immunization6 = new Immunization();
-    	 Immunization immunization7 = new Immunization();
-    	 Immunization immunization8 = new Immunization();
+   public void testExecuteStepOne() throws Exception {
+	   
+	   // Init patients
+	   patient1 = new LinkedImmunization();
+       patient2 = new LinkedImmunization();
+       patient3 = new LinkedImmunization();
+	  
+       // Init immunizations (Patient 1)
+       immunization1 = new Immunization();
+       immunization2 = new Immunization();
+       immunization3 = new Immunization();
+       immunization4 = new Immunization();
+       immunization5 = new Immunization();
+       immunization6 = new Immunization();
+       immunization7 = new Immunization();
+       immunization8 = new Immunization();
     	 
-    	 // Date, CVX and Source are the 3 parameters needed for Step One
-    	 // Patient 1
+    	// Instanciate the immunizations with real parameters
     	 
-    	 ArrayList<String> vaccineGroupList = new ArrayList<String>();
-    	 
-         vaccineGroupList.clear();
-         vaccineGroupList.add("MMR");
-         immunization1.setVaccineGroupList(vaccineGroupList);
-         immunization2.setOrganisationID("Dr Murphey");
-    	 immunization1.setDate("20161217");   
+    	// Patient 1
+         
+         immunization1.setVaccineGroupList(new ArrayList<String>(Arrays.asList("MMR")));
+         immunization1.setOrganisationID("Dr Murphey");
+         immunization1.setDate("20161217");
          immunization1.setCVX("03");
          immunization1.setSource(Immunization.SOURCE.SOURCE);
          
-         vaccineGroupList.clear();
-         vaccineGroupList.add("MMR");
-         immunization2.setVaccineGroupList(vaccineGroupList);
+         immunization2.setVaccineGroupList(new ArrayList<String>(Arrays.asList("MMR")));
          immunization2.setOrganisationID("Mercy Hospital");
-         immunization2.setDate("20161217");   
+         immunization2.setDate("20161217");
          immunization2.setCVX("03");
          immunization2.setSource(Immunization.SOURCE.HISTORICAL);
-         
-         vaccineGroupList.clear();
-         vaccineGroupList.add("MMR");
-         immunization3.setVaccineGroupList(vaccineGroupList);
-         immunization2.setOrganisationID("Medicare");
-         immunization3.setDate("20161218");   
+
+         immunization3.setVaccineGroupList(new ArrayList<String>(Arrays.asList("MMR")));
+         immunization3.setOrganisationID("Medicare");
+         immunization3.setDate("20161218");
          immunization3.setCVX("03");
          immunization3.setSource(Immunization.SOURCE.HISTORICAL);
-         
-         vaccineGroupList.clear();
-         vaccineGroupList.add("DTaP");
-         vaccineGroupList.add("IPV");
-         immunization4.setVaccineGroupList(vaccineGroupList);
-         immunization2.setOrganisationID("Dr Murphey");
-         immunization4.setDate("20161217");   
+
+         immunization4.setVaccineGroupList(new ArrayList<String>(Arrays.asList("DTaP", "IPV")));
+         immunization4.setOrganisationID("Dr Murphey");
+         immunization4.setDate("20161217");
          immunization4.setCVX("130");
          immunization4.setSource(Immunization.SOURCE.SOURCE);
-         
-         vaccineGroupList.clear();
-         vaccineGroupList.add("Hep A");
-         immunization5.setVaccineGroupList(vaccineGroupList);
+
+         immunization5.setVaccineGroupList(new ArrayList<String>(Arrays.asList("Hep A")));
          immunization5.setOrganisationID("Dr Murphey");
-         immunization5.setDate("20161217");   
+         immunization5.setDate("20161217");
          immunization5.setCVX("83");
          immunization5.setSource(Immunization.SOURCE.SOURCE);
-         
 
-         vaccineGroupList.clear();
-         vaccineGroupList.add("Hep B");
-         immunization6.setVaccineGroupList(vaccineGroupList);
+         immunization6.setVaccineGroupList(new ArrayList<String>(Arrays.asList("Hep B")));
          immunization6.setOrganisationID("Dr Murphey");
          immunization6.setDate("20160605");
          immunization6.setCVX("08");
          immunization6.setSource(Immunization.SOURCE.SOURCE);
-         
-         vaccineGroupList.clear();
-         vaccineGroupList.add("Hep B");
-         immunization7.setVaccineGroupList(vaccineGroupList);
+
+         immunization7.setVaccineGroupList(new ArrayList<String>(Arrays.asList("Hep B")));
          immunization7.setOrganisationID("Dr Murphey");
-         immunization7.setDate("20160401");   
+         immunization7.setDate("20160401");
          immunization7.setCVX("08");
          immunization7.setSource(Immunization.SOURCE.SOURCE);
-         
-         vaccineGroupList.clear();
-         vaccineGroupList.add("Hep B");
-         immunization8.setVaccineGroupList(vaccineGroupList);
+
+         immunization8.setVaccineGroupList(new ArrayList<String>(Arrays.asList("Hep B")));
          immunization8.setOrganisationID("Dr Murphey");
-         immunization8.setDate("20151111");   
+         immunization8.setDate("20151111");
          immunization8.setCVX("08");
-         immunization8.setSource(Immunization.SOURCE.HISTORICAL);	
+         immunization8.setSource(Immunization.SOURCE.HISTORICAL);
          
          
          // Add the expected linked immunization to the array which will be 
          //compare with the one built by the StepOne class' multipleSelection method
-          
-      	LinkedImmunization immunizations = new LinkedImmunization();
-      	LinkedImmunization expectedLinkedImmunization = new LinkedImmunization();
-      	ArrayList<LinkedImmunization> expectedLinkedArray = new ArrayList<LinkedImmunization>();
-      	
-      	immunizations.add(immunization2);
-      	immunizations.add(immunization3);
-      	expectedLinkedImmunization.addAll(immunizations);
-      	expectedLinkedArray.add(expectedLinkedImmunization);
-      	
-      	// filling the immunizations array used by multipleSelection method
-      	immunizations.clear();
-      	immunizations.add(immunization1);
-      	immunizations.add(immunization2);
-      	immunizations.add(immunization3);
-      	immunizations.add(immunization4);
-      	immunizations.add(immunization5);
-      	immunizations.add(immunization6);
-      	immunizations.add(immunization7);
-      	immunizations.add(immunization8);	
+      
+         patient1.add(immunization1);
+         patient1.add(immunization2);
+         patient1.add(immunization3);
+         patient1.add(immunization4);
+         patient1.add(immunization5);
+         patient1.add(immunization6);
+         patient1.add(immunization7);
+         patient1.add(immunization8);	
       
       	// Test Patient 1
       	
-      	StepOne stepOne = new StepOne();
-      	ArrayList<LinkedImmunization> result = stepOne.multipleSelection(immunizations);
-      	//assertEquals(expectedLinkedArray, result);
+        StepOne stepOne = new StepOne();
+        StepOneResult result = stepOne.executeStepOne(patient1);
+        
+        StepOneResult expectedResult = new StepOneResult(); 
+        expectedResult.setToEvaluate(new LinkedImmunization());
+      	assertEquals(expectedResult, result);
+        
+         //assertEquals(true, true);
       	
-      	// Failure debugging code
-        for (int i=0; i<result.size();i++){
-  		System.out.println((i+1)+"\n");
- 		for(int j=0; j<result.get(i).size();j++){
- 		System.out.println("Obtained : "+result.get(i).get(j).getCVX());
- 		System.out.println(result.get(i).get(j).getDate());
- 		System.out.println(result.get(i).get(j).getSource());
- 		System.out.println("\n");
- 			}
-        }
- 		
- 		for (int k=0; k<expectedLinkedArray.size();k++){
- 	  		System.out.println((k+1)+"\n");
- 	 		for(int j=0; j<expectedLinkedArray.get(k).size();j++){
- 	 		System.out.println("Expected : "+expectedLinkedArray.get(k).get(j).getCVX());
- 	 		System.out.println(expectedLinkedArray.get(k).get(j).getDate());
- 	 		System.out.println(expectedLinkedArray.get(k).get(j).getSource());
- 	 		System.out.println("\n");
- 	 		}
- 	}
+    	/*// Init immunizations (Patient 2)
     	
-    	// Init immunizations (Patient 2)
-    	
-    	 Immunization immunization9 = new Immunization();
-    	 Immunization immunization10 = new Immunization();
-    	 Immunization immunization11 = new Immunization();
-    	 Immunization immunization12 = new Immunization();
-    	 Immunization immunization13 = new Immunization();
-    	 Immunization immunization14 = new Immunization();
-    	 Immunization immunization15 = new Immunization();
-    	 Immunization immunization16 = new Immunization();
-    	 Immunization immunization17 = new Immunization();
-    	 Immunization immunization18 = new Immunization();
+    	immunization9 = new Immunization();
+    	immunization10 = new Immunization();
+    	immunization11 = new Immunization();
+    	immunization12 = new Immunization();
+    	immunization13 = new Immunization();
+    	immunization14 = new Immunization();
+    	immunization15 = new Immunization();
+    	immunization16 = new Immunization();
+    	immunization17 = new Immunization();
+    	immunization18 = new Immunization();
     	 
     	 // Patient 2
      	
@@ -231,53 +214,10 @@ public class StepOneTest extends TestCase {
          
          immunization18.setDate("20160201");   
          immunization18.setCVX("08");
-         immunization18.setSource(Immunization.SOURCE.SOURCE);
+         immunization18.setSource(Immunization.SOURCE.SOURCE);*/
          
-     	 // Add the expected linked immunization to the array which will be 
-         //compare with the one built by the StepOne class' multipleSelection method
-         
-     	immunizations.clear();
-     	expectedLinkedImmunization.clear();
-     	expectedLinkedArray.clear();
-     	
-      	immunizations.add(immunization10);
-      	immunizations.add(immunization11);
-      	immunizations.add(immunization12);
-      	expectedLinkedImmunization.addAll(immunizations);
-      	expectedLinkedArray.add(expectedLinkedImmunization);
-      	
-      	immunizations.clear();
-      	immunizations.add(immunization14);
-      	immunizations.add(immunization15);
-      	expectedLinkedImmunization.addAll(immunizations);
-      	expectedLinkedArray.add(expectedLinkedImmunization);
-      	
-      	immunizations.clear();
-      	immunizations.add(immunization17);
-      	immunizations.add(immunization18);
-      	expectedLinkedImmunization.addAll(immunizations);
-      	expectedLinkedArray.add(expectedLinkedImmunization);
-      	
-      	// filling the immunizations array used by multipleSelection method
-      	
-      	immunizations.add(immunization9);
-      	immunizations.add(immunization10);
-      	immunizations.add(immunization11);
-      	immunizations.add(immunization12);
-      	immunizations.add(immunization13);
-      	immunizations.add(immunization14);
-      	immunizations.add(immunization15);
-      	immunizations.add(immunization16);
-      	immunizations.add(immunization17);
-      	immunizations.add(immunization18); 
-     	
-     	// Test patient 2
-      	
-      	StepOne stepOne2 = new StepOne();
-      	ArrayList<LinkedImmunization> result2 = stepOne2.multipleSelection(immunizations);
-     	assertEquals(expectedLinkedArray, result2);
-     	
-        }*/
+
     }
+}
 
 

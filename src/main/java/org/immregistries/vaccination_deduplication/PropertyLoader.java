@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
+
 /**
  * This object reads the property file and loads the values. The classes needing these values will then call upon this class to get them.
+ * Currently it's the properties only contain values useful for the weighted method (look up table).
  */
-
 public class PropertyLoader {
 
     public static final String DATE_WINDOW = "dateWindow";

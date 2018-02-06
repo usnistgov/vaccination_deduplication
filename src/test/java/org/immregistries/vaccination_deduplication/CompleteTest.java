@@ -5,7 +5,10 @@ import org.immregistries.vaccination_deduplication.utils.ImmunizationLists;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-
+/**
+ * 
+ * Extensive test of deterministic, weighted and the hybrid approaches
+ */
 public class CompleteTest extends TestCase {
     public void testDeduplicateDeterministic() throws ParseException {
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();

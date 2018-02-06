@@ -84,8 +84,14 @@ public class Deterministic implements Comparer {
 		return result ;
 
 	}
-	//Step 2 Evaluation phase
+
+	/**
+	 * Step 2 - Evaluation phase of the deterministic approach
+	 * Follows the business rules in order to determine if two immunizations are duplicates once step 1 is done
+	 */
 	public ComparisonResult sumResult(Immunization immunization1,Immunization immunization2,DeterministicResult sourceResult,DeterministicResult lotNumberResult,DeterministicResult cvxResult,DeterministicResult organizationIdResult ,DeterministicResult tradeNameResult,DeterministicResult dateResult)
+ 
+
 	{
 		Boolean likelyDifferentSource=false;
 		Boolean likelyMatchSource=false;

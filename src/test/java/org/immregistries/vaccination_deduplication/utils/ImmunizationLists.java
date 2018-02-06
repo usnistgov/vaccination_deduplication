@@ -7,7 +7,10 @@ import org.immregistries.vaccination_deduplication.LinkedImmunization;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
+/**
+ * 
+ * Lists immunizations, those will be used for the tests in CompleteTest
+ */
 public class ImmunizationLists {
     static ImmunizationLists instance;
 

@@ -7,7 +7,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
-
+/**
+ * 
+ * Class used to load the lookup tables for the weighted method. 
+ * 
+ *
+ */
 public class PropertyLoader {
 
     public static final String DATE_WINDOW = "dateWindow";

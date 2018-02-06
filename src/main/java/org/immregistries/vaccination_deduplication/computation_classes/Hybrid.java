@@ -2,7 +2,11 @@ package org.immregistries.vaccination_deduplication.computation_classes;
 
 import org.immregistries.vaccination_deduplication.Immunization;
 import org.immregistries.vaccination_deduplication.Result;
-
+/**
+ * 
+ * Hybrid method, uses Deterministic and Weighted classes
+ * Uses a majority vote between deterministic and weighted in order to give another result
+ */
 public class Hybrid implements Comparer {
 	public Hybrid() {}
 

@@ -120,11 +120,6 @@ public class Weighted implements Comparer {
         }
     }
 
-    /**
-     *
-     * @param array
-     * @return
-     */
     private double getMinimum(double[] array) {
         double min = Integer.MAX_VALUE;
         for (double anArray : array)
@@ -157,6 +152,12 @@ public class Weighted implements Comparer {
         return max;
     }
 
+    /**
+     * This method will update Smin and Smax, being respectively the minimal score and the maximal score.
+     * For this it will sum all the possible lowest weights together and all the possible maximum weights together.
+     *
+     * Smin and Smax are then used to decide how a comparison score relates to the max and min thresholds.
+     */
     private void updateSminAndSmax() {
         double[] lotNumberWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_LOT_NUMBER), parameters.get(PropertyLoader.WEIGHT_DIFFERENT_LOT_NUMBER), parameters.get(PropertyLoader.WEIGHT_ABSENT_LOT_NUMBER)};
         double[] cvxWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_CVX), parameters.get(PropertyLoader.WEIGHT_DIFFERENT_CVX), parameters.get(PropertyLoader.WEIGHT_ABSENT_CVX)};

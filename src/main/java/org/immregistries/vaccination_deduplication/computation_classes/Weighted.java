@@ -1,9 +1,9 @@
 package org.immregistries.vaccination_deduplication.computation_classes;
 
+import org.immregistries.vaccination_deduplication.ComparisonResult;
 import org.immregistries.vaccination_deduplication.Immunization;
 import org.immregistries.vaccination_deduplication.ImmunizationSource;
 import org.immregistries.vaccination_deduplication.PropertyLoader;
-import org.immregistries.vaccination_deduplication.ComparisonResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,8 +11,7 @@ import java.util.HashMap;
 import static org.immregistries.vaccination_deduplication.utils.Matching.compareForWeighted;
 
 /**
- * Execute Step 2 : Evaluation phase using the weighted scoring approach
- *
+ * This class contains all the methods necessary to apply the Weighted method for the second step of the deduplication process.
  */
 public class Weighted implements Comparer {
 
@@ -32,16 +31,16 @@ public class Weighted implements Comparer {
         updateSminAndSmax();
     }
 
-	/**
-	 * Allows to know if two records have to be deduplicated according to the weighted approach
-	 * 
-	 * @param immunization1 and immunization2 are the two record to compare to each other
-	 * @param minThreshold and maxThreshold correspond to the weight scores used to determine the outcome
-	 * @return the weighted scoring outcome which can be "equal" (case : maxThreshold &lt; score), "unsure" (case : minThreshold &lt; score &lt; maxThreshold), or different (case : score &lt; minThreshold)
-	 */
-	// TODO change name
-    public ComparisonResult compare(Immunization immunization1, Immunization immunization2, double minThreshold, double maxThreshold) {
-        double score=0;
+    /**
+     * This method compares two records together to see if they are duplicates.
+     * For this it will use the weights defined in the config file.
+     *
+     * @param immunization1 The first immunization record to compare.
+     * @param immunization2 The second immunization record to compare.
+     * @return The deterministic comparison outcome which can be {@link ComparisonResult#EQUAL}, {@link ComparisonResult#UNSURE}, or {@link ComparisonResult#DIFFERENT}.
+     */
+    public ComparisonResult compare(Immunization immunization1, Immunization immunization2) {
+        double score = 0;
 
         // CVX
         score += compareForWeighted(
@@ -70,7 +69,7 @@ public class Weighted implements Comparer {
                 parameters.get(PropertyLoader.WEIGHT_DIFFERENT_PRODUCT_CODE)
         );
 
-    	// Lot Number
+        // Lot Number
         score += compareForWeighted(
                 immunization1.getLotNumber(),
                 immunization2.getLotNumber(),
@@ -80,15 +79,15 @@ public class Weighted implements Comparer {
         );
 
         // Date administered
-        int dateDifferenceInDays = (int) ((immunization1.getDate().getTime() - immunization2.getDate().getTime()) / (24*60*60*1000));
+        int dateDifferenceInDays = (int) ((immunization1.getDate().getTime() - immunization2.getDate().getTime()) / (24 * 60 * 60 * 1000));
         if (dateDifferenceInDays < 0) {
             dateDifferenceInDays = -dateDifferenceInDays;
         }
         if (dateDifferenceInDays >= dateDifferenceWeight.size()) {
-            dateDifferenceInDays = dateDifferenceWeight.size()-1;
+            dateDifferenceInDays = dateDifferenceWeight.size() - 1;
         }
-        score+=dateDifferenceWeight.get(dateDifferenceInDays);
-        
+        score += dateDifferenceWeight.get(dateDifferenceInDays);
+
         // Provider Organization
         score += compareForWeighted(
                 immunization1.getOrganisationID(),
@@ -98,39 +97,34 @@ public class Weighted implements Comparer {
                 parameters.get(PropertyLoader.WEIGHT_DIFFERENT_ORGANISATION_ID));
 
         // Source
-        if (!(immunization1.getSource() == null && immunization2.getSource() == null)){
+        if (!(immunization1.getSource() == null && immunization2.getSource() == null)) {
             if (immunization1.getSource() == ImmunizationSource.SOURCE && immunization2.getSource() == ImmunizationSource.SOURCE) {
-                score+=parameters.get(PropertyLoader.WEIGHT_SAME_SOURCE_ADMIN);
+                score += parameters.get(PropertyLoader.WEIGHT_SAME_SOURCE_ADMIN);
             } else if (immunization1.getSource() == ImmunizationSource.HISTORICAL && immunization2.getSource() == ImmunizationSource.HISTORICAL) {
-                score+=parameters.get(PropertyLoader.WEIGHT_SAME_SOURCE_HISTORICAL);
+                score += parameters.get(PropertyLoader.WEIGHT_SAME_SOURCE_HISTORICAL);
             } else {
-                score+=parameters.get(PropertyLoader.WEIGHT_DIFFERENT_SOURCE);
+                score += parameters.get(PropertyLoader.WEIGHT_DIFFERENT_SOURCE);
             }
+        } else {
+            score += parameters.get(PropertyLoader.WEIGHT_ABSENT_SOURCE);
         }
-        else{score+=parameters.get(PropertyLoader.WEIGHT_ABSENT_SOURCE);}
-
 
         double balancedScore = (score - this.Smin) / this.Smax;
 
-        if (balancedScore > maxThreshold) {
+        if (balancedScore > parameters.get(PropertyLoader.WEIGHT_MAX_THRESHOLD)) {
             return ComparisonResult.EQUAL;
-        } else if (balancedScore < minThreshold) {
+        } else if (balancedScore < parameters.get(PropertyLoader.WEIGHT_MIN_THRESHOLD)) {
             return ComparisonResult.DIFFERENT;
         } else {
             return ComparisonResult.UNSURE;
         }
     }
 
-	/**
-	 * Allows to know if two records have to be deduplicated according to the weighted approach using default thresholds if they aren't specified
-	 * 
-	 * @param immunization1 and immunization2 are the two record to compare to each other
-	 * @return call the score method with default thresholds
-	 */
-    public ComparisonResult compare(Immunization immunization1, Immunization immunization2) {
-        return compare(immunization1, immunization2, parameters.get(PropertyLoader.WEIGHT_MIN_THRESHOLD), parameters.get(PropertyLoader.WEIGHT_MAX_THRESHOLD));
-    }
-
+    /**
+     *
+     * @param array
+     * @return
+     */
     private double getMinimum(double[] array) {
         double min = Integer.MAX_VALUE;
         for (double anArray : array)
@@ -164,29 +158,29 @@ public class Weighted implements Comparer {
     }
 
     private void updateSminAndSmax() {
-        double[] lotNumberWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_LOT_NUMBER),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_LOT_NUMBER),parameters.get(PropertyLoader.WEIGHT_ABSENT_LOT_NUMBER)};
-        double[] cvxWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_CVX),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_CVX),parameters.get(PropertyLoader.WEIGHT_ABSENT_CVX)};
-        double[] mvxWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_MVX),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_MVX),parameters.get(PropertyLoader.WEIGHT_ABSENT_MVX)};
-        double[] productCodeWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_PRODUCT_CODE),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_PRODUCT_CODE),parameters.get(PropertyLoader.WEIGHT_ABSENT_PRODUCT_CODE)};
-        double[] organisationIdWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_ORGANISATION_ID),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_ORGANISATION_ID),parameters.get(PropertyLoader.WEIGHT_ABSENT_ORGANISATION_ID)};
-        double[] sourceWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_SOURCE_ADMIN),parameters.get(PropertyLoader.WEIGHT_SAME_SOURCE_HISTORICAL),parameters.get(PropertyLoader.WEIGHT_DIFFERENT_SOURCE),parameters.get(PropertyLoader.WEIGHT_ABSENT_SOURCE)};
+        double[] lotNumberWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_LOT_NUMBER), parameters.get(PropertyLoader.WEIGHT_DIFFERENT_LOT_NUMBER), parameters.get(PropertyLoader.WEIGHT_ABSENT_LOT_NUMBER)};
+        double[] cvxWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_CVX), parameters.get(PropertyLoader.WEIGHT_DIFFERENT_CVX), parameters.get(PropertyLoader.WEIGHT_ABSENT_CVX)};
+        double[] mvxWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_MVX), parameters.get(PropertyLoader.WEIGHT_DIFFERENT_MVX), parameters.get(PropertyLoader.WEIGHT_ABSENT_MVX)};
+        double[] productCodeWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_PRODUCT_CODE), parameters.get(PropertyLoader.WEIGHT_DIFFERENT_PRODUCT_CODE), parameters.get(PropertyLoader.WEIGHT_ABSENT_PRODUCT_CODE)};
+        double[] organisationIdWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_ORGANISATION_ID), parameters.get(PropertyLoader.WEIGHT_DIFFERENT_ORGANISATION_ID), parameters.get(PropertyLoader.WEIGHT_ABSENT_ORGANISATION_ID)};
+        double[] sourceWeight = new double[]{parameters.get(PropertyLoader.WEIGHT_SAME_SOURCE_ADMIN), parameters.get(PropertyLoader.WEIGHT_SAME_SOURCE_HISTORICAL), parameters.get(PropertyLoader.WEIGHT_DIFFERENT_SOURCE), parameters.get(PropertyLoader.WEIGHT_ABSENT_SOURCE)};
 
 
         this.Smin =
                 getMinimum(lotNumberWeight) +
-                getMinimum(dateDifferenceWeight) +
-                getMinimum(cvxWeight) +
-                getMinimum(mvxWeight) +
-                getMinimum(productCodeWeight) +
-                getMinimum(organisationIdWeight) +
-                getMinimum(sourceWeight);
+                        getMinimum(dateDifferenceWeight) +
+                        getMinimum(cvxWeight) +
+                        getMinimum(mvxWeight) +
+                        getMinimum(productCodeWeight) +
+                        getMinimum(organisationIdWeight) +
+                        getMinimum(sourceWeight);
         this.Smax =
                 getMaximum(lotNumberWeight) +
-                getMaximum(dateDifferenceWeight) +
-                getMaximum(cvxWeight) +
-                getMaximum(mvxWeight) +
-                getMaximum(productCodeWeight) +
-                getMaximum(organisationIdWeight ) +
-                getMaximum(sourceWeight);
+                        getMaximum(dateDifferenceWeight) +
+                        getMaximum(cvxWeight) +
+                        getMaximum(mvxWeight) +
+                        getMaximum(productCodeWeight) +
+                        getMaximum(organisationIdWeight) +
+                        getMaximum(sourceWeight);
     }
 }

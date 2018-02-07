@@ -60,6 +60,10 @@ public class Immunization {
         this.vaccineGroupList = vaccineGroupList;
     }
 
+    public void addVaccineGroupList(ArrayList<String> vaccineGroupList) {
+        this.vaccineGroupList.addAll(vaccineGroupList);
+    }
+
     public String getMVX() {
         return MVX;
     }

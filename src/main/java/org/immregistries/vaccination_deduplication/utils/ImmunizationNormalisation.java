@@ -51,7 +51,7 @@ public class ImmunizationNormalisation {
      * This method will initialize the singleton with the codebase client objects.
      * This method uses the codebase file at the specified path.
      * @param codebaseFilePath The path to the codebase file
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException if the path to the codebase file is incorrect.
      */
     public void initialize(String codebaseFilePath) throws FileNotFoundException {
         File file = new File(codebaseFilePath);
@@ -63,7 +63,7 @@ public class ImmunizationNormalisation {
     /**
      * This method will load the codebase file at the specified path and refresh the codebase client objects.
      * @param codebaseFilePath The path to the codebase file.
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException if the path to the codebase file is incorrect.
      */
     public void refreshCodebase(String codebaseFilePath) throws FileNotFoundException {
         File file = new File(codebaseFilePath);

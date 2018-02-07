@@ -66,7 +66,7 @@ public class Deterministic implements Comparer {
 	 * This method compares the 2 values of an attribute from 2 immunization together.
 	 * @param s1 The first value.
 	 * @param s2 The second value.
-	 * @return The result of the comparison which can be {@link DeterministicResult#NEITHER, {@link DeterministicResult#ONLY_ONE}, {@link DeterministicResult#SAME} OR {@link DeterministicResult#DIFFERENT}
+	 * @return The result of the comparison which can be {@link DeterministicResult#NEITHER}, {@link DeterministicResult#ONLY_ONE}, {@link DeterministicResult#SAME} OR {@link DeterministicResult#DIFFERENT}
 	 */
 	public DeterministicResult compareAttribute(String s1,String s2)
 	{		

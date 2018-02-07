@@ -48,6 +48,7 @@
                                 <version>2.1</version>
                                 <packaging>jar</packaging>
                                 <file>${basedir}/lib/dqa-codebase-client-2.1.jar</file>
+                                <pomFile>${basedir}/lib/dqa-codebase-client-2.1-pom.xml</pomFile>
                             </configuration>
                         </execution>
                     </executions>

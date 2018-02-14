@@ -199,8 +199,6 @@ public class VaccinationDeduplication {
         immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
 
         StepOne stepOne = new StepOne();
-        //StepOneResult stepOneResult = stepOne.executeStepOne(patientImmunizationRecords);
-        //LinkedImmunization toEvaluate = stepOneResult.getToEvaluate();
         LinkedImmunization toEvaluate = patientImmunizationRecords;
 
         ArrayList<ArrayList<ComparisonResult>> results;

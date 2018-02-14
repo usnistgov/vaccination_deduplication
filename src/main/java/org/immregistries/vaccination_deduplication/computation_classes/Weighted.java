@@ -51,6 +51,7 @@ public class Weighted implements Comparer {
                 parameters.get(PropertyLoader.WEIGHT_DIFFERENT_CVX)
         );
 
+        /*
         // MVX
         score += compareForWeighted(
                 immunization1.getMVX(),
@@ -58,7 +59,7 @@ public class Weighted implements Comparer {
                 parameters.get(PropertyLoader.WEIGHT_SAME_MVX),
                 parameters.get(PropertyLoader.WEIGHT_ABSENT_MVX),
                 parameters.get(PropertyLoader.WEIGHT_DIFFERENT_MVX)
-        );
+        );*/
 
         // Product Code
         score += compareForWeighted(
@@ -109,7 +110,7 @@ public class Weighted implements Comparer {
             score += parameters.get(PropertyLoader.WEIGHT_ABSENT_SOURCE);
         }
 
-        double balancedScore = (score - this.Smin) / this.Smax;
+        double balancedScore = (score - this.Smin) / (this.Smax - this.Smin);
 
         if (balancedScore > parameters.get(PropertyLoader.WEIGHT_MAX_THRESHOLD)) {
             return ComparisonResult.EQUAL;

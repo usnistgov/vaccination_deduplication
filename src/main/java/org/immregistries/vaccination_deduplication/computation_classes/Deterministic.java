@@ -112,6 +112,7 @@ public class Deterministic implements Comparer {
 			DeterministicResult organizationIdResult,
 			DeterministicResult tradeNameResult,
 			DeterministicResult dateResult) {
+
 		Boolean likelyDifferentSource=false;
 		Boolean likelyMatchSource=false;
 

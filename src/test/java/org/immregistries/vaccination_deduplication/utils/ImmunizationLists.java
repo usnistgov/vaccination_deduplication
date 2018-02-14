@@ -1,13 +1,12 @@
 package org.immregistries.vaccination_deduplication.utils;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import org.immregistries.vaccination_deduplication.Immunization;
 import org.immregistries.vaccination_deduplication.ImmunizationSource;
 import org.immregistries.vaccination_deduplication.LinkedImmunization;
 import org.immregistries.vaccination_deduplication.LinkedImmunizationType;
-
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
 /**
  * 
  * Lists immunizations, those will be used for the tests in CompleteTest
@@ -19,6 +18,9 @@ public class ImmunizationLists {
     public LinkedImmunization patient1 = new LinkedImmunization();
     public LinkedImmunization patient2 = new LinkedImmunization();
     public LinkedImmunization patient3 = new LinkedImmunization();
+
+    public LinkedImmunization patient4 = new LinkedImmunization();
+
     public Immunization immunization1 = new Immunization();
     public Immunization immunization2 = new Immunization();
     public Immunization immunization3 = new Immunization();
@@ -41,10 +43,15 @@ public class ImmunizationLists {
     public Immunization immunization20 = new Immunization();
     public Immunization immunization21 = new Immunization();
 
+    public Immunization immunization22 = new Immunization();
+    public Immunization immunization23 = new Immunization();
+    public Immunization immunization24 = new Immunization();
+
     private ImmunizationLists() throws ParseException {
         patient1.setType(LinkedImmunizationType.INPUT);
         patient2.setType(LinkedImmunizationType.INPUT);
         patient3.setType(LinkedImmunizationType.INPUT);
+        patient4.setType(LinkedImmunizationType.INPUT);
 
         immunization1.setVaccineGroupList(new ArrayList<String>(Arrays.asList("MMR")));
         immunization1.setOrganisationID("Dr Murphey");
@@ -174,6 +181,27 @@ public class ImmunizationLists {
         immunization21.setCVX("10");
         immunization21.setSource(ImmunizationSource.SOURCE);
 
+        immunization22.setVaccineGroupList(
+                new ArrayList<String>(Arrays.asList("IPV")));
+        immunization22.setOrganisationID("Dr Murphey");
+        immunization22.setDate("20160101");
+        immunization22.setCVX("10");
+        immunization22.setSource(ImmunizationSource.SOURCE);
+
+        immunization23.setVaccineGroupList(
+                new ArrayList<String>(Arrays.asList("IPV")));
+        immunization23.setOrganisationID("Dr Murphey");
+        immunization23.setDate("20160115");
+        immunization23.setCVX("10");
+        immunization23.setSource(ImmunizationSource.HISTORICAL);
+
+        immunization24.setVaccineGroupList(
+                new ArrayList<String>(Arrays.asList("IPV")));
+        immunization24.setOrganisationID("Dr Murphey");
+        immunization24.setDate("20160131");
+        immunization24.setCVX("10");
+        immunization24.setSource(ImmunizationSource.HISTORICAL);
+
         patient1.add(immunization1);
         patient1.add(immunization2);
         patient1.add(immunization3);
@@ -197,6 +225,10 @@ public class ImmunizationLists {
         patient3.add(immunization19);
         patient3.add(immunization20);
         patient3.add(immunization21);
+
+        patient4.add(immunization22);
+        patient4.add(immunization23);
+        patient4.add(immunization24);
  
     }
 

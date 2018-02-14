@@ -114,7 +114,7 @@ public class WeightedMIROWTest {
     }
 
     @Test
-    @Ignore
+    @Ignore("Missing CVX codes")
     public void testS010() throws Exception {
 
         Immunization immunization1 = new Immunization();
@@ -148,7 +148,7 @@ public class WeightedMIROWTest {
     }
 
     @Test
-    @Ignore
+    @Ignore("Missing CVX codes")
     public void testS011() throws Exception {
 
         Immunization immunization1 = new Immunization();
@@ -181,7 +181,7 @@ public class WeightedMIROWTest {
     }
 
     @Test
-    @Ignore
+    @Ignore("Missing CVX codes")
     public void testS013() throws Exception {
 
         Immunization immunization1 = new Immunization();
@@ -311,7 +311,7 @@ public class WeightedMIROWTest {
     }
 
     @Test
-    @Ignore
+    @Ignore("Missing CVX codes")
     public void testS012() throws Exception {
 
         Immunization immunization1 = new Immunization();

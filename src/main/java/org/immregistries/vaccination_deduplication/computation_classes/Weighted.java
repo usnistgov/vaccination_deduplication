@@ -3,6 +3,8 @@ package org.immregistries.vaccination_deduplication.computation_classes;
 import static org.immregistries.vaccination_deduplication.utils.Matching.compareForWeighted;
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.immregistries.vaccination_deduplication.ComparisonResult;
 import org.immregistries.vaccination_deduplication.Immunization;
 import org.immregistries.vaccination_deduplication.ImmunizationSource;
@@ -12,6 +14,8 @@ import org.immregistries.vaccination_deduplication.PropertyLoader;
  * This class contains all the methods necessary to apply the Weighted method for the second step of the deduplication process.
  */
 public class Weighted implements Comparer {
+
+    private static Logger logger = Logger.getLogger(Weighted.class.getName());
 
     // Thresholds allow to take a decision. They are compared to the weighted score
     private HashMap<String, Double> parameters;
@@ -122,14 +126,21 @@ public class Weighted implements Comparer {
 
     public double getScore(Immunization immunization1,
             Immunization immunization2) {
+
+        logger.debug(StringUtils.center(" Start score calculation ", 36, '-'));
+
         double score = 0;
 
         // CVX
-        score += compareForWeighted(immunization1.getCVX(),
+        double weight = compareForWeighted(immunization1.getCVX(),
                 immunization2.getCVX(),
                 parameters.get(PropertyLoader.WEIGHT_SAME_CVX),
                 parameters.get(PropertyLoader.WEIGHT_ABSENT_CVX),
                 parameters.get(PropertyLoader.WEIGHT_DIFFERENT_CVX));
+        score += weight;
+        logger.debug(
+                StringUtils.rightPad("[Vaccine type / CVX]", 30)
+                        + StringUtils.leftPad(Double.toString(weight), 6));
 
         /*
          * // MVX score += compareForWeighted( immunization1.getMVX(),
@@ -140,18 +151,24 @@ public class Weighted implements Comparer {
          */
 
         // Product Code
-        score += compareForWeighted(immunization1.getProductCode(),
+        weight = compareForWeighted(immunization1.getProductCode(),
                 immunization2.getProductCode(),
                 parameters.get(PropertyLoader.WEIGHT_SAME_PRODUCT_CODE),
                 parameters.get(PropertyLoader.WEIGHT_ABSENT_PRODUCT_CODE),
                 parameters.get(PropertyLoader.WEIGHT_DIFFERENT_PRODUCT_CODE));
+        score += weight;
+        logger.debug(StringUtils.rightPad("[Trade Name / Product Code]", 30)
+                + StringUtils.leftPad(Double.toString(weight), 6));
 
         // Lot Number
-        score += compareForWeighted(immunization1.getLotNumber(),
+        weight = compareForWeighted(immunization1.getLotNumber(),
                 immunization2.getLotNumber(),
                 parameters.get(PropertyLoader.WEIGHT_SAME_LOT_NUMBER),
                 parameters.get(PropertyLoader.WEIGHT_ABSENT_LOT_NUMBER),
                 parameters.get(PropertyLoader.WEIGHT_DIFFERENT_LOT_NUMBER));
+        score += weight;
+        logger.debug(StringUtils.rightPad("[Lot Number]", 30)
+                + StringUtils.leftPad(Double.toString(weight), 6));
 
         // Date administered
         int dateDifferenceInDays = (int) ((immunization1.getDate().getTime()
@@ -162,34 +179,48 @@ public class Weighted implements Comparer {
         if (dateDifferenceInDays >= dateDifferenceWeight.size()) {
             dateDifferenceInDays = dateDifferenceWeight.size() - 1;
         }
-        score += dateDifferenceWeight.get(dateDifferenceInDays);
+        weight = dateDifferenceWeight.get(dateDifferenceInDays);
+        score += weight;
+        logger.debug(
+                StringUtils.rightPad("[Date administered]", 30)
+                        + StringUtils.leftPad(Double.toString(weight), 6));
 
         // Provider Organization
-        score += compareForWeighted(immunization1.getOrganisationID(),
+        weight = compareForWeighted(immunization1.getOrganisationID(),
                 immunization2.getOrganisationID(),
                 parameters.get(PropertyLoader.WEIGHT_SAME_ORGANISATION_ID),
                 parameters.get(PropertyLoader.WEIGHT_ABSENT_ORGANISATION_ID),
                 parameters.get(
                         PropertyLoader.WEIGHT_DIFFERENT_ORGANISATION_ID));
+        score += weight;
+        logger.debug(
+                StringUtils.rightPad("[Provider Organization]", 30)
+                        + StringUtils.leftPad(Double.toString(weight), 6));
 
         // Source
         if (!(immunization1.getSource() == null
                 && immunization2.getSource() == null)) {
             if (immunization1.getSource() == ImmunizationSource.SOURCE
                     && immunization2.getSource() == ImmunizationSource.SOURCE) {
-                score += parameters.get(
+                weight = parameters.get(
                         PropertyLoader.WEIGHT_SAME_SOURCE_ADMIN);
             } else if (immunization1.getSource() == ImmunizationSource.HISTORICAL
                     && immunization2.getSource() == ImmunizationSource.HISTORICAL) {
-                score += parameters.get(
+                weight = parameters.get(
                         PropertyLoader.WEIGHT_SAME_SOURCE_HISTORICAL);
             } else {
-                score += parameters.get(PropertyLoader.WEIGHT_DIFFERENT_SOURCE);
+                weight = parameters.get(PropertyLoader.WEIGHT_DIFFERENT_SOURCE);
             }
         } else {
-            score += parameters.get(PropertyLoader.WEIGHT_ABSENT_SOURCE);
+            weight = parameters.get(PropertyLoader.WEIGHT_ABSENT_SOURCE);
         }
+        score += weight;
+        logger.debug(StringUtils.rightPad("[Source]", 30)
+                + StringUtils.leftPad(Double.toString(weight), 6));
 
+        logger.debug(StringUtils.rightPad("[Score]", 30)
+                + StringUtils.leftPad(Double.toString(score), 6));
+        logger.debug(StringUtils.repeat('-', 36));
         return score;
     }
 

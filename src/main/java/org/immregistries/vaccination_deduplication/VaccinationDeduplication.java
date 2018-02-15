@@ -66,6 +66,13 @@ public class VaccinationDeduplication {
      * @return An ArrayList of LinkedImmunization containing the final result from the deduplication process.
      */
     public ArrayList<LinkedImmunization> postprocessing(LinkedImmunization toEvaluate, ArrayList<ArrayList<ComparisonResult>> results) {
+        for (ArrayList<ComparisonResult> line : results) {
+            for (ComparisonResult r : line) {
+                System.out.print(r+"\t");
+            }
+            System.out.println();
+        }
+
         HashMap<Integer, LinkedImmunization> sameGrouped = new HashMap<Integer, LinkedImmunization>();
         HashMap<Integer, LinkedImmunization> unsureGrouped = new HashMap<Integer, LinkedImmunization>();
 
@@ -124,7 +131,7 @@ public class VaccinationDeduplication {
         different.setType(LinkedImmunizationType.DIFFERENT);
 
         for (int i = 0; i < results.size(); i++) {
-            if (!sameGrouped.keySet().contains(i) && !results.get(i).contains(ComparisonResult.UNSURE)){
+            if (!sameGrouped.keySet().contains(i) && !unsureGrouped.keySet().contains(i)){
                 different.add(toEvaluate.get(i));
             }
         }

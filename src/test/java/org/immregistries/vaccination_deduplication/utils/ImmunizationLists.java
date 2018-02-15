@@ -20,6 +20,7 @@ public class ImmunizationLists {
     public LinkedImmunization patient3 = new LinkedImmunization();
 
     public LinkedImmunization patient4 = new LinkedImmunization();
+    public LinkedImmunization patient5 = new LinkedImmunization();
 
     public Immunization immunization1 = new Immunization();
     public Immunization immunization2 = new Immunization();
@@ -46,6 +47,9 @@ public class ImmunizationLists {
     public Immunization immunization22 = new Immunization();
     public Immunization immunization23 = new Immunization();
     public Immunization immunization24 = new Immunization();
+    public Immunization immunization25 = new Immunization();
+    public Immunization immunization26 = new Immunization();
+    public Immunization immunization27 = new Immunization();
 
     private ImmunizationLists() throws ParseException {
         patient1.setType(LinkedImmunizationType.INPUT);
@@ -202,6 +206,27 @@ public class ImmunizationLists {
         immunization24.setCVX("10");
         immunization24.setSource(ImmunizationSource.HISTORICAL);
 
+        immunization25.setVaccineGroupList(
+                new ArrayList<String>(Arrays.asList("IPV")));
+        immunization25.setOrganisationID("Dr Murphey");
+        immunization25.setDate("20160101");
+        immunization25.setCVX("10");
+        immunization25.setSource(ImmunizationSource.HISTORICAL);
+
+        immunization26.setVaccineGroupList(
+                new ArrayList<String>(Arrays.asList("IPV")));
+        immunization26.setOrganisationID("Dr Murphey");
+        immunization26.setDate("20160115");
+        immunization26.setCVX("10");
+        immunization26.setSource(ImmunizationSource.SOURCE);
+
+        immunization27.setVaccineGroupList(
+                new ArrayList<String>(Arrays.asList("IPV")));
+        immunization27.setOrganisationID("Dr Murphey");
+        immunization27.setDate("20160131");
+        immunization27.setCVX("10");
+        immunization27.setSource(ImmunizationSource.HISTORICAL);
+
         patient1.add(immunization1);
         patient1.add(immunization2);
         patient1.add(immunization3);
@@ -229,6 +254,10 @@ public class ImmunizationLists {
         patient4.add(immunization22);
         patient4.add(immunization23);
         patient4.add(immunization24);
+
+        patient5.add(immunization25);
+        patient5.add(immunization26);
+        patient5.add(immunization27);
  
     }
 

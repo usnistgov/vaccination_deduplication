@@ -13,6 +13,8 @@ import java.util.ArrayList;
 
 public class Immunization {
 
+    private String immunizationID;
+
     private String CVX; // Vaccine code
 
     private ArrayList<String> vaccineGroupList ; // Vaccine Group
@@ -29,7 +31,8 @@ public class Immunization {
 
     private ImmunizationSource source;
 
-    public Immunization(String cvx, ArrayList<String> vaccineGroupList, String mvx, String productCode, Date date, String lotNumber, String organisationID, ImmunizationSource source) {
+    public Immunization(String immunizationID, String cvx, ArrayList<String> vaccineGroupList, String mvx, String productCode, Date date, String lotNumber, String organisationID, ImmunizationSource source) {
+        this.immunizationID = immunizationID;
         this.CVX = cvx;
         this.vaccineGroupList = vaccineGroupList;
         this.MVX = mvx;
@@ -41,7 +44,7 @@ public class Immunization {
     }
 
     public Immunization() {
-        this("", new ArrayList<String>(), "", "", new Date(), "", "", ImmunizationSource.HISTORICAL);
+        this("", "", new ArrayList<String>(), "", "", new Date(), "", "", ImmunizationSource.HISTORICAL);
     }
 
     public String getCVX() {

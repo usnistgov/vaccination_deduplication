@@ -47,9 +47,7 @@ public class PropertyLoader {
     private HashMap<String, Double> weightedParameters;
     private ArrayList<Double> weightDateDifferences;
 
-    private static PropertyLoader instance = null;
-
-    protected PropertyLoader() {
+    public PropertyLoader() {
         weightedParameters = new HashMap<String, Double>();
         weightDateDifferences =  new ArrayList<Double>();
 
@@ -114,17 +112,6 @@ public class PropertyLoader {
         }
     }
 
-    /**
-     * This method will instantiate the PropertyLoader singleton when first called then will return the singleton instance.
-     * @return The singleton's instance.
-     */
-    public static PropertyLoader getInstance() {
-        if(instance == null) {
-            instance = new PropertyLoader();
-        }
-        return instance;
-    }
-
     private Double stringToDouble(String input) {
         return Double.parseDouble(input);
     }
@@ -147,5 +134,14 @@ public class PropertyLoader {
     
     public Double getDateWindow(){
     	return weightedParameters.get(DATE_WINDOW);
+    }
+
+    /**
+     * This function will set the given property to the given value.
+     * @param propertyName The name of the property to change. You should use the ones statically defined in this class.
+     * @param value The new value of the property.
+     */
+    public void setProperty(String propertyName, Double value) {
+        this.weightedParameters.put(propertyName, value);
     }
 }

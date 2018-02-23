@@ -13,9 +13,12 @@ import java.util.HashMap;
  */
 public class VaccinationDeduplication {
     static VaccinationDeduplication instance;
+
+    PropertyLoader propertyLoader;
     ImmunizationNormalisation immunizationNormalisation;
 
     private VaccinationDeduplication() {
+        this.propertyLoader = new PropertyLoader();
         this.immunizationNormalisation = ImmunizationNormalisation.getInstance();
     }
 
@@ -194,7 +197,7 @@ public class VaccinationDeduplication {
                 comparer = new Deterministic();
                 break;
             case WEIGHTED:
-                comparer = new Weighted();
+                comparer = new Weighted(this.propertyLoader);
                 break;
             case HYBRID:
                 comparer = new Hybrid();

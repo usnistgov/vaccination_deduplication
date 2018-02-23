@@ -25,8 +25,7 @@ public class Weighted implements Comparer {
     private double Smax;
 
     // Constructor
-    public Weighted() {
-        PropertyLoader propertyLoader = PropertyLoader.getInstance();
+    public Weighted(PropertyLoader propertyLoader) {
         this.parameters = propertyLoader.getWeightedParameters();
         this.dateDifferenceWeight = propertyLoader.getWeightDateDifferences();
 
@@ -225,7 +224,6 @@ public class Weighted implements Comparer {
     }
 
     public double getBalancedScore(double score) {
-        double balancedScore = (score - this.Smin) / (this.Smax - this.Smin);
-        return balancedScore;
+        return (score - this.Smin) / (this.Smax - this.Smin);
     }
 }

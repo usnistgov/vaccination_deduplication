@@ -23,8 +23,6 @@ public class DeterministicTest extends TestCase {
     }
 
     public void testDeterministicDifferent() throws ParseException {
-        Deterministic deterministic = new Deterministic();
-        ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
         // TODO find a pair that return different
     }

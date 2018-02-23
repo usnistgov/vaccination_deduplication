@@ -1,7 +1,6 @@
 package org.immregistries.vaccination_deduplication;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * This object links ImmunizationRecords together.
@@ -12,7 +11,11 @@ import java.util.Iterator;
 
 public class LinkedImmunization extends ArrayList<Immunization> {
 
-    private LinkedImmunizationType type;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private LinkedImmunizationType type;
 
     public LinkedImmunizationType getType() {
         return type;
@@ -36,6 +39,8 @@ public class LinkedImmunization extends ArrayList<Immunization> {
                     break;
                 case DIFFERENT:
                     s += "TYPE = different\n";
+			default:
+				break;
             }
         else
             s += "TYPE = not set\n";

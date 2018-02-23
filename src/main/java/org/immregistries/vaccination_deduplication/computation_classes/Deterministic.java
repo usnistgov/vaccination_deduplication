@@ -118,8 +118,6 @@ public class Deterministic implements Comparer {
 
 		int likelyMatch = 0; 
 		int likelyDifferent = 0 ; 
-		int noOutcome = 0;
-
 		/*
 			Lot Numbers rule
 			If vaccine lot numbers are different in evaluated records,
@@ -129,7 +127,7 @@ public class Deterministic implements Comparer {
 		{
 			likelyDifferent++;
 		}
-		else {noOutcome++;}
+		else {}
 
 		/*
 			Date rule
@@ -140,7 +138,7 @@ public class Deterministic implements Comparer {
 		{
 			likelyMatch++;
 		}
-		else {noOutcome++;}
+		else {}
 
 		/*
 			Distinctive combinations of variables should be considered for the evaluation of candidates records.
@@ -159,7 +157,6 @@ public class Deterministic implements Comparer {
 		}
 		else if(lotNumberResult == DeterministicResult.DIFFERENT && dateResult == DeterministicResult.DIFFERENT)
 		{
-			noOutcome++ ;
 		}
 
 		/*
@@ -181,7 +178,6 @@ public class Deterministic implements Comparer {
 		}
 		else
 		{
-			noOutcome++ ;
 		}
 		
 		if(likelyMatch>	likelyDifferent || (likelyMatch == likelyDifferent && likelyDifferentSource))

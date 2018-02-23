@@ -1,12 +1,15 @@
 package org.immregistries.vaccination_deduplication;
 
-import org.immregistries.vaccination_deduplication.computation_classes.*;
-import org.immregistries.vaccination_deduplication.utils.ImmunizationNormalisation;
-
-import java.io.*;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
+
+import org.immregistries.vaccination_deduplication.computation_classes.Comparer;
+import org.immregistries.vaccination_deduplication.computation_classes.Deterministic;
+import org.immregistries.vaccination_deduplication.computation_classes.Hybrid;
+import org.immregistries.vaccination_deduplication.computation_classes.StepOne;
+import org.immregistries.vaccination_deduplication.computation_classes.Weighted;
+import org.immregistries.vaccination_deduplication.utils.ImmunizationNormalisation;
 
 /**
  * This class is the entry point for the API. It contains the main logic for the deduplication process.

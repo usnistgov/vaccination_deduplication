@@ -1,13 +1,12 @@
 package org.immregistries.vaccination_deduplication;
 
-import junit.framework.TestCase;
-
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.Properties;
+
+import junit.framework.TestCase;
 /**
  * Tests the property loader, 
  *  
@@ -78,7 +77,6 @@ public class PropertyLoaderTest extends TestCase {
     }
 
     public void testReadPropertyFile() {
-        PropertyLoader pl = PropertyLoader.getInstance();
     }
 
 }

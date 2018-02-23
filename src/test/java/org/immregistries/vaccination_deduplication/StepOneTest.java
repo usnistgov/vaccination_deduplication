@@ -1,7 +1,6 @@
 package org.immregistries.vaccination_deduplication;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 
 import org.immregistries.vaccination_deduplication.computation_classes.StepOne;
 import org.immregistries.vaccination_deduplication.utils.ImmunizationLists;

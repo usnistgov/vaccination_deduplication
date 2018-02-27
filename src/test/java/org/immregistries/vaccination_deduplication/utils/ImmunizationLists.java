@@ -19,21 +19,8 @@ public class ImmunizationLists {
     public LinkedImmunization patient2 = new LinkedImmunization();
     public LinkedImmunization patient3 = new LinkedImmunization();
 
-    public LinkedImmunization patient4a = new LinkedImmunization();
-    public LinkedImmunization patient4b = new LinkedImmunization();
-    public LinkedImmunization patient4c = new LinkedImmunization();
-    public LinkedImmunization patient4d = new LinkedImmunization();
-    public LinkedImmunization patient4e = new LinkedImmunization();
-    public LinkedImmunization patient4f = new LinkedImmunization();
-
-    public LinkedImmunization patient5a = new LinkedImmunization();
-    public LinkedImmunization patient5b = new LinkedImmunization();
-    public LinkedImmunization patient5c = new LinkedImmunization();
-    public LinkedImmunization patient5d = new LinkedImmunization();
-    public LinkedImmunization patient5e = new LinkedImmunization();
-    public LinkedImmunization patient5f = new LinkedImmunization();
-
-
+    public LinkedImmunization patient4 = new LinkedImmunization();
+    public LinkedImmunization patient5 = new LinkedImmunization();
 
     public Immunization immunization1 = new Immunization();
     public Immunization immunization2 = new Immunization();
@@ -68,20 +55,7 @@ public class ImmunizationLists {
         patient1.setType(LinkedImmunizationType.INPUT);
         patient2.setType(LinkedImmunizationType.INPUT);
         patient3.setType(LinkedImmunizationType.INPUT);
-
-        patient4a.setType(LinkedImmunizationType.INPUT);
-        patient4b.setType(LinkedImmunizationType.INPUT);
-        patient4c.setType(LinkedImmunizationType.INPUT);
-        patient4d.setType(LinkedImmunizationType.INPUT);
-        patient4e.setType(LinkedImmunizationType.INPUT);
-        patient4f.setType(LinkedImmunizationType.INPUT);
-
-        patient5a.setType(LinkedImmunizationType.INPUT);
-        patient5b.setType(LinkedImmunizationType.INPUT);
-        patient5c.setType(LinkedImmunizationType.INPUT);
-        patient5d.setType(LinkedImmunizationType.INPUT);
-        patient5e.setType(LinkedImmunizationType.INPUT);
-        patient5f.setType(LinkedImmunizationType.INPUT);
+        patient4.setType(LinkedImmunizationType.INPUT);
 
         immunization1.setVaccineGroupList(new ArrayList<String>(Arrays.asList("MMR")));
         immunization1.setOrganisationID("Dr Murphey");
@@ -277,53 +251,13 @@ public class ImmunizationLists {
         patient3.add(immunization20);
         patient3.add(immunization21);
 
-        patient4a.add(immunization22);
-        patient4a.add(immunization23);
-        patient4a.add(immunization24);
+        patient4.add(immunization22);
+        patient4.add(immunization23);
+        patient4.add(immunization24);
 
-        patient4b.add(immunization22);
-        patient4b.add(immunization24);
-        patient4b.add(immunization23);
-
-        patient4c.add(immunization23);
-        patient4c.add(immunization22);
-        patient4c.add(immunization24);
-
-        patient4d.add(immunization23);
-        patient4d.add(immunization24);
-        patient4d.add(immunization22);
-
-        patient4e.add(immunization24);
-        patient4e.add(immunization22);
-        patient4e.add(immunization23);
-
-        patient4f.add(immunization24);
-        patient4f.add(immunization23);
-        patient4f.add(immunization22);
-
-        patient5a.add(immunization25);
-        patient5a.add(immunization26);
-        patient5a.add(immunization27);
-
-        patient5b.add(immunization25);
-        patient5b.add(immunization27);
-        patient5b.add(immunization26);
-
-        patient5c.add(immunization26);
-        patient5c.add(immunization25);
-        patient5c.add(immunization27);
-
-        patient5d.add(immunization26);
-        patient5d.add(immunization27);
-        patient5d.add(immunization25);
-
-        patient5e.add(immunization27);
-        patient5e.add(immunization25);
-        patient5e.add(immunization26);
-
-        patient5f.add(immunization27);
-        patient5f.add(immunization26);
-        patient5f.add(immunization25);
+        patient5.add(immunization25);
+        patient5.add(immunization26);
+        patient5.add(immunization27);
  
     }
 

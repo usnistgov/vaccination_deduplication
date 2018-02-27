@@ -69,28 +69,40 @@ public class VaccinationDeduplication {
      * @return An ArrayList of LinkedImmunization containing the final result from the deduplication process.
      */
     public ArrayList<LinkedImmunization> postprocessing(LinkedImmunization toEvaluate, ArrayList<ArrayList<ComparisonResult>> results) {
-        HashMap<Integer, LinkedImmunization> sameGrouped = new HashMap<Integer, LinkedImmunization>();
-        HashMap<Integer, LinkedImmunization> unsureGrouped = new HashMap<Integer, LinkedImmunization>();
+
+        for (ArrayList<ComparisonResult> line : results) {
+            for (ComparisonResult cr : line) {
+                System.out.print(cr + "\t");
+            }
+            System.out.println();
+        }
+
+        // These hashmaps will contain arraylists containing the indexes of Immunizations
+
+        HashMap<Integer, ArrayList<Integer>> sameGroupedIndexes = new HashMap<Integer, ArrayList<Integer>>();
+        HashMap<Integer, ArrayList<Integer>> unsureGroupedIndexes = new HashMap<Integer, ArrayList<Integer>>();
 
         // first pass to group the ones we are SURE are the same together
         for (int i = 0; i < results.size()-1; i++) {
             for (int j = i+1; j < results.size(); j++) {
                 if (results.get(i).get(j).equals(ComparisonResult.EQUAL)) {
-                    if(sameGrouped.containsKey(i) && sameGrouped.containsKey(j)) {
-
-                    } else if(sameGrouped.containsKey(i)) {
-                        sameGrouped.get(i).add(toEvaluate.get(j));
-                        sameGrouped.put(j, sameGrouped.get(i));
-                    } else if(sameGrouped.containsKey(j)) {
-                        sameGrouped.get(j).add(toEvaluate.get(i));
-                        sameGrouped.put(i, sameGrouped.get(j));
+                    if(sameGroupedIndexes.containsKey(i) && sameGroupedIndexes.containsKey(j)) {
+                        sameGroupedIndexes.get(i).addAll(sameGroupedIndexes.get(j));
+                        for (Integer key : sameGroupedIndexes.get(i)) {
+                            sameGroupedIndexes.put(key, sameGroupedIndexes.get(i));
+                        }
+                    } else if(sameGroupedIndexes.containsKey(i)) {
+                        sameGroupedIndexes.get(i).add(j);
+                        sameGroupedIndexes.put(j, sameGroupedIndexes.get(i));
+                    } else if(sameGroupedIndexes.containsKey(j)) {
+                        sameGroupedIndexes.get(j).add(i);
+                        sameGroupedIndexes.put(i, sameGroupedIndexes.get(j));
                     } else {
-                        LinkedImmunization group = new LinkedImmunization();
-                        group.setType(LinkedImmunizationType.SURE);
-                        group.add(toEvaluate.get(i));
-                        group.add(toEvaluate.get(j));
-                        sameGrouped.put(i, group);
-                        sameGrouped.put(j, group);
+                        ArrayList<Integer> group = new ArrayList<Integer>();
+                        group.add(i);
+                        group.add(j);
+                        sameGroupedIndexes.put(i, group);
+                        sameGroupedIndexes.put(j, group);
                     }
                 }
             }
@@ -98,24 +110,26 @@ public class VaccinationDeduplication {
 
         // second pass to handle the UNSURE
         for (int i = 0; i < results.size()-1; i++) {
-            if (!sameGrouped.keySet().contains(i)) {
+            if (!sameGroupedIndexes.keySet().contains(i)) {
                 for (int j = i+1; j < results.size(); j++) {
                     if (results.get(i).get(j).equals(ComparisonResult.UNSURE)) {
-                        if(unsureGrouped.containsKey(i) && unsureGrouped.containsKey(j)) {
-
-                        } else if(unsureGrouped.containsKey(i)) {
-                            unsureGrouped.get(i).add(toEvaluate.get(j));
-                            unsureGrouped.put(j, unsureGrouped.get(i));
-                        } else if(unsureGrouped.containsKey(j)) {
-                            unsureGrouped.get(j).add(toEvaluate.get(i));
-                            unsureGrouped.put(i, unsureGrouped.get(j));
+                        if(unsureGroupedIndexes.containsKey(i) && unsureGroupedIndexes.containsKey(j)) {
+                            unsureGroupedIndexes.get(i).addAll(unsureGroupedIndexes.get(j));
+                            for (Integer key : unsureGroupedIndexes.get(i)) {
+                                unsureGroupedIndexes.put(key, unsureGroupedIndexes.get(i));
+                            }
+                        } else if(unsureGroupedIndexes.containsKey(i)) {
+                            unsureGroupedIndexes.get(i).add(j);
+                            unsureGroupedIndexes.put(j, unsureGroupedIndexes.get(i));
+                        } else if(unsureGroupedIndexes.containsKey(j)) {
+                            unsureGroupedIndexes.get(j).add(i);
+                            unsureGroupedIndexes.put(i, unsureGroupedIndexes.get(j));
                         } else {
-                            LinkedImmunization group = new LinkedImmunization();
-                            group.setType(LinkedImmunizationType.UNSURE);
-                            group.add(toEvaluate.get(i));
-                            group.add(toEvaluate.get(j));
-                            unsureGrouped.put(i, group);
-                            unsureGrouped.put(j, group);
+                            ArrayList<Integer> group = new ArrayList<Integer>();
+                            group.add(i);
+                            group.add(j);
+                            unsureGroupedIndexes.put(i, group);
+                            unsureGroupedIndexes.put(j, group);
                         }
                     }
                 }
@@ -127,21 +141,40 @@ public class VaccinationDeduplication {
         different.setType(LinkedImmunizationType.DIFFERENT);
 
         for (int i = 0; i < results.size(); i++) {
-            if (!sameGrouped.keySet().contains(i) && !results.get(i).contains(ComparisonResult.UNSURE)){
+            if (!sameGroupedIndexes.keySet().contains(i) && !unsureGroupedIndexes.keySet().contains(i)){
                 different.add(toEvaluate.get(i));
             }
         }
 
         ArrayList<LinkedImmunization> groupedImmunizations = new ArrayList<LinkedImmunization>();
 
-        for (Integer i : sameGrouped.keySet()) {
-            if (!groupedImmunizations.contains(sameGrouped.get(i)))
-                groupedImmunizations.add(sameGrouped.get(i));
+        ArrayList<Integer> alreadySet = new ArrayList<Integer>();
+        for (Integer i : sameGroupedIndexes.keySet()) {
+            LinkedImmunization linkedImmunization = new LinkedImmunization();
+            linkedImmunization.setType(LinkedImmunizationType.SURE);
+            for (Integer index : sameGroupedIndexes.get(i)) {
+                if (!alreadySet.contains(index)) {
+                    linkedImmunization.add(toEvaluate.get(index));
+                    alreadySet.add(index);
+                }
+            }
+            if (linkedImmunization.size() > 0)
+                groupedImmunizations.add(linkedImmunization);
         }
-        for (Integer i : unsureGrouped.keySet()) {
-            if (!groupedImmunizations.contains(unsureGrouped.get(i)))
-                groupedImmunizations.add(unsureGrouped.get(i));
+        alreadySet.clear();
+        for (Integer i : unsureGroupedIndexes.keySet()) {
+            LinkedImmunization linkedImmunization = new LinkedImmunization();
+            linkedImmunization.setType(LinkedImmunizationType.UNSURE);
+            for (Integer index : unsureGroupedIndexes.get(i)) {
+                if (!alreadySet.contains(index)) {
+                    linkedImmunization.add(toEvaluate.get(index));
+                    alreadySet.add(index);
+                }
+            }
+            if (linkedImmunization.size() > 0)
+                groupedImmunizations.add(linkedImmunization);
         }
+
 
         if (different.size()>0)
             groupedImmunizations.add(different);

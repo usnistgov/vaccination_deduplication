@@ -140,7 +140,11 @@ public class PropertyLoader {
     public void setWeightDateDifferences(ArrayList<Double> weightDateDifferences) {
         this.weightDateDifferences = weightDateDifferences;
     }
-    
+
+    public void setPropertyValue(String PropertyName, Double value) {
+
+    }
+
     public void setDateWindow(double dateWindow){
         weightedParameters.put(DATE_WINDOW, dateWindow);
     }

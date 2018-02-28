@@ -1,18 +1,42 @@
 package org.immregistries.vaccination_deduplication;
 
-import static org.junit.Assert.assertEquals;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+
+import junit.framework.TestCase;
 import org.immregistries.vaccination_deduplication.utils.ImmunizationLists;
-import org.junit.Test;
+
 /**
  * 
  * Extensive test of deterministic, weighted and the hybrid approaches
  */
+public class MoreCompleteTest extends TestCase{
+    private void compareResultToExpected(ArrayList<LinkedImmunization> result, ArrayList<LinkedImmunization> expected, LinkedImmunization patientRecords) {
+        System.out.println("PATIENT RECORDS:");
+        System.out.println(patientRecords);
 
-public class MoreCompleteTest {
-    private void compareResultToExpected(ArrayList<LinkedImmunization> result, ArrayList<LinkedImmunization> expected) {
+        System.out.println("EXPECTED:");
+        for (LinkedImmunization linkedImmunization:expected) {
+            System.out.println(linkedImmunization.toString());
+        }
+        System.out.println("RESULT:");
+        for (LinkedImmunization linkedImmunization:result) {
+            System.out.println(linkedImmunization.toString());
+        }
+
+        /* Test that right number of immunizations are returned */
+        int resultSize = 0;
+        for (LinkedImmunization izResult : result) {
+            resultSize += izResult.size();
+        }
+
+        /*
+         * Test that the number of input records matches the number of output
+         * records
+         */
+        assertEquals("Input and output size mismatch : ", patientRecords.size(),
+                resultSize);
 
         /* Test that the result has the same size as the expected */
         assertEquals("The number of LinkedImmunization in the result is different than", expected.size(), result.size());
@@ -32,7 +56,7 @@ public class MoreCompleteTest {
         }
     }
 
-    @Test
+    
     public void testDeduplicateDeterministicPatient4a() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
@@ -56,23 +80,10 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
-    public void testDeduplicateWeigthedPatient4a() throws ParseException {
+    public void testDeduplicateWeightedPatient4a() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
@@ -99,23 +110,9 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
-
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
     public void testDeduplicateDeterministicPatient4b() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
@@ -139,23 +136,10 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
-    public void testDeduplicateWeigthedPatient4b() throws ParseException {
+    public void testDeduplicateWeightedPatient4b() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
@@ -182,23 +166,9 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
-
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
     public void testDeduplicateDeterministicPatient4c() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
@@ -222,23 +192,10 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
-    public void testDeduplicateWeigthedPatient4c() throws ParseException {
+    public void testDeduplicateWeightedPatient4c() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
@@ -265,22 +222,9 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
     public void testDeduplicateDeterministicPatient4d() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
@@ -304,23 +248,10 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
-    public void testDeduplicateWeigthedPatient4d() throws ParseException {
+    public void testDeduplicateWeightedPatient4d() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
@@ -347,23 +278,9 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
-
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
     public void testDeduplicateDeterministicPatient4e() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
@@ -387,23 +304,10 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
-    public void testDeduplicateWeigthedPatient4e() throws ParseException {
+    public void testDeduplicateWeightedPatient4e() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
@@ -430,23 +334,9 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
-
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
     public void testDeduplicateDeterministicPatient4f() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
@@ -470,23 +360,10 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
-    public void testDeduplicateWeigthedPatient4f() throws ParseException {
+    public void testDeduplicateWeightedPatient4f() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
@@ -513,22 +390,9 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
     public void testDeduplicateDeterministicPatient5a() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
@@ -552,23 +416,11 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
-    public void testDeduplicateWeigthedPatient5a() throws ParseException {
+    public void testDeduplicateWeightedPatient5a() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
@@ -591,22 +443,10 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
     public void testDeduplicateDeterministicPatient5b() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
@@ -630,23 +470,11 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
-    public void testDeduplicateWeigthedPatient5b() throws ParseException {
+    public void testDeduplicateWeightedPatient5b() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
@@ -669,22 +497,10 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
     public void testDeduplicateDeterministicPatient5c() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
@@ -708,23 +524,11 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
-    public void testDeduplicateWeigthedPatient5c() throws ParseException {
+    public void testDeduplicateWeightedPatient5c() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
@@ -747,22 +551,10 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
     public void testDeduplicateDeterministicPatient5d() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
@@ -786,23 +578,11 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
-    public void testDeduplicateWeigthedPatient5d() throws ParseException {
+    public void testDeduplicateWeightedPatient5d() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
@@ -825,22 +605,10 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
     public void testDeduplicateDeterministicPatient5e() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
@@ -864,23 +632,11 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        
+        compareResultToExpected(result, expected, patientRecords);
     }
 
-    @Test
-    public void testDeduplicateWeigthedPatient5e() throws ParseException {
+    public void testDeduplicateWeightedPatient5e() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
@@ -903,22 +659,10 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        
+        compareResultToExpected(result, expected, patientRecords);
     }
-
-    @Test
+    
     public void testDeduplicateDeterministicPatient5f() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
@@ -942,23 +686,11 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        
+        compareResultToExpected(result, expected, patientRecords);
     }
-
-    @Test
-    public void testDeduplicateWeigthedPatient5f() throws ParseException {
+    
+    public void testDeduplicateWeightedPatient5f() throws ParseException {
 
         ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
@@ -981,19 +713,8 @@ public class MoreCompleteTest {
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
 
-        /* Test that right number of immunizations are returned */
-        int resultSize = 0;
-        for (LinkedImmunization izResult : result) {
-            resultSize += izResult.size();
-        }
-
-        /*
-         * Test that the number of input records matches the number of output
-         * records
-         */
-        assertEquals("Input and output size mismatch : ", patientRecords.size(),
-                resultSize);
-        compareResultToExpected(result, expected);
+        
+        compareResultToExpected(result, expected, patientRecords);
     }
 
 

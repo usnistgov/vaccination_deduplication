@@ -87,17 +87,21 @@ public class VaccinationDeduplication {
             for (int j = i+1; j < results.size(); j++) {
                 if (results.get(i).get(j).equals(ComparisonResult.EQUAL)) {
                     if(sameGroupedIndexes.containsKey(i) && sameGroupedIndexes.containsKey(j)) {
+                        // merge two groups together
                         sameGroupedIndexes.get(i).addAll(sameGroupedIndexes.get(j));
                         for (Integer key : sameGroupedIndexes.get(i)) {
                             sameGroupedIndexes.put(key, sameGroupedIndexes.get(i));
                         }
                     } else if(sameGroupedIndexes.containsKey(i)) {
+                        // add j to group in i and put group in j
                         sameGroupedIndexes.get(i).add(j);
                         sameGroupedIndexes.put(j, sameGroupedIndexes.get(i));
                     } else if(sameGroupedIndexes.containsKey(j)) {
+                        // add i to group in j and put group in i
                         sameGroupedIndexes.get(j).add(i);
                         sameGroupedIndexes.put(i, sameGroupedIndexes.get(j));
                     } else {
+                        // create new group and put group in i and j
                         ArrayList<Integer> group = new ArrayList<Integer>();
                         group.add(i);
                         group.add(j);
@@ -110,8 +114,8 @@ public class VaccinationDeduplication {
 
         // second pass to handle the UNSURE
         for (int i = 0; i < results.size()-1; i++) {
-            if (!sameGroupedIndexes.keySet().contains(i)) {
-                for (int j = i+1; j < results.size(); j++) {
+            for (int j = i+1; j < results.size(); j++) {
+                if (!sameGroupedIndexes.keySet().contains(i) && !sameGroupedIndexes.keySet().contains(j)) {
                     if (results.get(i).get(j).equals(ComparisonResult.UNSURE)) {
                         if(unsureGroupedIndexes.containsKey(i) && unsureGroupedIndexes.containsKey(j)) {
                             unsureGroupedIndexes.get(i).addAll(unsureGroupedIndexes.get(j));

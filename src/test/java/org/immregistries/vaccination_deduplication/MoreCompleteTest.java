@@ -98,7 +98,7 @@ public class MoreCompleteTest extends TestCase{
         sure.add(immunizationLists.immunization23);
 
         LinkedImmunization unsure = new LinkedImmunization();
-        unsure.setType(LinkedImmunizationType.UNSURE);
+        unsure.setType(LinkedImmunizationType.DIFFERENT);
         unsure.add(immunizationLists.immunization24);
 
         expected.add(sure);
@@ -154,7 +154,7 @@ public class MoreCompleteTest extends TestCase{
         sure.add(immunizationLists.immunization23);
 
         LinkedImmunization unsure = new LinkedImmunization();
-        unsure.setType(LinkedImmunizationType.UNSURE);
+        unsure.setType(LinkedImmunizationType.DIFFERENT);
         unsure.add(immunizationLists.immunization24);
 
         expected.add(sure);
@@ -210,7 +210,7 @@ public class MoreCompleteTest extends TestCase{
         sure.add(immunizationLists.immunization23);
 
         LinkedImmunization unsure = new LinkedImmunization();
-        unsure.setType(LinkedImmunizationType.UNSURE);
+        unsure.setType(LinkedImmunizationType.DIFFERENT);
         unsure.add(immunizationLists.immunization24);
 
         expected.add(sure);
@@ -266,7 +266,7 @@ public class MoreCompleteTest extends TestCase{
         sure.add(immunizationLists.immunization23);
 
         LinkedImmunization unsure = new LinkedImmunization();
-        unsure.setType(LinkedImmunizationType.UNSURE);
+        unsure.setType(LinkedImmunizationType.DIFFERENT);
         unsure.add(immunizationLists.immunization24);
 
         expected.add(sure);
@@ -322,7 +322,7 @@ public class MoreCompleteTest extends TestCase{
         sure.add(immunizationLists.immunization23);
 
         LinkedImmunization unsure = new LinkedImmunization();
-        unsure.setType(LinkedImmunizationType.UNSURE);
+        unsure.setType(LinkedImmunizationType.DIFFERENT);
         unsure.add(immunizationLists.immunization24);
 
         expected.add(sure);
@@ -378,7 +378,7 @@ public class MoreCompleteTest extends TestCase{
         sure.add(immunizationLists.immunization23);
 
         LinkedImmunization unsure = new LinkedImmunization();
-        unsure.setType(LinkedImmunizationType.UNSURE);
+        unsure.setType(LinkedImmunizationType.DIFFERENT);
         unsure.add(immunizationLists.immunization24);
 
         expected.add(sure);

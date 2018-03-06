@@ -12,6 +12,11 @@ import java.util.ArrayList;
  */
 public class CompleteTest extends TestCase {
     private void compareResultToExpected(ArrayList<LinkedImmunization> result, ArrayList<LinkedImmunization> expected) {
+        System.out.println("EXPECTED:");
+        for (LinkedImmunization linkedImmunization:expected) {
+            System.out.println(linkedImmunization.toString());
+        }
+        System.out.println("RESULT:");
         for (LinkedImmunization linkedImmunization:result) {
             System.out.println(linkedImmunization.toString());
         }
@@ -259,7 +264,6 @@ public class CompleteTest extends TestCase {
         LinkedImmunization patientRecords = immunizationLists.patient2;
 
         VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
-        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateHybrid(patientRecords);
 

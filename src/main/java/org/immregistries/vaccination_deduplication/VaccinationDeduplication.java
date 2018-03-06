@@ -52,14 +52,6 @@ public class VaccinationDeduplication {
      * @return An ArrayList of LinkedImmunization containing the final result from the deduplication process.
      */
     public ArrayList<LinkedImmunization> postprocessing(LinkedImmunization toEvaluate, ArrayList<ArrayList<ComparisonResult>> results) {
-
-        for (ArrayList<ComparisonResult> line : results) {
-            for (ComparisonResult cr : line) {
-                System.out.print(cr + "\t");
-            }
-            System.out.println();
-        }
-
         // These hashmaps will contain arraylists containing the indexes of Immunizations
 
         HashMap<Integer, ArrayList<Integer>> sameGroupedIndexes = new HashMap<Integer, ArrayList<Integer>>();

@@ -46,8 +46,11 @@ public class LinkedImmunization extends ArrayList<Immunization> {
                     break;
                 case DIFFERENT:
                     s += "TYPE = different\n";
-			default:
-				break;
+                    break;
+                case INPUT:
+                    s += "TYPE = input\n";
+			    default:
+				    break;
             }
         else
             s += "TYPE = not set\n";

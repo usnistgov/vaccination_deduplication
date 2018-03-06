@@ -46,6 +46,10 @@ public class StepOneTest extends TestCase {
 	public void testStepOnePatient3() throws ParseException {
 		ImmunizationLists immunizationLists = new ImmunizationLists();
 		LinkedImmunization expected = new LinkedImmunization();
+
+		immunizationLists.immunization19.addVaccineGroupList("Polio");
+		immunizationLists.immunization21.addVaccineGroupList("Polio");
+
 		expected.add(immunizationLists.immunization19);
 		expected.add(immunizationLists.immunization20);
 		expected.add(immunizationLists.immunization21);
@@ -73,6 +77,10 @@ public class StepOneTest extends TestCase {
 	}
 
 	public void TestPatient(LinkedImmunization patientRecords, LinkedImmunization expected) {
+		System.out.println("EXPECTED:");
+		System.out.println(patientRecords);
+		System.out.println("RESULT:");
+		System.out.println(expected);
 		LinkedImmunization stepOneResult = new LinkedImmunization();
 
 		for (int i = 0; i < patientRecords.size(); i++) {

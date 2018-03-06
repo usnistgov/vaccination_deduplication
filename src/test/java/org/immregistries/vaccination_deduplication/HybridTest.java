@@ -31,7 +31,7 @@ public class HybridTest extends TestCase{
 
         Hybrid hybrid = new Hybrid(new PropertyLoader().getParameters());
 
-        ComparisonResult score = hybrid.compare(immunizationLists.immunization1, immunizationLists.immunization4);
+        ComparisonResult score = hybrid.compare(immunizationLists.immunization18, immunizationLists.immunization20);
         assertEquals(ComparisonResult.UNSURE, score);
     }
 }

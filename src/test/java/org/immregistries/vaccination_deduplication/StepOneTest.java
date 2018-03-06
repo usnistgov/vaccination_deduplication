@@ -10,7 +10,7 @@ import junit.framework.TestCase;
 public class StepOneTest extends TestCase {
 	public void testIsPotentialDuplicate() throws Exception {
 
-		ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+		ImmunizationLists immunizationLists = new ImmunizationLists();
 
 		StepOne stepOne = new StepOne(new PropertyLoader().getParameters());
 		boolean result = stepOne.isPotentialDuplicate(immunizationLists.immunization1, immunizationLists.immunization2);
@@ -19,7 +19,7 @@ public class StepOneTest extends TestCase {
 	}
 
 	public void testStepOnePatient1() throws ParseException {
-		ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+		ImmunizationLists immunizationLists = new ImmunizationLists();
 		LinkedImmunization expected = new LinkedImmunization();
 		expected.add(immunizationLists.immunization1);
 		expected.add(immunizationLists.immunization2);
@@ -29,7 +29,7 @@ public class StepOneTest extends TestCase {
 	}
 
 	public void testStepOnePatient2() throws ParseException {
-		ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+		ImmunizationLists immunizationLists = new ImmunizationLists();
 		LinkedImmunization expected = new LinkedImmunization();
 		expected.add(immunizationLists.immunization9);
 		expected.add(immunizationLists.immunization10);
@@ -44,7 +44,7 @@ public class StepOneTest extends TestCase {
 	}
 
 	public void testStepOnePatient3() throws ParseException {
-		ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+		ImmunizationLists immunizationLists = new ImmunizationLists();
 		LinkedImmunization expected = new LinkedImmunization();
 		expected.add(immunizationLists.immunization19);
 		expected.add(immunizationLists.immunization20);

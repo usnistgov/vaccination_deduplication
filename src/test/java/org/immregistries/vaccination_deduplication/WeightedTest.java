@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class WeightedTest extends TestCase {
     public void testScoreEquals() throws Exception {
-        ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+        ImmunizationLists immunizationLists = new ImmunizationLists();
 
         Weighted weighted = new Weighted(new PropertyLoader().getParameters());
 
@@ -19,7 +19,7 @@ public class WeightedTest extends TestCase {
     }
 
     public void testScoreDifferent() throws Exception {
-        ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+        ImmunizationLists immunizationLists = new ImmunizationLists();
 
         Weighted weighted = new Weighted(new PropertyLoader().getParameters());
 
@@ -28,7 +28,7 @@ public class WeightedTest extends TestCase {
     }
 
     public void testScoreUnsure() throws Exception {
-        ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+        ImmunizationLists immunizationLists = new ImmunizationLists();
         Weighted weighted = new Weighted(new PropertyLoader().getParameters());
 
         ComparisonResult score = weighted.compare(immunizationLists.immunization1, immunizationLists.immunization3);

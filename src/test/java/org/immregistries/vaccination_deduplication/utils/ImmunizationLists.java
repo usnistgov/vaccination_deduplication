@@ -62,7 +62,7 @@ public class ImmunizationLists {
     public Immunization immunization26 = new Immunization();
     public Immunization immunization27 = new Immunization();
 
-    private ImmunizationLists() throws ParseException {
+    public ImmunizationLists() throws ParseException {
         patient1.setType(LinkedImmunizationType.INPUT);
         patient2.setType(LinkedImmunizationType.INPUT);
         patient3.setType(LinkedImmunizationType.INPUT);
@@ -324,12 +324,5 @@ public class ImmunizationLists {
         patient5f.add(immunization25);
 
  
-    }
-
-    public static ImmunizationLists getInstance() throws ParseException {
-        if (ImmunizationLists.instance == null) {
-            ImmunizationLists.instance = new ImmunizationLists();
-        }
-        return ImmunizationLists.instance;
     }
 }

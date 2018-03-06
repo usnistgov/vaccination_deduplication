@@ -28,7 +28,7 @@ public class CompleteTest extends TestCase {
     }
 
     public void testDeduplicateDeterministicPatient1() throws ParseException {
-        ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+        ImmunizationLists immunizationLists = new ImmunizationLists();
 
         LinkedImmunization patientRecords = immunizationLists.patient1;
 
@@ -60,7 +60,7 @@ public class CompleteTest extends TestCase {
     }
 
     public void testDeduplicateDeterministicPatient2() throws ParseException {
-        ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+        ImmunizationLists immunizationLists = new ImmunizationLists();
 
         LinkedImmunization patientRecords = immunizationLists.patient2;
 
@@ -102,7 +102,7 @@ public class CompleteTest extends TestCase {
     }
 
     public void testDeduplicateDeterministicPatient3() throws ParseException {
-        ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+        ImmunizationLists immunizationLists = new ImmunizationLists();
 
         LinkedImmunization patientRecords = immunizationLists.patient3;
 
@@ -125,7 +125,7 @@ public class CompleteTest extends TestCase {
     }
 
     public void testDeduplicateWeightedPatient1() throws ParseException {
-        ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+        ImmunizationLists immunizationLists = new ImmunizationLists();
 
         LinkedImmunization patientRecords = immunizationLists.patient1;
 
@@ -157,7 +157,7 @@ public class CompleteTest extends TestCase {
     }
 
     public void testDeduplicateWeightedPatient2() throws ParseException {
-        ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+        ImmunizationLists immunizationLists = new ImmunizationLists();
 
         LinkedImmunization patientRecords = immunizationLists.patient2;
 
@@ -199,7 +199,7 @@ public class CompleteTest extends TestCase {
     }
 
     public void testDeduplicateWeightedPatient3() throws ParseException {
-        ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+        ImmunizationLists immunizationLists = new ImmunizationLists();
 
         LinkedImmunization patientRecords = immunizationLists.patient3;
 
@@ -222,7 +222,7 @@ public class CompleteTest extends TestCase {
     }
 
     public void testDeduplicateHybridPatient1() throws ParseException {
-        ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+        ImmunizationLists immunizationLists = new ImmunizationLists();
 
         LinkedImmunization patientRecords = immunizationLists.patient1;
 
@@ -254,7 +254,7 @@ public class CompleteTest extends TestCase {
     }
 
     public void testDeduplicateHybridPatient2() throws ParseException {
-        ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+        ImmunizationLists immunizationLists = new ImmunizationLists();
 
         LinkedImmunization patientRecords = immunizationLists.patient2;
 
@@ -295,7 +295,7 @@ public class CompleteTest extends TestCase {
     }
 
     public void testDeduplicateHybridPatient3() throws ParseException {
-        ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+        ImmunizationLists immunizationLists = new ImmunizationLists();
 
         LinkedImmunization patientRecords = immunizationLists.patient3;
 

@@ -9,7 +9,7 @@ import java.text.ParseException;
 public class DeterministicTest extends TestCase {
     public void testDeterministicEqual() throws ParseException {
         Deterministic deterministic = new Deterministic();
-        ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+        ImmunizationLists immunizationLists = new ImmunizationLists();
 
         assertEquals(ComparisonResult.EQUAL, deterministic.compare(immunizationLists.immunization1, immunizationLists.immunization2));
         assertEquals(ComparisonResult.EQUAL, deterministic.compare(immunizationLists.immunization1, immunizationLists.immunization3));
@@ -17,7 +17,7 @@ public class DeterministicTest extends TestCase {
 
     public void testDeterministicUnsure() throws ParseException {
         Deterministic deterministic = new Deterministic();
-        ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
+        ImmunizationLists immunizationLists = new ImmunizationLists();
 
         assertEquals(ComparisonResult.UNSURE, deterministic.compare(immunizationLists.immunization1, immunizationLists.immunization8));
     }

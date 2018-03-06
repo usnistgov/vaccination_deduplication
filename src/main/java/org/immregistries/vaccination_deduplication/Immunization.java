@@ -12,6 +12,8 @@ import java.util.Date;
 
 public class Immunization {
 
+    private String ImmunizationID;
+
     private String CVX; // Vaccine code
 
     private ArrayList<String> vaccineGroupList ; // Vaccine Group
@@ -41,6 +43,14 @@ public class Immunization {
 
     public Immunization() {
         this("", new ArrayList<String>(), "", "", new Date(), "", "", ImmunizationSource.HISTORICAL);
+    }
+
+    public String getImmunizationID() {
+        return ImmunizationID;
+    }
+
+    public void setImmunizationID(String immunizationID) {
+        ImmunizationID = immunizationID;
     }
 
     public String getCVX() {

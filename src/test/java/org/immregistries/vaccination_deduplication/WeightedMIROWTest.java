@@ -14,7 +14,6 @@ public class WeightedMIROWTest {
 
     @Test
     public void testS007() throws Exception {
-
         Immunization immunization1 = new Immunization();
         Immunization immunization2 = new Immunization();
 
@@ -32,7 +31,7 @@ public class WeightedMIROWTest {
         immunization2.setLotNumber("C2253AA");
         immunization2.setOrganisationID("Olmsted Med");
 
-        Weighted weighted = new Weighted();
+        Weighted weighted = new Weighted(new PropertyLoader().getParameters());
 
         double score = weighted.getScore(immunization1, immunization2);
         double expectedScore = 108;
@@ -65,7 +64,7 @@ public class WeightedMIROWTest {
         immunization2.setLotNumber("C2253AA");
         immunization2.setOrganisationID("Brained Med");
 
-        Weighted weighted = new Weighted();
+        Weighted weighted = new Weighted(new PropertyLoader().getParameters());
 
         double score = weighted.getScore(immunization1, immunization2);
         double expectedScore = 93;
@@ -100,7 +99,7 @@ public class WeightedMIROWTest {
         immunization2.setProductCode("Pediatrix");
         immunization2.setOrganisationID("Brainerd Med");
 
-        Weighted weighted = new Weighted();
+        Weighted weighted = new Weighted(new PropertyLoader().getParameters());
 
         double score = weighted.getScore(immunization1, immunization2);
         double expectedScore = 193;
@@ -134,7 +133,7 @@ public class WeightedMIROWTest {
         immunization2.setOrganisationID("Baby Tracks");
         immunization2.setSource(ImmunizationSource.SOURCE);
 
-        Weighted weighted = new Weighted();
+        Weighted weighted = new Weighted(new PropertyLoader().getParameters());
 
         double score = weighted.getScore(immunization1, immunization2);
         double expectedScore = 143;
@@ -167,7 +166,7 @@ public class WeightedMIROWTest {
         immunization2.setOrganisationID("Duluth Clinic");
         immunization2.setSource(ImmunizationSource.SOURCE);
 
-        Weighted weighted = new Weighted();
+        Weighted weighted = new Weighted(new PropertyLoader().getParameters());
 
         double score = weighted.getScore(immunization1, immunization2);
         double expectedScore = 203;
@@ -200,7 +199,7 @@ public class WeightedMIROWTest {
         immunization2.setOrganisationID("54 (Medicaid)");
         immunization2.setSource(ImmunizationSource.HISTORICAL);
 
-        Weighted weighted = new Weighted();
+        Weighted weighted = new Weighted(new PropertyLoader().getParameters());
 
         double score = weighted.getScore(immunization1, immunization2);
         double expectedScore = 215;
@@ -235,7 +234,7 @@ public class WeightedMIROWTest {
         immunization2.setProductCode("IPOL");
         immunization2.setOrganisationID("Kidhealth VT");
 
-        Weighted weighted = new Weighted();
+        Weighted weighted = new Weighted(new PropertyLoader().getParameters());
 
         double score = weighted.getScore(immunization1, immunization2);
         double expectedScore = 95;
@@ -265,7 +264,7 @@ public class WeightedMIROWTest {
         immunization2.setVaccineGroupList(
                 new ArrayList<String>(Arrays.asList("HepB")));
 
-        Weighted weighted = new Weighted();
+        Weighted weighted = new Weighted(new PropertyLoader().getParameters());
 
         double score = weighted.getScore(immunization1, immunization2);
         double expectedScore = 133;
@@ -297,7 +296,7 @@ public class WeightedMIROWTest {
                 new ArrayList<String>(Arrays.asList("HepB")));
         immunization2.setSource(ImmunizationSource.HISTORICAL);
 
-        Weighted weighted = new Weighted();
+        Weighted weighted = new Weighted(new PropertyLoader().getParameters());
 
         double score = weighted.getScore(immunization1, immunization2);
         double expectedScore = 178;
@@ -328,7 +327,7 @@ public class WeightedMIROWTest {
                 new ArrayList<String>(Arrays.asList("DTaP")));
         immunization2.setOrganisationID("Aspen Med Grp");
 
-        Weighted weighted = new Weighted();
+        Weighted weighted = new Weighted(new PropertyLoader().getParameters());
 
         double score = weighted.getScore(immunization1, immunization2);
         double expectedScore = 98;
@@ -362,7 +361,7 @@ public class WeightedMIROWTest {
         immunization2.setOrganisationID("354");
         immunization2.setSource(ImmunizationSource.SOURCE);
 
-        Weighted weighted = new Weighted();
+        Weighted weighted = new Weighted(new PropertyLoader().getParameters());
 
         double score = weighted.getScore(immunization1, immunization2);
         double expectedScore = 178;
@@ -394,7 +393,7 @@ public class WeightedMIROWTest {
         immunization2.setCVX("48");
         immunization2.setOrganisationID("90");
 
-        Weighted weighted = new Weighted();
+        Weighted weighted = new Weighted(new PropertyLoader().getParameters());
 
         double score = weighted.getScore(immunization1, immunization2);
         double expectedScore = 140;

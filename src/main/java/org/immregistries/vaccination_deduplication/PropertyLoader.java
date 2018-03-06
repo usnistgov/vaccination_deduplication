@@ -12,49 +12,45 @@ import java.util.Properties;
  */
 public class PropertyLoader {
 
-    public static final String DATE_WINDOW = "dateWindow";
-    public static final String WEIGHT_MAX_THRESHOLD = "weightMaxThreshold";
-    public static final String WEIGHT_MIN_THRESHOLD = "weightMinThreshold";
+    private static final String DATE_WINDOW = "dateWindow";
+    private static final String WEIGHT_MAX_THRESHOLD = "weightMaxThreshold";
+    private static final String WEIGHT_MIN_THRESHOLD = "weightMinThreshold";
 
-    public static final String WEIGHT_SAME_SOURCE_HISTORICAL = "weightSameSourceHistorical";
-    public static final String WEIGHT_SAME_SOURCE_ADMIN = "weightSameSourceAdmin";
-    public static final String WEIGHT_ABSENT_SOURCE = "weightAbsentSource";
-    public static final String WEIGHT_DIFFERENT_SOURCE = "weightDifferentSource";
+    private static final String WEIGHT_SAME_SOURCE_HISTORICAL = "weightSameSourceHistorical";
+    private static final String WEIGHT_SAME_SOURCE_ADMIN = "weightSameSourceAdmin";
+    private static final String WEIGHT_ABSENT_SOURCE = "weightAbsentSource";
+    private static final String WEIGHT_DIFFERENT_SOURCE = "weightDifferentSource";
 
-    public static final String WEIGHT_SAME_CVX = "weightSameCVX";
-    public static final String WEIGHT_ABSENT_CVX = "weightAbsentCVX";
-    public static final String WEIGHT_DIFFERENT_CVX = "weightDifferentCVX";
+    private static final String WEIGHT_SAME_CVX = "weightSameCVX";
+    private static final String WEIGHT_ABSENT_CVX = "weightAbsentCVX";
+    private static final String WEIGHT_DIFFERENT_CVX = "weightDifferentCVX";
 
-    public static final String WEIGHT_SAME_MVX = "weightSameMVX";
-    public static final String WEIGHT_ABSENT_MVX = "weightAbsentMVX";
-    public static final String WEIGHT_DIFFERENT_MVX = "weightDifferentMVX";
+    private static final String WEIGHT_SAME_MVX = "weightSameMVX";
+    private static final String WEIGHT_ABSENT_MVX = "weightAbsentMVX";
+    private static final String WEIGHT_DIFFERENT_MVX = "weightDifferentMVX";
 
-    public static final String WEIGHT_SAME_PRODUCT_CODE = "weightSameProductCode";
-    public static final String WEIGHT_ABSENT_PRODUCT_CODE = "weightAbsentProductCode";
-    public static final String WEIGHT_DIFFERENT_PRODUCT_CODE = "weightDifferentProductCode";
+    private static final String WEIGHT_SAME_PRODUCT_CODE = "weightSameProductCode";
+    private static final String WEIGHT_ABSENT_PRODUCT_CODE = "weightAbsentProductCode";
+    private static final String WEIGHT_DIFFERENT_PRODUCT_CODE = "weightDifferentProductCode";
 
-    public static final String WEIGHT_SAME_LOT_NUMBER = "weightSameLotNumber";
-    public static final String WEIGHT_DIFFERENT_LOT_NUMBER = "weightDifferentLotNumber";
-    public static final String WEIGHT_ABSENT_LOT_NUMBER = "weightAbsentLotNumber";
+    private static final String WEIGHT_SAME_LOT_NUMBER = "weightSameLotNumber";
+    private static final String WEIGHT_DIFFERENT_LOT_NUMBER = "weightDifferentLotNumber";
+    private static final String WEIGHT_ABSENT_LOT_NUMBER = "weightAbsentLotNumber";
 
-    public static final String WEIGHT_SAME_ORGANISATION_ID = "weightSameOrganisationID";
-    public static final String WEIGHT_DIFFERENT_ORGANISATION_ID = "weightDifferentOrganisationID";
-    public static final String WEIGHT_ABSENT_ORGANISATION_ID = "weightAbsentOrganisationID";
+    private static final String WEIGHT_SAME_ORGANISATION_ID = "weightSameOrganisationID";
+    private static final String WEIGHT_DIFFERENT_ORGANISATION_ID = "weightDifferentOrganisationID";
+    private static final String WEIGHT_ABSENT_ORGANISATION_ID = "weightAbsentOrganisationID";
 
-    public static final String WEIGHT_DATE_DIFFERENCES = "weightDateDifferences";
+    private static final String WEIGHT_DATE_DIFFERENCES = "weightDateDifferences";
 
+    public PropertyLoader() {}
 
-    private HashMap<String, Double> weightedParameters;
-    private ArrayList<Double> weightDateDifferences;
-
-    private static PropertyLoader instance = null;
-
-    protected PropertyLoader() {
-        weightedParameters = new HashMap<String, Double>();
-        weightDateDifferences =  new ArrayList<Double>();
+    public VaccinationDeduplicationParameters getParameters() {
 
         Properties prop = new Properties();
         InputStream input = null;
+
+        VaccinationDeduplicationParameters properties = new VaccinationDeduplicationParameters();
 
         try {
             input = this.getClass().getResourceAsStream("/config.properties");
@@ -66,39 +62,39 @@ public class PropertyLoader {
             
 
             // for the weighted method
-            weightedParameters.put(DATE_WINDOW, stringToDouble(prop.getProperty(DATE_WINDOW)));
+            properties.setDateWindow(stringToDouble(prop.getProperty(DATE_WINDOW)));
 
-            weightedParameters.put(WEIGHT_MAX_THRESHOLD, stringToDouble(prop.getProperty(WEIGHT_MAX_THRESHOLD)));
-            weightedParameters.put(WEIGHT_MIN_THRESHOLD, stringToDouble(prop.getProperty(WEIGHT_MIN_THRESHOLD)));
+            properties.setWeightMaxThreshold(stringToDouble(prop.getProperty(WEIGHT_MAX_THRESHOLD)));
+            properties.setWeightMinThreshold(stringToDouble(prop.getProperty(WEIGHT_MIN_THRESHOLD)));
 
-            weightedParameters.put(WEIGHT_SAME_SOURCE_HISTORICAL, stringToDouble(prop.getProperty(WEIGHT_SAME_SOURCE_HISTORICAL)));
-            weightedParameters.put(WEIGHT_SAME_SOURCE_ADMIN, stringToDouble(prop.getProperty(WEIGHT_SAME_SOURCE_ADMIN)));
-            weightedParameters.put(WEIGHT_ABSENT_SOURCE, stringToDouble(prop.getProperty(WEIGHT_ABSENT_SOURCE)));
-            weightedParameters.put(WEIGHT_DIFFERENT_SOURCE, stringToDouble(prop.getProperty(WEIGHT_DIFFERENT_SOURCE)));
+            properties.setWeightSameSourceAdmin(stringToDouble(prop.getProperty(WEIGHT_SAME_SOURCE_ADMIN)));
+            properties.setWeightSameSourceHistorical(stringToDouble(prop.getProperty(WEIGHT_SAME_SOURCE_HISTORICAL)));
+            properties.setWeightAbsentSource(stringToDouble(prop.getProperty(WEIGHT_ABSENT_SOURCE)));
+            properties.setWeightDifferentSource(stringToDouble(prop.getProperty(WEIGHT_DIFFERENT_SOURCE)));
 
-            weightedParameters.put(WEIGHT_SAME_LOT_NUMBER, stringToDouble(prop.getProperty(WEIGHT_SAME_LOT_NUMBER)));
-            weightedParameters.put(WEIGHT_DIFFERENT_LOT_NUMBER, stringToDouble(prop.getProperty(WEIGHT_DIFFERENT_LOT_NUMBER)));
-            weightedParameters.put(WEIGHT_ABSENT_LOT_NUMBER, stringToDouble(prop.getProperty(WEIGHT_ABSENT_LOT_NUMBER)));
+            properties.setWeightSameLotNumber(stringToDouble(prop.getProperty(WEIGHT_SAME_LOT_NUMBER)));
+            properties.setWeightAbsentLotNumber(stringToDouble(prop.getProperty(WEIGHT_ABSENT_LOT_NUMBER)));
+            properties.setWeightDifferentLotNumber(stringToDouble(prop.getProperty(WEIGHT_DIFFERENT_LOT_NUMBER)));
 
-            weightedParameters.put(WEIGHT_SAME_CVX, stringToDouble(prop.getProperty(WEIGHT_SAME_CVX)));
-            weightedParameters.put(WEIGHT_DIFFERENT_CVX, stringToDouble(prop.getProperty(WEIGHT_DIFFERENT_CVX)));
-            weightedParameters.put(WEIGHT_ABSENT_CVX, stringToDouble(prop.getProperty(WEIGHT_ABSENT_CVX)));
+            properties.setWeightSameCVX(stringToDouble(prop.getProperty(WEIGHT_SAME_CVX)));
+            properties.setWeightAbsentCVX(stringToDouble(prop.getProperty(WEIGHT_ABSENT_CVX)));
+            properties.setWeightDifferentCVX(stringToDouble(prop.getProperty(WEIGHT_DIFFERENT_CVX)));
 
-            weightedParameters.put(WEIGHT_SAME_MVX, stringToDouble(prop.getProperty(WEIGHT_SAME_MVX)));
-            weightedParameters.put(WEIGHT_DIFFERENT_MVX, stringToDouble(prop.getProperty(WEIGHT_DIFFERENT_MVX)));
-            weightedParameters.put(WEIGHT_ABSENT_MVX, stringToDouble(prop.getProperty(WEIGHT_ABSENT_MVX)));
+            properties.setWeightSameMVX(stringToDouble(prop.getProperty(WEIGHT_SAME_MVX)));
+            properties.setWeightAbsentMVX(stringToDouble(prop.getProperty(WEIGHT_ABSENT_MVX)));
+            properties.setWeightDifferentMVX(stringToDouble(prop.getProperty(WEIGHT_DIFFERENT_MVX)));
 
-            weightedParameters.put(WEIGHT_SAME_PRODUCT_CODE, stringToDouble(prop.getProperty(WEIGHT_SAME_PRODUCT_CODE)));
-            weightedParameters.put(WEIGHT_DIFFERENT_PRODUCT_CODE, stringToDouble(prop.getProperty(WEIGHT_DIFFERENT_PRODUCT_CODE)));
-            weightedParameters.put(WEIGHT_ABSENT_PRODUCT_CODE, stringToDouble(prop.getProperty(WEIGHT_ABSENT_PRODUCT_CODE)));
+            properties.setWeightSameProductCode(stringToDouble(prop.getProperty(WEIGHT_SAME_PRODUCT_CODE)));
+            properties.setWeightAbsentProductCode(stringToDouble(prop.getProperty(WEIGHT_ABSENT_PRODUCT_CODE)));
+            properties.setWeightDifferentProductCode(stringToDouble(prop.getProperty(WEIGHT_DIFFERENT_PRODUCT_CODE)));
 
-            weightedParameters.put(WEIGHT_SAME_ORGANISATION_ID, stringToDouble(prop.getProperty(WEIGHT_SAME_ORGANISATION_ID)));
-            weightedParameters.put(WEIGHT_DIFFERENT_ORGANISATION_ID, stringToDouble(prop.getProperty(WEIGHT_DIFFERENT_ORGANISATION_ID)));
-            weightedParameters.put(WEIGHT_ABSENT_ORGANISATION_ID, stringToDouble(prop.getProperty(WEIGHT_ABSENT_ORGANISATION_ID)));
+            properties.setWeightSameOrganisationID(stringToDouble(prop.getProperty(WEIGHT_SAME_ORGANISATION_ID)));
+            properties.setWeightAbsentOrganisationID(stringToDouble(prop.getProperty(WEIGHT_ABSENT_ORGANISATION_ID)));
+            properties.setWeightDifferentOrganisationID(stringToDouble(prop.getProperty(WEIGHT_DIFFERENT_ORGANISATION_ID)));
 
             String[] weightDateDifferencesSplitString = prop.getProperty(WEIGHT_DATE_DIFFERENCES).split(",");
             for (String s : weightDateDifferencesSplitString) {
-                weightDateDifferences.add(Double.parseDouble(s));
+                properties.addWeightDateDifference(stringToDouble(s));
             }
 
         } catch (IOException e) {
@@ -112,44 +108,11 @@ public class PropertyLoader {
                 }
             }
         }
-    }
 
-    /**
-     * This method will instantiate the PropertyLoader singleton when first called then will return the singleton instance.
-     * @return The singleton's instance.
-     */
-    public static PropertyLoader getInstance() {
-        if(instance == null) {
-            instance = new PropertyLoader();
-        }
-        return instance;
+        return properties;
     }
 
     private Double stringToDouble(String input) {
         return Double.parseDouble(input);
-    }
-
-    public HashMap<String, Double> getWeightedParameters() {
-        return weightedParameters;
-    }
-
-    public ArrayList<Double> getWeightDateDifferences() {
-        return weightDateDifferences;
-    }
-
-    public void setWeightDateDifferences(ArrayList<Double> weightDateDifferences) {
-        this.weightDateDifferences = weightDateDifferences;
-    }
-
-    public void setPropertyValue(String PropertyName, Double value) {
-
-    }
-
-    public void setDateWindow(double dateWindow){
-        weightedParameters.put(DATE_WINDOW, dateWindow);
-    }
-    
-    public Double getDateWindow(){
-    	return weightedParameters.get(DATE_WINDOW);
     }
 }

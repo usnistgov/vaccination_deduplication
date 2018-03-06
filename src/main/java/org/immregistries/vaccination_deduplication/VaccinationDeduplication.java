@@ -221,24 +221,28 @@ public class VaccinationDeduplication {
      * @return An ArrayList of LinkedImmunization containing the final result from the deduplication process.
      */
     public ArrayList<LinkedImmunization> deduplicate(LinkedImmunization patientImmunizationRecords, DeduplicationMethod method) {
+        // Load parameters
+        PropertyLoader propertyLoader = new PropertyLoader();
+        VaccinationDeduplicationParameters parameters = propertyLoader.getParameters();
+
         Comparer comparer;
         switch (method) {
             case DETERMINISTIC:
                 comparer = new Deterministic();
                 break;
             case WEIGHTED:
-                comparer = new Weighted();
+                comparer = new Weighted(parameters);
                 break;
             case HYBRID:
-                comparer = new Hybrid();
+                comparer = new Hybrid(parameters);
                 break;
             default :
-                comparer = new Hybrid();
+                comparer = new Hybrid(parameters);
         }
 
         immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
 
-        StepOne stepOne = new StepOne();
+        StepOne stepOne = new StepOne(parameters);
         LinkedImmunization toEvaluate = patientImmunizationRecords;
 
         ArrayList<ArrayList<ComparisonResult>> results;

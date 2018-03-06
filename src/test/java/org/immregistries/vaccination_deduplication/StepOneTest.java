@@ -12,7 +12,7 @@ public class StepOneTest extends TestCase {
 
 		ImmunizationLists immunizationLists = ImmunizationLists.getInstance();
 
-		StepOne stepOne = new StepOne();
+		StepOne stepOne = new StepOne(new PropertyLoader().getParameters());
 		boolean result = stepOne.isPotentialDuplicate(immunizationLists.immunization1, immunizationLists.immunization2);
 
 		assertEquals(true, result);
@@ -54,7 +54,7 @@ public class StepOneTest extends TestCase {
 	}
 
 	public boolean hasPotentialDuplicate(int rank, LinkedImmunization patientRecords) {
-		StepOne stepOne = new StepOne();
+		StepOne stepOne = new StepOne(new PropertyLoader().getParameters());
 		for (int j = 0; j < patientRecords.size(); j++) {
 			if (rank!=j) {
 				if (stepOne.isPotentialDuplicate(patientRecords.get(rank), patientRecords.get(j))) {

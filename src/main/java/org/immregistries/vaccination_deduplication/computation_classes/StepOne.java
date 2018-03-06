@@ -1,8 +1,8 @@
 package org.immregistries.vaccination_deduplication.computation_classes;
 
 import org.immregistries.vaccination_deduplication.Immunization;
+import org.immregistries.vaccination_deduplication.VaccinationDeduplicationParameters;
 import org.immregistries.vaccination_deduplication.utils.Matching;
-import org.immregistries.vaccination_deduplication.PropertyLoader;
 
 import java.util.List;
 
@@ -13,10 +13,9 @@ public class StepOne {
 	
 	private double dateWindow;
 
-    public StepOne() {
+    public StepOne(VaccinationDeduplicationParameters parameters) {
 		super();
-		PropertyLoader propertyLoader = PropertyLoader.getInstance();
-        this.dateWindow = propertyLoader.getDateWindow();
+        this.dateWindow = parameters.getDateWindow();
 	}
 
 	/**

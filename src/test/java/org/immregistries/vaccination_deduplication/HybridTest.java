@@ -27,13 +27,13 @@ public class HybridTest extends TestCase{
         immunization2.setSource(ImmunizationSource.ALTERNATE);
         immunization2.setOrganisationID("20171225");
 
-        Weighted weighted = new Weighted();
+        Weighted weighted = new Weighted(new PropertyLoader().getParameters());
         Deterministic deterministic = new Deterministic();
 
         ComparisonResult scoreWeighted = weighted.compare(immunization1, immunization2);
         ComparisonResult scoreDeterministic = deterministic.compare(immunization1, immunization2);
 
-        Hybrid hybrid = new Hybrid();
+        Hybrid hybrid = new Hybrid(new PropertyLoader().getParameters());
        	assertEquals(ComparisonResult.DIFFERENT,hybrid.compare(scoreWeighted,scoreDeterministic));
     }
     }

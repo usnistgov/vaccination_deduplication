@@ -2,13 +2,18 @@ package org.immregistries.vaccination_deduplication.computation_classes;
 
 import org.immregistries.vaccination_deduplication.Immunization;
 import org.immregistries.vaccination_deduplication.ComparisonResult;
+import org.immregistries.vaccination_deduplication.VaccinationDeduplicationParameters;
 
 /**
  * This class contains all the methods necessary to apply the hybrid method for the second step of the deduplication process.
  * The hybrid method takes the result of the Deterministic method and the result of the Weighted method and combines them into one result.
  */
 public class Hybrid implements Comparer {
-	public Hybrid() {}
+	VaccinationDeduplicationParameters parameters;
+
+	public Hybrid(VaccinationDeduplicationParameters parameters) {
+		this.parameters = parameters;
+	}
 
 	/**
 	 * This method calls upon the Deterministic and Weighted comparison classes and methods then combines the 2 results together.
@@ -20,7 +25,7 @@ public class Hybrid implements Comparer {
 		Deterministic deterministic = new Deterministic();
 		ComparisonResult deterministicResult = deterministic.compare(immunization1, immunization2);
 
-		Weighted weighted = new Weighted();
+		Weighted weighted = new Weighted(this.parameters);
 		ComparisonResult weightedResult = weighted.compare(immunization1, immunization2);
 
 		return this.compare(deterministicResult, weightedResult);

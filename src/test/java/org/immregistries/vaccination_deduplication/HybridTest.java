@@ -24,7 +24,7 @@ public class HybridTest extends TestCase{
         immunization2.setCVX("VCX 2");
         immunization2.setMVX("MVX 2");
         immunization2.setProductCode("pc 2");
-        immunization2.setSource(ImmunizationSource.ALTERNATE);
+        //immunization2.setSource(ImmunizationSource.ALTERNATE);
         immunization2.setOrganisationID("20171225");
 
         Weighted weighted = new Weighted(new PropertyLoader().getParameters());
@@ -36,5 +36,5 @@ public class HybridTest extends TestCase{
         Hybrid hybrid = new Hybrid(new PropertyLoader().getParameters());
        	assertEquals(ComparisonResult.DIFFERENT,hybrid.compare(scoreWeighted,scoreDeterministic));
     }
-    }
+}
 

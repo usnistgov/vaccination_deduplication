@@ -20,40 +20,28 @@ import java.util.ArrayList;
  * Specifically vaccine groups and product codes (directly linked to the trade name).
  */
 public class ImmunizationNormalisation {
-    private static ImmunizationNormalisation instance;
 
-    CodeMapBuilder codeMapBuilder = CodeMapBuilder.INSTANCE;
-    InputStream inputStream;
-    CodeMap codeMap;
-    RelatedCode relatedCode;
-    DateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
-
-    private ImmunizationNormalisation() {}
-
-    public static ImmunizationNormalisation getInstance() {
-        if (ImmunizationNormalisation.instance == null) {
-            ImmunizationNormalisation.instance = new ImmunizationNormalisation();
-        }
-        return ImmunizationNormalisation.instance;
-    }
+    private CodeMapBuilder codeMapBuilder = CodeMapBuilder.INSTANCE;
+    private InputStream inputStream;
+    private CodeMap codeMap;
+    private RelatedCode relatedCode;
+    private DateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
 
     /**
-     * This method will initialize the singleton with the codebase client objects.
-     * This method uses the codebase file inside the codebase client jar.
+     * This constructor uses the codebase file inside the codebase client jar.
      */
-    public void initialize() {
+    public ImmunizationNormalisation() {
         inputStream = CodeMapBuilder.class.getResourceAsStream("/DQA_CM_2.1.xml");
         codeMap = codeMapBuilder.getCodeMap(inputStream);
         relatedCode = new RelatedCode(codeMap);
     }
 
     /**
-     * This method will initialize the singleton with the codebase client objects.
-     * This method uses the codebase file at the specified path.
+     * This constructor uses the codebase file at the specified path.
      * @param codebaseFilePath The path to the codebase file
      * @throws FileNotFoundException if the path to the codebase file is incorrect.
      */
-    public void initialize(String codebaseFilePath) throws FileNotFoundException {
+    public ImmunizationNormalisation(String codebaseFilePath) throws FileNotFoundException {
         File file = new File(codebaseFilePath);
         inputStream = new FileInputStream(file);
         codeMap = CodeMapBuilder.INSTANCE.getCodeMap(inputStream);

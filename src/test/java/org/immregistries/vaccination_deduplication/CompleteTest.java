@@ -32,8 +32,8 @@ public class CompleteTest extends TestCase {
 
         LinkedImmunization patientRecords = immunizationLists.patient1;
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(patientRecords);
 
@@ -64,8 +64,8 @@ public class CompleteTest extends TestCase {
 
         LinkedImmunization patientRecords = immunizationLists.patient2;
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(patientRecords);
 
@@ -106,8 +106,8 @@ public class CompleteTest extends TestCase {
 
         LinkedImmunization patientRecords = immunizationLists.patient3;
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(patientRecords);
 
@@ -129,8 +129,8 @@ public class CompleteTest extends TestCase {
 
         LinkedImmunization patientRecords = immunizationLists.patient1;
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(patientRecords);
 
@@ -161,8 +161,8 @@ public class CompleteTest extends TestCase {
 
         LinkedImmunization patientRecords = immunizationLists.patient2;
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(patientRecords);
 
@@ -203,8 +203,8 @@ public class CompleteTest extends TestCase {
 
         LinkedImmunization patientRecords = immunizationLists.patient3;
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(patientRecords);
 
@@ -226,8 +226,8 @@ public class CompleteTest extends TestCase {
 
         LinkedImmunization patientRecords = immunizationLists.patient1;
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateHybrid(patientRecords);
 
@@ -258,8 +258,8 @@ public class CompleteTest extends TestCase {
 
         LinkedImmunization patientRecords = immunizationLists.patient2;
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateHybrid(patientRecords);
 
@@ -299,8 +299,8 @@ public class CompleteTest extends TestCase {
 
         LinkedImmunization patientRecords = immunizationLists.patient3;
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateHybrid(patientRecords);
 

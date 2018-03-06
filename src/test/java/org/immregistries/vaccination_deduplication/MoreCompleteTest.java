@@ -74,8 +74,7 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
@@ -104,8 +103,8 @@ public class MoreCompleteTest extends TestCase{
         expected.add(sure);
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
@@ -130,8 +129,8 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
@@ -160,8 +159,8 @@ public class MoreCompleteTest extends TestCase{
         expected.add(sure);
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
@@ -186,8 +185,8 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
@@ -216,8 +215,8 @@ public class MoreCompleteTest extends TestCase{
         expected.add(sure);
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
@@ -242,8 +241,8 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
@@ -272,8 +271,8 @@ public class MoreCompleteTest extends TestCase{
         expected.add(sure);
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
@@ -298,8 +297,8 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
@@ -328,8 +327,8 @@ public class MoreCompleteTest extends TestCase{
         expected.add(sure);
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
@@ -354,8 +353,8 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
@@ -384,8 +383,8 @@ public class MoreCompleteTest extends TestCase{
         expected.add(sure);
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
@@ -410,8 +409,8 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
@@ -437,8 +436,8 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(sure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
@@ -464,8 +463,8 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
@@ -491,8 +490,8 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(sure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
@@ -518,8 +517,8 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
@@ -545,8 +544,8 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(sure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
@@ -572,8 +571,8 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
@@ -599,8 +598,8 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(sure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
@@ -626,8 +625,8 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
@@ -653,8 +652,8 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(sure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);
@@ -680,8 +679,8 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(unsure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateDeterministic(
                 patientRecords);
@@ -707,8 +706,8 @@ public class MoreCompleteTest extends TestCase{
 
         expected.add(sure);
 
-        VaccinationDeduplication vaccinationDeduplication = VaccinationDeduplication.getInstance();
-        vaccinationDeduplication.initialize();
+        VaccinationDeduplication vaccinationDeduplication = new VaccinationDeduplication();
+        
 
         ArrayList<LinkedImmunization> result = vaccinationDeduplication.deduplicateWeighted(
                 patientRecords);

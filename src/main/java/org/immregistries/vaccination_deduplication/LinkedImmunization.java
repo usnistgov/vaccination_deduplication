@@ -11,11 +11,18 @@ import java.util.ArrayList;
 
 public class LinkedImmunization extends ArrayList<Immunization> {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private LinkedImmunizationType type;
+
+
+    public LinkedImmunization() {
+        super();
+    }
+
+	public LinkedImmunization(LinkedImmunizationType type) {
+	    super();
+        this.type = type;
+    }
 
     public LinkedImmunizationType getType() {
         return type;

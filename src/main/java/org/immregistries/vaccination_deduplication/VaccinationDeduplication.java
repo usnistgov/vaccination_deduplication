@@ -15,42 +15,25 @@ import org.immregistries.vaccination_deduplication.utils.ImmunizationNormalisati
  * This class is the entry point for the API. It contains the main logic for the deduplication process.
  */
 public class VaccinationDeduplication {
-    static VaccinationDeduplication instance;
-    ImmunizationNormalisation immunizationNormalisation;
-
-    private VaccinationDeduplication() {
-        this.immunizationNormalisation = ImmunizationNormalisation.getInstance();
-    }
+    private ImmunizationNormalisation immunizationNormalisation;
 
     /**
-     * This method will return the singleton instance of VaccinationDeduplication
-     * @return The singleton instance
+     * This constructor will initialize the class for the Immunization Normalisation process.
+     * It will use the codebase file present in the codebase client jar.
      */
-    public static VaccinationDeduplication getInstance() {
-        if (instance == null)
-            instance = new VaccinationDeduplication();
-        return instance;
+    public VaccinationDeduplication() {
+        this.immunizationNormalisation = new ImmunizationNormalisation();
     }
 
     /**
-     * This method (or initialize()) has to be called after getting the instance for the first time.
-     * It will initialize the class for the Immunization Normalisation process.
+     * This constructor will initialize the class for the Immunization Normalisation process.
      * It will use the codebase file at the given path.
      *
      * @param codebaseFilePath The path to the codebase file.
      * @throws FileNotFoundException Throws exception if the codebase file is not found.
      */
-    public void initialize(String codebaseFilePath) throws FileNotFoundException {
-        this.immunizationNormalisation.initialize(codebaseFilePath);
-    }
-
-    /**
-     * This method (or initialize(String codebaseFilePath)) has to be called after getting the instance for the first time.
-     * It will initialize the class for the Immunization Normalisation process.
-     * It will use the codebase file present in the codebase client jar.
-     */
-    public void initialize() {
-        this.immunizationNormalisation.initialize();
+    public VaccinationDeduplication(String codebaseFilePath) throws FileNotFoundException {
+        this.immunizationNormalisation = new ImmunizationNormalisation(codebaseFilePath);
     }
 
     /**

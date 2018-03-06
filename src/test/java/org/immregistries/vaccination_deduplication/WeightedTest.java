@@ -23,7 +23,7 @@ public class WeightedTest extends TestCase {
 
         Weighted weighted = new Weighted(new PropertyLoader().getParameters());
 
-        ComparisonResult score = weighted.compare(immunizationLists.immunization1, immunizationLists.immunization2);
+        ComparisonResult score = weighted.compare(immunizationLists.immunization1, immunizationLists.immunization6);
         assertEquals(ComparisonResult.DIFFERENT, score);
     }
 
@@ -31,7 +31,7 @@ public class WeightedTest extends TestCase {
         ImmunizationLists immunizationLists = new ImmunizationLists();
         Weighted weighted = new Weighted(new PropertyLoader().getParameters());
 
-        ComparisonResult score = weighted.compare(immunizationLists.immunization1, immunizationLists.immunization3);
+        ComparisonResult score = weighted.compare(immunizationLists.immunization1, immunizationLists.immunization4);
         assertEquals(ComparisonResult.UNSURE, score);
     }
 

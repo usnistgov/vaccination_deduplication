@@ -397,11 +397,11 @@ public class WeightedMIROWTest {
         Weighted weighted = new Weighted();
 
         double score = weighted.getScore(immunization1, immunization2);
-        double expectedScore = 185;
+        double expectedScore = 140;
         assertEquals(expectedScore, score, 0.001);
 
         double balancedScore = weighted.getBalancedScore(score);
-        double expectedBalancedScore = 0.626;
+        double expectedBalancedScore = 0.473;
 
         assertEquals(expectedBalancedScore, balancedScore, 0.001);
 

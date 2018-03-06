@@ -65,8 +65,14 @@ public class StepOneTest extends TestCase {
 		return false;
 	}
 
-	public void TestPatient(LinkedImmunization patientRecords, LinkedImmunization expected) {
+	public void compareStepOneResultToExpected(LinkedImmunization expected, LinkedImmunization result) {
+		assertEquals("The number of Immunization in the LinkedImmunization is different than", expected.size(), result.size());
+		for (int j = 0; j < result.size(); j++) {
+			assertEquals("The Immunization is different than", expected.get(j), result.get(j));
+		}
+	}
 
+	public void TestPatient(LinkedImmunization patientRecords, LinkedImmunization expected) {
 		LinkedImmunization stepOneResult = new LinkedImmunization();
 
 		for (int i = 0; i < patientRecords.size(); i++) {
@@ -75,12 +81,5 @@ public class StepOneTest extends TestCase {
 		}
 
 		compareStepOneResultToExpected(expected, stepOneResult);
-	}
-
-	public void compareStepOneResultToExpected(LinkedImmunization expected, LinkedImmunization result) {
-		assertEquals("The number of Immunization in the LinkedImmunization is different than", expected.size(), result.size());
-		for (int j = 0; j < result.size(); j++) {
-			assertEquals("The Immunization is different than", expected.get(j), result.get(j));
-		}
 	}
 }

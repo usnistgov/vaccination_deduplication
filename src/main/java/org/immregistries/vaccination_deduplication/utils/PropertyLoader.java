@@ -4,8 +4,6 @@ import org.immregistries.vaccination_deduplication.VaccinationDeduplicationParam
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Properties;
 
 
@@ -55,17 +53,17 @@ public class PropertyLoader {
         VaccinationDeduplicationParameters properties = new VaccinationDeduplicationParameters();
 
         try {
-            input = this.getClass().getResourceAsStream("/config.properties");
+            input = this.getClass().getResourceAsStream("/vaccination_deduplication.properties");
             
             // load a properties file
             prop.load(input);
 
             // get the property values
-            
 
-            // for the weighted method
+            // for step one
             properties.setDateWindow(stringToDouble(prop.getProperty(DATE_WINDOW)));
 
+            // for the weighted method
             properties.setWeightMaxThreshold(stringToDouble(prop.getProperty(WEIGHT_MAX_THRESHOLD)));
             properties.setWeightMinThreshold(stringToDouble(prop.getProperty(WEIGHT_MIN_THRESHOLD)));
 

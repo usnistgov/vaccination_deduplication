@@ -20,24 +20,56 @@ import org.immregistries.vaccination_deduplication.utils.PropertyLoader;
  */
 public class VaccinationDeduplication {
     private ImmunizationNormalisation immunizationNormalisation;
+    private VaccinationDeduplicationParameters parameters;
 
     /**
      * This constructor will initialize the class for the Immunization Normalisation process.
      * It will use the codebase file present in the codebase client jar.
+     * It will use the parameters present in the vaccination_deduplication.properties file.
      */
     public VaccinationDeduplication() {
         this.immunizationNormalisation = new ImmunizationNormalisation();
+        // Load parameters
+        PropertyLoader propertyLoader = new PropertyLoader();
+        this.parameters = propertyLoader.getParameters();
+    }
+
+    /**
+     * This constructor will initialize the class for the Immunization Normalisation process.
+     * It will use the codebase file present in the codebase client jar.
+     * It will use the given parameters.
+     */
+    public VaccinationDeduplication(VaccinationDeduplicationParameters parameters) {
+        this.immunizationNormalisation = new ImmunizationNormalisation();
+        this.parameters = parameters;
     }
 
     /**
      * This constructor will initialize the class for the Immunization Normalisation process.
      * It will use the codebase file at the given path.
+     * It will use the parameters present in the vaccination_deduplication.properties file.
      *
      * @param codebaseFilePath The path to the codebase file.
      * @throws FileNotFoundException Throws exception if the codebase file is not found.
      */
     public VaccinationDeduplication(String codebaseFilePath) throws FileNotFoundException {
         this.immunizationNormalisation = new ImmunizationNormalisation(codebaseFilePath);
+        // Load parameters
+        PropertyLoader propertyLoader = new PropertyLoader();
+        this.parameters = propertyLoader.getParameters();
+    }
+
+    /**
+     * This constructor will initialize the class for the Immunization Normalisation process.
+     * It will use the codebase file at the given path.
+     * It will use the given parameters.
+     *
+     * @param codebaseFilePath The path to the codebase file.
+     * @throws FileNotFoundException Throws exception if the codebase file is not found.
+     */
+    public VaccinationDeduplication(String codebaseFilePath, VaccinationDeduplicationParameters parameters) throws FileNotFoundException {
+        this.immunizationNormalisation = new ImmunizationNormalisation(codebaseFilePath);
+        this.parameters = parameters;
     }
 
     /**
@@ -204,9 +236,7 @@ public class VaccinationDeduplication {
      * @return An ArrayList of LinkedImmunization containing the final result from the deduplication process.
      */
     public ArrayList<LinkedImmunization> deduplicate(LinkedImmunization patientImmunizationRecords, DeduplicationMethod method) {
-        // Load parameters
-        PropertyLoader propertyLoader = new PropertyLoader();
-        VaccinationDeduplicationParameters parameters = propertyLoader.getParameters();
+
 
         Comparer comparer;
         switch (method) {
@@ -257,5 +287,13 @@ public class VaccinationDeduplication {
         }
 
         return postprocessing(patientImmunizationRecords, results);
+    }
+
+    public VaccinationDeduplicationParameters getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(VaccinationDeduplicationParameters parameters) {
+        this.parameters = parameters;
     }
 }

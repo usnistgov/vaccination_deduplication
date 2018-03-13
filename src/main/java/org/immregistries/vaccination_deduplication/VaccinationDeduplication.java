@@ -50,43 +50,57 @@ public class VaccinationDeduplication {
     }
 
     /**
+     * This method contains the logic to create, add to and merge groups of immunizations
+     *
+     * If none of the 2 immunizations are part of a group a new one containing the 2 will be created.
+     * If one of the immunizations is already part of a group the other one will be added to it.
+     * If the two are already part of groups they will be merged.
+     *
+     * @param groupedIndexes The indexes of the immunizations grouped together
+     * @param index1 The index of the first immunization
+     * @param index2 The index of the second immunization
+     */
+    private void grouping(HashMap<Integer, ArrayList<Integer>> groupedIndexes, int index1, int index2) {
+        if(groupedIndexes.containsKey(index1) && groupedIndexes.containsKey(index2)) {
+            // merge two groups together
+            groupedIndexes.get(index1).addAll(groupedIndexes.get(index2));
+            for (Integer key : groupedIndexes.get(index1)) {
+                groupedIndexes.put(key, groupedIndexes.get(index1));
+            }
+        } else if(groupedIndexes.containsKey(index1)) {
+            // add index2 to group in index1 and put group in index2
+            groupedIndexes.get(index1).add(index2);
+            groupedIndexes.put(index2, groupedIndexes.get(index1));
+        } else if(groupedIndexes.containsKey(index2)) {
+            // add index1 to group in index2 and put group in index1
+            groupedIndexes.get(index2).add(index1);
+            groupedIndexes.put(index1, groupedIndexes.get(index2));
+        } else {
+            // create new group and put group in index1 and index2
+            ArrayList<Integer> group = new ArrayList<Integer>();
+            group.add(index1);
+            group.add(index2);
+            groupedIndexes.put(index1, group);
+            groupedIndexes.put(index2, group);
+        }
+    }
+
+    /**
      * This method will process the results form the comparison process and return the LinkedImmunization grouping duplicates (or unsures or non duplicates) together.
      * @param toEvaluate This ArrayList contains the Immunizations that have been determined by step one to be potential duplicates.
      * @param results This 2D ArrayList contains the results from the comparisons of the toEvaluate Immunizations.
      * @return An ArrayList of LinkedImmunization containing the final result from the deduplication process.
      */
     public ArrayList<LinkedImmunization> postprocessing(LinkedImmunization toEvaluate, ArrayList<ArrayList<ComparisonResult>> results) {
-        // These hashmaps will contain arraylists containing the indexes of Immunizations
-
+        // These hashmaps will contain arraylists containing the indexes of Immunizations that have been grouped together
         HashMap<Integer, ArrayList<Integer>> sameGroupedIndexes = new HashMap<Integer, ArrayList<Integer>>();
         HashMap<Integer, ArrayList<Integer>> unsureGroupedIndexes = new HashMap<Integer, ArrayList<Integer>>();
 
-        // first pass to group the ones we are SURE are the same together
+        // first pass to group together the ones we are SURE are the same.
         for (int i = 0; i < results.size()-1; i++) {
             for (int j = i+1; j < results.size(); j++) {
                 if (results.get(i).get(j).equals(ComparisonResult.EQUAL)) {
-                    if(sameGroupedIndexes.containsKey(i) && sameGroupedIndexes.containsKey(j)) {
-                        // merge two groups together
-                        sameGroupedIndexes.get(i).addAll(sameGroupedIndexes.get(j));
-                        for (Integer key : sameGroupedIndexes.get(i)) {
-                            sameGroupedIndexes.put(key, sameGroupedIndexes.get(i));
-                        }
-                    } else if(sameGroupedIndexes.containsKey(i)) {
-                        // add j to group in i and put group in j
-                        sameGroupedIndexes.get(i).add(j);
-                        sameGroupedIndexes.put(j, sameGroupedIndexes.get(i));
-                    } else if(sameGroupedIndexes.containsKey(j)) {
-                        // add i to group in j and put group in i
-                        sameGroupedIndexes.get(j).add(i);
-                        sameGroupedIndexes.put(i, sameGroupedIndexes.get(j));
-                    } else {
-                        // create new group and put group in i and j
-                        ArrayList<Integer> group = new ArrayList<Integer>();
-                        group.add(i);
-                        group.add(j);
-                        sameGroupedIndexes.put(i, group);
-                        sameGroupedIndexes.put(j, group);
-                    }
+                    grouping(sameGroupedIndexes, i, j);
                 }
             }
         }
@@ -94,26 +108,10 @@ public class VaccinationDeduplication {
         // second pass to handle the UNSURE
         for (int i = 0; i < results.size()-1; i++) {
             for (int j = i+1; j < results.size(); j++) {
+                // all the immunizations that matched with another will be in the key set
                 if (!sameGroupedIndexes.keySet().contains(i) && !sameGroupedIndexes.keySet().contains(j)) {
                     if (results.get(i).get(j).equals(ComparisonResult.UNSURE)) {
-                        if(unsureGroupedIndexes.containsKey(i) && unsureGroupedIndexes.containsKey(j)) {
-                            unsureGroupedIndexes.get(i).addAll(unsureGroupedIndexes.get(j));
-                            for (Integer key : unsureGroupedIndexes.get(i)) {
-                                unsureGroupedIndexes.put(key, unsureGroupedIndexes.get(i));
-                            }
-                        } else if(unsureGroupedIndexes.containsKey(i)) {
-                            unsureGroupedIndexes.get(i).add(j);
-                            unsureGroupedIndexes.put(j, unsureGroupedIndexes.get(i));
-                        } else if(unsureGroupedIndexes.containsKey(j)) {
-                            unsureGroupedIndexes.get(j).add(i);
-                            unsureGroupedIndexes.put(i, unsureGroupedIndexes.get(j));
-                        } else {
-                            ArrayList<Integer> group = new ArrayList<Integer>();
-                            group.add(i);
-                            group.add(j);
-                            unsureGroupedIndexes.put(i, group);
-                            unsureGroupedIndexes.put(j, group);
-                        }
+                        grouping(unsureGroupedIndexes, i, j);
                     }
                 }
             }
@@ -124,14 +122,20 @@ public class VaccinationDeduplication {
         different.setType(LinkedImmunizationType.DIFFERENT);
 
         for (int i = 0; i < results.size(); i++) {
+            // all the immunizations that matched with no other will be in neither the 2 key sets
             if (!sameGroupedIndexes.keySet().contains(i) && !unsureGroupedIndexes.keySet().contains(i)){
                 different.add(toEvaluate.get(i));
             }
         }
 
+        // groupedImmunizations will contain all the final linked immunizations
         ArrayList<LinkedImmunization> groupedImmunizations = new ArrayList<LinkedImmunization>();
 
+        // alreadySet will keep track of the immunizations already present in a LinkedImmunization in groupedImmunization
+        // this will help prevent adding the same LinkedImmunization more than once.
         ArrayList<Integer> alreadySet = new ArrayList<Integer>();
+
+        // adding the SAME LinkedImmunizations to groupedImmunizations.
         for (Integer i : sameGroupedIndexes.keySet()) {
             LinkedImmunization linkedImmunization = new LinkedImmunization();
             linkedImmunization.setType(LinkedImmunizationType.SURE);
@@ -144,7 +148,7 @@ public class VaccinationDeduplication {
             if (linkedImmunization.size() > 0)
                 groupedImmunizations.add(linkedImmunization);
         }
-        alreadySet.clear();
+        // adding the UNSURE LinkedImmunizations to groupedImmunizations.
         for (Integer i : unsureGroupedIndexes.keySet()) {
             LinkedImmunization linkedImmunization = new LinkedImmunization();
             linkedImmunization.setType(LinkedImmunizationType.UNSURE);
@@ -158,7 +162,7 @@ public class VaccinationDeduplication {
                 groupedImmunizations.add(linkedImmunization);
         }
 
-
+        // adding the DIFFERENT LinkedImmunizations to groupedImmunizations.
         if (different.size()>0)
             groupedImmunizations.add(different);
 

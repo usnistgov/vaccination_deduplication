@@ -2,7 +2,10 @@ package org.immregistries.vaccination_deduplication;
 
 import java.text.ParseException;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.immregistries.vaccination_deduplication.computation_classes.StepOne;
+import org.immregistries.vaccination_deduplication.computation_classes.Weighted;
 import org.immregistries.vaccination_deduplication.reference.StepOneResult;
 import org.immregistries.vaccination_deduplication.utils.ImmunizationLists;
 
@@ -72,17 +75,22 @@ public class StepOneTest extends TestCase {
 	}
 
 	public void compareStepOneResultToExpected(LinkedImmunization expected, LinkedImmunization result) {
+		logger.debug(StringUtils.center(" EXPECTED ", 29, '-'));
+		logger.debug("\n"+expected);
+		logger.debug(StringUtils.center(" RESULT ", 29, '-'));
+		logger.debug("\n"+result);
+
 		assertEquals("The number of Immunization in the LinkedImmunization is different than", expected.size(), result.size());
 		for (int j = 0; j < result.size(); j++) {
 			assertEquals("The Immunization is different than", expected.get(j), result.get(j));
 		}
 	}
 
+	private static Logger logger = Logger.getLogger(Weighted.class.getName());
 	public void TestPatient(LinkedImmunization patientRecords, LinkedImmunization expected) {
-		System.out.println("EXPECTED:");
-		System.out.println(patientRecords);
-		System.out.println("RESULT:");
-		System.out.println(expected);
+		logger.debug(StringUtils.center(" PATIENT RECORDS ", 29, '-'));
+		logger.debug("\n"+patientRecords);
+
 		LinkedImmunization stepOneResult = new LinkedImmunization();
 
 		for (int i = 0; i < patientRecords.size(); i++) {

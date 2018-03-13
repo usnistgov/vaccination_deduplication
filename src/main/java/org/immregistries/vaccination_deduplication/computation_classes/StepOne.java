@@ -1,6 +1,7 @@
 package org.immregistries.vaccination_deduplication.computation_classes;
 
 import org.immregistries.vaccination_deduplication.Immunization;
+import org.immregistries.vaccination_deduplication.StepOneResult;
 import org.immregistries.vaccination_deduplication.VaccinationDeduplicationParameters;
 import org.immregistries.vaccination_deduplication.utils.Matching;
 
@@ -45,7 +46,14 @@ public class StepOne {
      * @param immunization2 The second immunization to compare.
      * @return True if the records pass all tests and thus must be evaluated in step two.
      */
-    public boolean isPotentialDuplicate(Immunization immunization1, Immunization immunization2) {
+    public StepOneResult isPotentialDuplicate(Immunization immunization1, Immunization immunization2) {
+		// Are they actually different vaccination events?
+		// Check if administrated date, the vaccine type and the provider organization are different.
+
+		if (immunization1.getDate().equals(immunization2.getDate()) && immunization1.getOrganisationID().equals(immunization2.getOrganisationID()) && immunization1.getCVX().equals(immunization2.getCVX())){
+			return StepOneResult.SAME_EVENT;
+		}
+
     	// Is the date window met?
     	boolean dateWindowMet = dateWindowMet(immunization1, immunization2);
 		
@@ -62,13 +70,11 @@ public class StepOne {
 		}
 
 		
-		// Are they actually different vaccination events?
-		// Check if administrated date, the vaccine type and the provider organization are different.
-		boolean notIdenticalVaccinationEvent = false;
-		if (immunization1.getDate().equals(immunization2.getDate()) && immunization1.getOrganisationID().equals(immunization2.getOrganisationID()) && immunization1.getCVX().equals(immunization2.getCVX())){
-			notIdenticalVaccinationEvent = true;	
-		}
+
 		
-		return (dateWindowMet && sameVaccineFamily && !notIdenticalVaccinationEvent);
+		if (dateWindowMet && sameVaccineFamily) {
+			return StepOneResult.POTENTIAL_DUPLICATE;
+		}
+		return StepOneResult.NOT_POTENTIAL_DUPLICATE;
     }
 }

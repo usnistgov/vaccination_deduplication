@@ -13,9 +13,9 @@ public class StepOneTest extends TestCase {
 		ImmunizationLists immunizationLists = new ImmunizationLists();
 
 		StepOne stepOne = new StepOne(new PropertyLoader().getParameters());
-		boolean result = stepOne.isPotentialDuplicate(immunizationLists.immunization1, immunizationLists.immunization2);
+		StepOneResult result = stepOne.isPotentialDuplicate(immunizationLists.immunization1, immunizationLists.immunization2);
 
-		assertEquals(true, result);
+		assertEquals(StepOneResult.POTENTIAL_DUPLICATE, result);
 	}
 
 	public void testStepOnePatient1() throws ParseException {
@@ -61,7 +61,7 @@ public class StepOneTest extends TestCase {
 		StepOne stepOne = new StepOne(new PropertyLoader().getParameters());
 		for (int j = 0; j < patientRecords.size(); j++) {
 			if (rank!=j) {
-				if (stepOne.isPotentialDuplicate(patientRecords.get(rank), patientRecords.get(j))) {
+				if (stepOne.isPotentialDuplicate(patientRecords.get(rank), patientRecords.get(j)).equals(StepOneResult.POTENTIAL_DUPLICATE)) {
 					return true;
 				}
 			}

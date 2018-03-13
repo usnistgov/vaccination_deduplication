@@ -218,31 +218,36 @@ public class VaccinationDeduplication {
         immunizationNormalisation.normalizeAllImmunizations(patientImmunizationRecords);
 
         StepOne stepOne = new StepOne(parameters);
-        LinkedImmunization toEvaluate = patientImmunizationRecords;
 
         ArrayList<ArrayList<ComparisonResult>> results;
 
-        results = new ArrayList<ArrayList<ComparisonResult>>(toEvaluate.size());
-        for (int i = 0; i < toEvaluate.size(); i++) {
+        results = new ArrayList<ArrayList<ComparisonResult>>(patientImmunizationRecords.size());
+        for (int i = 0; i < patientImmunizationRecords.size(); i++) {
             results.add(new ArrayList<ComparisonResult>());
-            for (int j = 0; j < toEvaluate.size(); j++) {
+            for (int j = 0; j < patientImmunizationRecords.size(); j++) {
                 results.get(i).add(ComparisonResult.TO_BE_DETERMINED);
             }
         }
 
-        for (int i = 0; i < toEvaluate.size()-1; i ++) {
-            for (int j = i+1; j < toEvaluate.size(); j ++) {
-                if (stepOne.isPotentialDuplicate(toEvaluate.get(i), toEvaluate.get(j))) {
-                    ComparisonResult result = comparer.compare(toEvaluate.get(i), toEvaluate.get(j));
-                    results.get(i).set(j, result);
-                    results.get(j).set(i, result);
-                } else {
-                    results.get(i).set(j, ComparisonResult.DIFFERENT);
-                    results.get(j).set(i, ComparisonResult.DIFFERENT);
+        for (int i = 0; i < patientImmunizationRecords.size()-1; i ++) {
+            for (int j = i+1; j < patientImmunizationRecords.size(); j ++) {
+                switch (stepOne.isPotentialDuplicate(patientImmunizationRecords.get(i), patientImmunizationRecords.get(j))) {
+                    case SAME_EVENT:
+                        results.get(i).set(j, ComparisonResult.EQUAL);
+                        results.get(j).set(i, ComparisonResult.EQUAL);
+                        break;
+                    case POTENTIAL_DUPLICATE:
+                        ComparisonResult result = comparer.compare(patientImmunizationRecords.get(i), patientImmunizationRecords.get(j));
+                        results.get(i).set(j, result);
+                        results.get(j).set(i, result);
+                        break;
+                    case NOT_POTENTIAL_DUPLICATE:
+                        results.get(i).set(j, ComparisonResult.DIFFERENT);
+                        results.get(j).set(i, ComparisonResult.DIFFERENT);
                 }
             }
         }
 
-        return postprocessing(toEvaluate, results);
+        return postprocessing(patientImmunizationRecords, results);
     }
 }

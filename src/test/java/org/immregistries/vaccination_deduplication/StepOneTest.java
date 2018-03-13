@@ -3,9 +3,11 @@ package org.immregistries.vaccination_deduplication;
 import java.text.ParseException;
 
 import org.immregistries.vaccination_deduplication.computation_classes.StepOne;
+import org.immregistries.vaccination_deduplication.reference.StepOneResult;
 import org.immregistries.vaccination_deduplication.utils.ImmunizationLists;
 
 import junit.framework.TestCase;
+import org.immregistries.vaccination_deduplication.utils.PropertyLoader;
 
 public class StepOneTest extends TestCase {
 	public void testIsPotentialDuplicate() throws Exception {

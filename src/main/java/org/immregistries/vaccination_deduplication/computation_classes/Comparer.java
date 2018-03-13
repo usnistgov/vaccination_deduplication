@@ -1,6 +1,6 @@
 package org.immregistries.vaccination_deduplication.computation_classes;
 
-import org.immregistries.vaccination_deduplication.ComparisonResult;
+import org.immregistries.vaccination_deduplication.reference.ComparisonResult;
 import org.immregistries.vaccination_deduplication.Immunization;
 
 /**

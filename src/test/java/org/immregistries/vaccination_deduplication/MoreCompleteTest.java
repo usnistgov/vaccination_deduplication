@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
+import org.immregistries.vaccination_deduplication.reference.LinkedImmunizationType;
 import org.immregistries.vaccination_deduplication.utils.ImmunizationLists;
 
 /**

@@ -1,5 +1,7 @@
 package org.immregistries.vaccination_deduplication;
 
+import org.immregistries.vaccination_deduplication.reference.ImmunizationSource;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

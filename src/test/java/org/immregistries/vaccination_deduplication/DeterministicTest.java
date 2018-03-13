@@ -2,6 +2,7 @@ package org.immregistries.vaccination_deduplication;
 
 import junit.framework.TestCase;
 import org.immregistries.vaccination_deduplication.computation_classes.Deterministic;
+import org.immregistries.vaccination_deduplication.reference.ComparisonResult;
 import org.immregistries.vaccination_deduplication.utils.ImmunizationLists;
 
 import java.text.ParseException;

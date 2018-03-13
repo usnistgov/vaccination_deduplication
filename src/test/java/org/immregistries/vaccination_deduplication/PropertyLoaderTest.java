@@ -7,6 +7,8 @@ import java.net.URL;
 import java.util.Properties;
 
 import junit.framework.TestCase;
+import org.immregistries.vaccination_deduplication.reference.ComparisonResult;
+
 /**
  * Tests the property loader, 
  *  

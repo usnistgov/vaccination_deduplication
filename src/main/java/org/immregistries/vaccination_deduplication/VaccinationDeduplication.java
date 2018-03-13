@@ -9,7 +9,11 @@ import org.immregistries.vaccination_deduplication.computation_classes.Determini
 import org.immregistries.vaccination_deduplication.computation_classes.Hybrid;
 import org.immregistries.vaccination_deduplication.computation_classes.StepOne;
 import org.immregistries.vaccination_deduplication.computation_classes.Weighted;
+import org.immregistries.vaccination_deduplication.reference.ComparisonResult;
+import org.immregistries.vaccination_deduplication.reference.DeduplicationMethod;
+import org.immregistries.vaccination_deduplication.reference.LinkedImmunizationType;
 import org.immregistries.vaccination_deduplication.utils.ImmunizationNormalisation;
+import org.immregistries.vaccination_deduplication.utils.PropertyLoader;
 
 /**
  * This class is the entry point for the API. It contains the main logic for the deduplication process.

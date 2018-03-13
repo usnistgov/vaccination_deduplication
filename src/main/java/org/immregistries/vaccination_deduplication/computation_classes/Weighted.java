@@ -3,11 +3,12 @@ package org.immregistries.vaccination_deduplication.computation_classes;
 import static org.immregistries.vaccination_deduplication.utils.Matching.compareForWeighted;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.immregistries.vaccination_deduplication.*;
+import org.immregistries.vaccination_deduplication.reference.ComparisonResult;
+import org.immregistries.vaccination_deduplication.reference.ImmunizationSource;
 
 /**
  * This class contains all the methods necessary to apply the Weighted method for the second step of the deduplication process.

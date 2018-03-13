@@ -4,9 +4,9 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.immregistries.vaccination_deduplication.Immunization;
-import org.immregistries.vaccination_deduplication.ImmunizationSource;
+import org.immregistries.vaccination_deduplication.reference.ImmunizationSource;
 import org.immregistries.vaccination_deduplication.LinkedImmunization;
-import org.immregistries.vaccination_deduplication.LinkedImmunizationType;
+import org.immregistries.vaccination_deduplication.reference.LinkedImmunizationType;
 /**
  * 
  * Lists immunizations, those will be used for the tests in CompleteTest

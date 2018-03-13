@@ -1,4 +1,4 @@
-package org.immregistries.vaccination_deduplication;
+package org.immregistries.vaccination_deduplication.reference;
 
 /**
  * All the possible results of an operation in the deterministic process.

@@ -1,9 +1,9 @@
 package org.immregistries.vaccination_deduplication.computation_classes;
 
-import org.immregistries.vaccination_deduplication.DeterministicResult;
+import org.immregistries.vaccination_deduplication.reference.DeterministicResult;
 import org.immregistries.vaccination_deduplication.Immunization;
-import org.immregistries.vaccination_deduplication.ImmunizationSource;
-import org.immregistries.vaccination_deduplication.ComparisonResult;
+import org.immregistries.vaccination_deduplication.reference.ImmunizationSource;
+import org.immregistries.vaccination_deduplication.reference.ComparisonResult;
 
 /**
  * This class contains all the methods necessary to apply the Deterministic method for the second step of the deduplication process.

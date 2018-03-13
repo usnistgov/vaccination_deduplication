@@ -1,4 +1,4 @@
-package org.immregistries.vaccination_deduplication;
+package org.immregistries.vaccination_deduplication.reference;
 
 /**
  * All the available methods for comparing immunizations together

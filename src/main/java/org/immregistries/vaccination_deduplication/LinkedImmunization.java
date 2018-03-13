@@ -1,5 +1,7 @@
 package org.immregistries.vaccination_deduplication;
 
+import org.immregistries.vaccination_deduplication.reference.LinkedImmunizationType;
+
 import java.util.ArrayList;
 
 /**

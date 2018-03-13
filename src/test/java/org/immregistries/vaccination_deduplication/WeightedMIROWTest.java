@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.immregistries.vaccination_deduplication.computation_classes.Weighted;
+import org.immregistries.vaccination_deduplication.reference.ImmunizationSource;
+import org.immregistries.vaccination_deduplication.utils.PropertyLoader;
 import org.junit.Ignore;
 import org.junit.Test;
 

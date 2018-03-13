@@ -1,7 +1,7 @@
 package org.immregistries.vaccination_deduplication.computation_classes;
 
 import org.immregistries.vaccination_deduplication.Immunization;
-import org.immregistries.vaccination_deduplication.StepOneResult;
+import org.immregistries.vaccination_deduplication.reference.StepOneResult;
 import org.immregistries.vaccination_deduplication.VaccinationDeduplicationParameters;
 import org.immregistries.vaccination_deduplication.utils.Matching;
 

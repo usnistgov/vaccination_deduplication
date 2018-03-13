@@ -2,10 +2,9 @@ package org.immregistries.vaccination_deduplication;
 
 import junit.framework.TestCase;
 import org.immregistries.vaccination_deduplication.computation_classes.Weighted;
+import org.immregistries.vaccination_deduplication.reference.ComparisonResult;
 import org.immregistries.vaccination_deduplication.utils.ImmunizationLists;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+import org.immregistries.vaccination_deduplication.utils.PropertyLoader;
 
 public class WeightedTest extends TestCase {
     public void testScoreEquals() throws Exception {

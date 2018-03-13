@@ -1,4 +1,4 @@
-package org.immregistries.vaccination_deduplication;
+package org.immregistries.vaccination_deduplication.reference;
 
 /**
  * Describes the result of a comparison between to immunization by one of the comparers.

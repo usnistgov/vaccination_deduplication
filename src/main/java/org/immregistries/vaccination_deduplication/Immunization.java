@@ -1,11 +1,11 @@
 package org.immregistries.vaccination_deduplication;
 
-import org.immregistries.vaccination_deduplication.reference.ImmunizationSource;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import org.immregistries.vaccination_deduplication.reference.ImmunizationSource;
 
 /**
  * This object represents an immunization record containing only the relevant fields for the deduplication process.
@@ -44,7 +44,7 @@ public class Immunization {
     }
 
     public Immunization() {
-        this("", new ArrayList<String>(), "", "", new Date(), "", "", ImmunizationSource.HISTORICAL);
+		this("", new ArrayList<String>(), "", "", new Date(), "", "", null);
     }
 
     public String getImmunizationID() {

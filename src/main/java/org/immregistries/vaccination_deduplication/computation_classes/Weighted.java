@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.immregistries.vaccination_deduplication.*;
+import org.immregistries.vaccination_deduplication.Immunization;
+import org.immregistries.vaccination_deduplication.VaccinationDeduplicationParameters;
 import org.immregistries.vaccination_deduplication.reference.ComparisonResult;
 import org.immregistries.vaccination_deduplication.reference.ImmunizationSource;
 
@@ -190,20 +191,19 @@ public class Weighted implements Comparer {
                         + StringUtils.leftPad(Double.toString(weight), 6));
 
         // Source
-        if (!(immunization1.getSource() == null
-                && immunization2.getSource() == null)) {
-            if (immunization1.getSource() == ImmunizationSource.SOURCE
-                    && immunization2.getSource() == ImmunizationSource.SOURCE) {
-                weight = parameters.getWeightSameSourceAdmin();
-            } else if (immunization1.getSource() == ImmunizationSource.HISTORICAL
-                    && immunization2.getSource() == ImmunizationSource.HISTORICAL) {
-                weight = parameters.getWeightSameSourceHistorical();
-            } else {
-                weight = parameters.getWeightDifferentSource();
-            }
-        } else {
+		if (immunization1.getSource() == null || immunization2.getSource() == null) {
             weight = parameters.getWeightAbsentSource();
-        }
+        } else {
+			if (immunization1.getSource() == ImmunizationSource.SOURCE
+					&& immunization2.getSource() == ImmunizationSource.SOURCE) {
+				weight = parameters.getWeightSameSourceAdmin();
+			} else if (immunization1.getSource() == ImmunizationSource.HISTORICAL
+					&& immunization2.getSource() == ImmunizationSource.HISTORICAL) {
+				weight = parameters.getWeightSameSourceHistorical();
+			} else {
+				weight = parameters.getWeightDifferentSource();
+			}
+		}
         score += weight;
         logger.debug(StringUtils.rightPad("[Source]", 30)
                 + StringUtils.leftPad(Double.toString(weight), 6));
@@ -215,6 +215,11 @@ public class Weighted implements Comparer {
     }
 
     public double getBalancedScore(double score) {
-        return (score - this.Smin) / (this.Smax - this.Smin);
+		double balancedScore = (score - this.Smin) / (this.Smax - this.Smin);
+		double roundValue = Math.round(balancedScore * 1000.0) / 1000.0;
+		logger.debug(
+				StringUtils.rightPad("[Balanced Score]", 30) + StringUtils.leftPad(Double.toString(roundValue), 6));
+		logger.debug(StringUtils.repeat('-', 36));
+		return balancedScore;
     }
 }

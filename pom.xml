@@ -15,9 +15,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.immregistries.dqa-codebase-client</groupId>
-			<artifactId>dqa-codebase-client</artifactId>
-			<version>2.1</version>
+			<groupId>org.immregistries</groupId>
+			<artifactId>codebase-client</artifactId>
+			<version>2.3</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>

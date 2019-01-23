@@ -1,9 +1,9 @@
 package org.immregistries.vaccination_deduplication.utils;
 
-import org.immregistries.dqa.codebase.client.CodeMap;
-import org.immregistries.dqa.codebase.client.CodeMapBuilder;
-import org.immregistries.dqa.codebase.client.RelatedCode;
-import org.immregistries.dqa.codebase.client.generated.Code;
+import org.immregistries.codebase.client.CodeMap;
+import org.immregistries.codebase.client.CodeMapBuilder;
+import org.immregistries.codebase.client.RelatedCode;
+import org.immregistries.codebase.client.generated.Code;
 import org.immregistries.vaccination_deduplication.Immunization;
 import org.immregistries.vaccination_deduplication.LinkedImmunization;
 

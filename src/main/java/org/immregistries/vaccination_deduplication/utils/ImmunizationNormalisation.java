@@ -31,7 +31,7 @@ public class ImmunizationNormalisation {
      * This constructor uses the codebase file inside the codebase client jar.
      */
     public ImmunizationNormalisation() {
-        inputStream = CodeMapBuilder.class.getResourceAsStream("/DQA_CM_2.1.xml");
+        inputStream = CodeMapBuilder.class.getResourceAsStream("/Compiled.xml");
         codeMap = codeMapBuilder.getCodeMap(inputStream);
         relatedCode = new RelatedCode(codeMap);
     }
